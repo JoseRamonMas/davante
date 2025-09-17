@@ -4,8 +4,8 @@
 
 En esta práctica vas a poner en práctica los conceptos estudiados en el **Tema 1** de la asignatura *Desarrollo de Interfaces*. El objetivo es que seas capaz de instalar y preparar el entorno de trabajo, conocer los distintos paradigmas de programación, y crear tus primeras interfaces gráficas en Java utilizando la librería Swing en el entorno de desarrollo Eclipse.
 
-> **Duración estimada:** 3-4 horas
 > **Enfoque:** Consolidación de conceptos ya trabajados en el tema
+>
 > **Evaluación:** Se valorará tanto el resultado final como el proceso de trabajo y la calidad de la documentación
 
 ## Objetivos
