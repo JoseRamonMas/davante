@@ -72,7 +72,7 @@ Ahora crea un nuevo `JFrame` utilizando la herramienta **WindowBuilder** en modo
 
 - Añade dos botones: **"Aceptar"** y **"Cancelar"**
 - Cambia las **propiedades de color y fuente** de cada botón desde la pestaña Properties
-- Añade un `ButtonGroup` para agrupar los botones
+- Añade un `JPanel` para agrupar los botones
 
 **Entrega:**
 
