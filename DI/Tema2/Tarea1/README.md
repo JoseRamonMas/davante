@@ -81,8 +81,8 @@ setVisible(false);
 5. Desde `MainWindow` (o el `JFrame` padre) añade botón `Abrir diálogo` que haga:
 
 ```java
-NameInputDialog dlg = new NameInputDialog(this, true); // modal
-dlg.setLocationRelativeTo(this);
+NameInputDialog dlg = new NameInputDialog(MainWindow.this, true); // modal
+dlg.setLocationRelativeTo(MainWindow.this);
 dlg.setVisible(true); // aquí bloquea mientras modal=true
 String nombre = dlg.getResult();
 if(nombre != null) {
@@ -117,7 +117,7 @@ if("admin".equals(user) && "1234".equals(pwd)) {
     wf.setVisible(true);
     this.dispose();
 } else {
-    JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
+    JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
     pwdPass.setText("");
     txtUser.requestFocus();
 }
@@ -199,7 +199,7 @@ DefaultComboBoxModel<String> model = new DefaultComboBoxModel<>(new String[] {"S
 cmbFonts.setModel(model);
 
 btnAddFont.addActionListener(e -> {
-    String nuevo = JOptionPane.showInputDialog(this, "Nombre de fuente a añadir:");
+    String nuevo = JOptionPane.showInputDialog(null, "Nombre de fuente a añadir:");
     if(nuevo != null && !nuevo.trim().isEmpty()) model.addElement(nuevo.trim());
 });
 btnRemoveFont.addActionListener(e -> {
@@ -267,7 +267,7 @@ if(comp instanceof JScrollPane) {
         try(FileWriter fw = new FileWriter(f)) {
             fw.write(ta.getText());
         } catch(IOException ex) {
-            JOptionPane.showMessageDialog(this, "Error al guardar: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al guardar: " + ex.getMessage());
         }
     }
 }
