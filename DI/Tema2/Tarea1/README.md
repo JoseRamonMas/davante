@@ -26,7 +26,7 @@
 ```java
 String nombre = txtName.getText().trim();
 if(nombre.isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Introduce un nombre");
+    JOptionPane.showMessageDialog(null, "Introduce un nombre");
 } else {
     lblBienvenido.setText("Hola, " + nombre + "!");
 }
@@ -52,7 +52,7 @@ if(nombre.isEmpty()) {
 ```java
 public NameInputDialog(Frame parent, boolean modal) {
     super(parent, "Introduce tu nombre", modal);
-    initialize();
+    // initialize();
 }
 ```
 
@@ -127,7 +127,7 @@ if("admin".equals(user) && "1234".equals(pwd)) {
 
 ```java
 public WelcomeFrame(String user) {
-    initialize();
+     // initialize();
     lblWelcome.setText("Bienvenido, " + user + "!");
 }
 ```
