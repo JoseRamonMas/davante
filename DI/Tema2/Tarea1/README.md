@@ -115,7 +115,7 @@ if("admin".equals(user) && "1234".equals(pwd)) {
     WelcomeFrame wf = new WelcomeFrame(user);
     wf.setLocationRelativeTo(this);
     wf.setVisible(true);
-    this.dispose();
+    LoginFrame.this.dispose();
 } else {
     JOptionPane.showMessageDialog(null, "Usuario o contraseña incorrectos", "Error", JOptionPane.ERROR_MESSAGE);
     pwdPass.setText("");
