@@ -12,7 +12,7 @@
 **Pasos:**
 
 1. `File > New > JFrame` → `FlowDemoFrame`. En *Properties*: `defaultCloseOperation = EXIT_ON_CLOSE`, `bounds = 100,100,520,220`.
-2. Arrastra un `JPanel` al `contentPane`. En *Properties* del panel: `layout` → `FlowLayout`.
+2. Arrastra un `JPanel` al `contentPane`. En *Properties* del panel: `layout` → `FlowLayout`. (El panel princpal "contentPane" debe ser de tipo BorderLayout)
 
    * Ajusta `hgap = 10`, `vgap = 10`, `alignment = CENTER` (prueba también `LEFT` y `RIGHT`).
 3. Añade los siguientes componentes al panel (en ese orden):
