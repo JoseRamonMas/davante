@@ -44,7 +44,7 @@ btnA.addActionListener(e -> JOptionPane.showMessageDialog(this, "Pulsado A"));
 **Pasos:**
 
 1. `File > New > JFrame` → `BorderDemoFrame`. `bounds = 100,100,600,360`.
-2. En el `contentPane` coloca un `JPanel` y pon su `layout = BorderLayout`.
+2. En el `contentPane` pon su `layout = BorderLayout`.
 3. Añade componentes en las cinco regiones:
 
    * `BorderLayout.NORTH`: `JPanel` pequeño con `JLabel lblTitle` (`text = Título`) y `lblAlumno` (NOMBRE y APELLIDOS) dentro del mismo panel norte (ponerlos alineados con FlowLayout).
