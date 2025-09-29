@@ -113,7 +113,7 @@ String user = txtUser.getText().trim();
 String pwd = String.copyValueOf(pwdPass.getPassword());
 if("admin".equals(user) && "1234".equals(pwd)) {
     WelcomeFrame wf = new WelcomeFrame(user);
-    wf.setLocationRelativeTo(this);
+    wf.setLocationRelativeTo(LoginFrame.this);
     wf.setVisible(true);
     LoginFrame.this.dispose();
 } else {
