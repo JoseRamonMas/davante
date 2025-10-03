@@ -262,7 +262,7 @@ Component comp = tabs.getSelectedComponent();
 if(comp instanceof JScrollPane) {
     JTextArea ta = (JTextArea)((JScrollPane)comp).getViewport().getView();
     JFileChooser fc = new JFileChooser();
-    if(fc.showSaveDialog(this)==JFileChooser.APPROVE_OPTION) {
+    if(fc.showSaveDialog(EditorFrame.this)==JFileChooser.APPROVE_OPTION) {
         File f = fc.getSelectedFile();
         try(FileWriter fw = new FileWriter(f)) {
             fw.write(ta.getText());
