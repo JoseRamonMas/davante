@@ -51,10 +51,6 @@ Al pulsar el botón *"Comenzar encuesta"* debe abrirse un **JDialog modal** con 
     - "Baja"
 - Un `JButton` con texto *"Finalizar encuesta"*
 
-### Requerimientos del layout
-
-Utilizar **GridLayout** para organizar las preguntas de forma ordenada.
-
 ## Parte 3: Ventana de resultados (JFrame)
 
 Cuando se pulse *"Finalizar encuesta"*, se debe cerrar el JDialog y abrir una nueva ventana **JFrame** con un resumen de respuestas.
@@ -107,3 +103,4 @@ Además del código, entregar **informe en PDF** con:
 | Calidad Código | **1.5 pts** | Comentarios, legibilidad, estructura |
 
 > **Consejo**: Asegúrate de probar todas las funcionalidades antes de la entrega y documenta cada paso con capturas de pantalla claras.
+
