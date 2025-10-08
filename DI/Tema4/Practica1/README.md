@@ -6,9 +6,9 @@
 
 Desarrolla un componente JavaBean llamado `PanelDibujo` que extienda `JPanel` y permita dibujar formas geométricas básicas utilizando la clase Graphics.
 
-### Requisitos Funcionales (80 puntos)
+### Requisitos Funcionales
 
-#### 1. Implementación JavaBean (20 puntos)
+#### 1. Implementación JavaBean
 
 - Extender de `JPanel`
 - Implementar `Serializable`
@@ -19,7 +19,7 @@ Desarrolla un componente JavaBean llamado `PanelDibujo` que extienda `JPanel` y 
     - `tamaño`: int (tamaño de la figura)
 
 
-#### 2. Funcionalidades Gráficas (30 puntos)
+#### 2. Funcionalidades Gráficas
 
 - Sobrescribir método `paint(Graphics g)`
 - Dibujar al menos 3 tipos de figuras diferentes
@@ -27,20 +27,20 @@ Desarrolla un componente JavaBean llamado `PanelDibujo` que extienda `JPanel` y 
 - Centrar las figuras en el panel
 
 
-#### 3. Interactividad Básica (20 puntos)
+#### 3. Interactividad Básica
 
 - Implementar evento de clic para cambiar entre tipos de figura
 - Mostrar información de la figura actual (tooltip o label)
 
 
-#### 4. Aplicación de Prueba (10 puntos)
+#### 4. Aplicación de Prueba
 
 - Crear aplicación que demuestre el funcionamiento
 - Incluir controles para modificar las propiedades
 - Botones para cambiar tipo de figura y color
 
 
-### Requisitos Técnicos (20 puntos)
+### Requisitos Técnicos
 
 #### 5. Estructura de Código
 
@@ -88,12 +88,12 @@ public class PanelDibujo extends JPanel implements Serializable {
 
 | Concepto | Puntos | Descripción |
 | :-- | :-- | :-- |
-| **JavaBean correcto** | 20 | Implementa Serializable, constructor sin parámetros, métodos get/set |
-| **Uso de Graphics** | 30 | Sobrescribe paint() correctamente, dibuja múltiples figuras |
-| **Propiedades funcionales** | 20 | Las propiedades modifican efectivamente la apariencia |
-| **Interactividad** | 10 | Responde a eventos de usuario |
-| **Aplicación de prueba** | 10 | Demuestra todas las funcionalidades |
-| **Calidad de código** | 10 | Código limpio, comentado y bien estructurado |
+| **JavaBean correcto** | 2 | Implementa Serializable, constructor sin parámetros, métodos get/set |
+| **Uso de Graphics** | 3 | Sobrescribe paint() correctamente, dibuja múltiples figuras |
+| **Propiedades funcionales** | 2 | Las propiedades modifican efectivamente la apariencia |
+| **Interactividad** | 1 | Responde a eventos de usuario |
+| **Aplicación de prueba** | 1 | Demuestra todas las funcionalidades |
+| **Calidad de código** | 1 | Código limpio, comentado y bien estructurado |
 
 ### Entrega
 
@@ -123,4 +123,5 @@ switch(tipoFigura) {
         g.drawLine(x1, y1, x2, y2);
         break;
 }
+
 ```
