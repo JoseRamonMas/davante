@@ -70,6 +70,7 @@ Organiza los componentes de forma clara y estética.
 Configura un `JPanel` principal y define un color de fondo neutro.
 
 *Ejemplo visual:*
+
 ![Panel de control](panel1.png)
 
 **En el documento a entregar:**
@@ -111,6 +112,7 @@ Implementa la lógica de funcionamiento:
 💡 Utiliza los listeners adecuados (`ActionListener`, `ItemListener`, `ChangeListener`) y comenta tu código indicando el propósito de cada bloque.
 
 *Ejemplo visual:*
+
 ![Panel de control](panel2.png)
 
 **En el documento a entregar:**
@@ -190,6 +192,7 @@ Amplía tu aplicación con un nuevo **panel de registro** que muestre un histór
    Luego, añade una prueba unitaria para comprobar que el contador funciona correctamente.
 
 *Ejemplo visual*
+
 ![Diseño final](diseñofinal.png)
 
 ![Final funcionando](finalfuncionando.png)
@@ -245,3 +248,4 @@ Redacta un pequeño informe técnico y reflexivo con los siguientes apartados:
 * Usa nombres de variables descriptivos.
 * Guarda capturas frecuentes durante tu progreso.
 * No copies código sin entenderlo: el objetivo es **demostrar tu autoría**.
+
