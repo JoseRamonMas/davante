@@ -165,6 +165,7 @@ void testModoLectura() {
 ```
 
 *Ejemplo visual:*
+
 ![Pruebas](./JUnit.png)
 
 **En el documento a entregar:**
@@ -248,5 +249,6 @@ Redacta un pequeño informe técnico y reflexivo con los siguientes apartados:
 * Usa nombres de variables descriptivos.
 * Guarda capturas frecuentes durante tu progreso.
 * No copies código sin entenderlo: el objetivo es **demostrar tu autoría**.
+
 
 
