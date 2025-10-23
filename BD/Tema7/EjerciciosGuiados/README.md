@@ -1012,3 +1012,96 @@ Aquí Jefe_Departamento determina Turno, pero no es superclave, violando FNBC.
 | Construcción | 42000 |
 
 ✅ Ahora está en FNBC.
+
+## Ejercicio 7: Sistema de Envíos de E‑commerce
+
+### 🎯 Situación inicial
+
+Se tiene la siguiente tabla que registra envíos con un identificador único, el cliente y el código postal, junto a ciudad y provincia derivables del código postal según el dominio de datos.
+
+Clave primaria: ID_Envio.
+
+
+| ID_Envio | Cliente_ID | CP | Ciudad | Provincia |
+| :-- | :-- | :-- | :-- | :-- |
+| E001  | C101  | 28001  | Madrid  | Madrid  |
+| E002  | C102  | 08001  | Barcelona  | Barcelona  |
+| E003  | C101  | 28001  | Madrid  | Madrid  |
+
+**¿En qué forma normal está la tabla?, razona si existe dependencia parcial o transitiva y qué implicaciones tiene sobre 2FN y 3FN.**
+
+Repuesta: *La tabla está en 2FN pero no en 3FN, porque con clave simple no puede haber dependencias parciales (cumple 2FN), pero hay dependencia transitiva ID_Envio → CP y CP → Ciudad, Provincia que viola 3FN según la definición que prohíbe atributos no clave dependientes transitivamente de la clave.​*
+
+Justificación breve: *2FN requiere 1FN y ausencia de dependencias parciales respecto a claves compuestas, lo que se cumple con clave simple, mientras que 3FN exige además eliminar dependencias transitivas como CP → Ciudad, Provincia, por lo que la forma normal alcanzada es 2FN.*
+
+***
+
+## Ejercicio 8: Sistema de Matrícula Universitaria
+
+### 🎯 Situación inicial
+
+Tabla inicial: la tabla MATRICULA recoge quién cursa qué asignatura y con qué profesor, asumiendo la restricción de dominio “cada profesor imparte exactamente una asignatura” (Profesor → Asignatura).​
+
+Clave primaria: (Alumno_ID, Asignatura).
+
+
+| Alumno_ID | Asignatura | Profesor |
+| :-- | :-- | :-- |
+| A01  | BD1  | Prof. Ruiz  |
+| A02  | BD1  | Prof. Ruiz  |
+| A01  | PRG1  | Prof. Vega  |
+
+**¿En qué forma normal está la tabla?, analiza si hay dependencias transitivas y si se viola BCNF dadas las dependencias Profesor → Asignatura y la clave (Alumno_ID, Asignatura).**
+
+Dependencias funcionales del dominio:
+
+- (Alumno_ID, Asignatura) → Profesor, porque para cada alumno en una asignatura concreta existe un profesor asignado a ese grupo.
+- Profesor → Asignatura, por la política “cada profesor imparte una única asignatura” definida para este ejemplo didáctico.
+
+Respuesta: *la tabla está en 3FN pero no en BCNF, porque la dependencia Profesor → Asignatura tiene determinante que no es superclave, pero el atributo del lado derecho (Asignatura) es atributo primo al ser parte de la clave, cumpliendo la condición de Zaniolo para 3FN y fallando la exigencia más estricta de BCNF.​*
+
+Justificación breve: *3FN se satisface si para cada X → A, X es superclave o A es atributo primo; aquí A es primo, por lo que 3FN se cumple, mientras que BCNF requeriría que Profesor fuese superclave, lo cual no sucede, luego no es BCNF.*
+
+***
+
+## Ejercicio 9: Detalle de Facturación
+
+### 🎯 Situación inicial
+
+Se registra el detalle de líneas de factura con una clave compuesta y descriptores de producto y cliente incluidos en la misma tabla, típicamente generando dependencias de parte de la clave.
+Clave primaria: (Factura_ID, Producto_ID).
+
+
+| Factura_ID | Producto_ID | Cliente_Nombre | Producto_Nombre | Precio_Unitario | Cantidad |
+| :-- | :-- | :-- | :-- | :-- | :-- |
+| F001  | P10  | Ana Ruiz  | Teclado  | 25.00  | 2  |
+| F001  | P20  | Ana Ruiz  | Ratón  | 15.00  | 1  |
+| F002  | P10  | Luis Gil  | Teclado  | 25.00  | 1  |
+
+**¿En qué forma normal está la tabla?, identifica si hay valores atómicos, dependencias parciales como Producto_ID → Producto_Nombre, Precio_Unitario y Factura_ID → Cliente_Nombre, y razona qué implica sobre 2FN.**
+
+Respuesta: *La tabla está en 1FN pero no en 2FN, porque aunque todos los atributos son atómicos y no hay grupos repetidos (cumple 1FN), existen dependencias parciales de atributos no clave respecto a una parte de la clave compuesta, lo que infringe 2FN (p. ej., Producto_ID → Producto_Nombre, Precio_Unitario y Factura_ID → Cliente_Nombre).*
+​
+Justificación breve: *2FN exige que cada atributo no primo dependa de toda la clave y no solo de una parte, requisito que se incumple por las dependencias señaladas, por lo que la forma normal alcanzada es 1FN.*
+
+***
+
+## Ejercicio 10: Empleados y Departamentos
+
+### 🎯 Situación inicial
+
+Se mantiene una tabla de empleados con su departamento y datos derivados del departamento, con clave simple por DNI, lo que evita dependencias parciales pero mantiene una dependencia transitiva vía Departamento_ID.
+Clave primaria: DNI.
+
+
+| DNI | Nombre | Departamento_ID | Departamento_Nombre | Jefe_Departamento |
+| :-- | :-- | :-- | :-- | :-- |
+| 11111111A  | María López  | D10  | Ventas  | Sr. Pérez  |
+| 22222222B  | Juan Torres  | D20  | Soporte  | Sra. Vega  |
+| 33333333C  | Ana Ruiz  | D10  | Ventas  | Sr. Pérez  |
+
+**¿En qué forma normal está la tabla?, analiza si hay dependencias parciales o transitivas con clave simple y valora su impacto en 3FN.**
+
+Solución: *La tabla está en 2FN pero no en 3FN, porque con clave simple no hay dependencias parciales (cumple 2FN), pero existe dependencia transitiva DNI → Departamento_ID y Departamento_ID → Departamento_Nombre, Jefe_Departamento, lo que viola 3FN al no permitir que atributos no clave dependan indirectamente de la clave.​*
+
+Justificación breve: *3FN requiere estar en 2FN y eliminar dependencias transitivas, de modo que al persistir Departamento_ID → (Departamento_Nombre, Jefe_Departamento) la forma normal alcanzada es exactamente 2FN.​*
