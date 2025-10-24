@@ -128,8 +128,6 @@ Las tablas ya cumplen con la FNBC porque en todas las dependencias funcionales, 
 
 ✅ Las tablas están en FNBC.
 
-**Resultado final:** 5 tablas normalizadas hasta FNBC.
-
 ***
 
 ## Ejercicio 2: Sistema de Gestión de Clínica Médica
@@ -279,13 +277,7 @@ Todas las tablas cumplen con la FNBC porque en cada dependencia funcional, el de
 
 ✅ Las tablas están en FNBC.
 
-**Resultado final:** 6 tablas normalizadas hasta FNBC.
-
 ***
-
-¿Te gustan estos ejercicios? Si es así, puedo generarte más con diferentes contextos y niveles de complejidad. 🎯
-
-
 
 ## Ejercicio 3: Sistema de Cursos Universitarios
 
@@ -461,8 +453,6 @@ Esto viola FNBC porque Profesor no es superclave.
 **Solución para FNBC:** Mantener las tablas separadas como están actualmente cumple FNBC.
 
 ✅ Las tablas están en FNBC.
-
-**Resultado final:** 6 tablas normalizadas hasta FNBC.
 
 ***
 
@@ -649,8 +639,6 @@ Aquí **Especialidad_Cirujano** determina **Hospital_Cirujano**, pero Especialid
 
 ✅ Ahora está en FNBC.
 
-**Resultado final:** 10 tablas normalizadas hasta FNBC.
-
 ***
 
 ## Ejercicio 5: Sistema de Concesionario de Vehículos
@@ -830,8 +818,6 @@ Aquí **Gerente** determina **Provincia**, pero Gerente no es superclave, violan
 | Valencia | Valencia |
 
 ✅ Ahora está en FNBC.
-
-**Resultado final:** 9 tablas normalizadas hasta FNBC.
 
 ***
 
@@ -1027,246 +1013,95 @@ Aquí Jefe_Departamento determina Turno, pero no es superclave, violando FNBC.
 
 ✅ Ahora está en FNBC.
 
-**Resultado final:** 10 tablas normalizadas hasta FNBC.
-
-***
-
-Estos 4 ejercicios incluyen violaciones específicas en 3FN y FNBC para que los alumnos practiquen todos los niveles de normalización. Cada ejercicio presenta dependencias transitivas claras en 3FN y situaciones de FNBC donde determinantes que no son superclaves generan problemas de redundancia.
-
----
-
-# 📚 Ejercicios Avanzados: Normalización hasta 3FN
-
-## Ejercicio 7: Sistema de Gestión de Eventos y Conferencias
+## Ejercicio 7: Sistema de Envíos de E‑commerce
 
 ### 🎯 Situación inicial
 
-Se tiene la siguiente tabla que registra información sobre ponencias en conferencias académicas:
+Se tiene la siguiente tabla que registra envíos con un identificador único, el cliente y el código postal, junto a ciudad y provincia derivables del código postal según el dominio de datos.
+
+Clave primaria: ID_Envio.
 
 
-| ID_Ponencia | Título_Ponencia | IDs_Conferencia | Nombres_Conferencia | Fechas_Conferencia | Ciudades_Conferencia | Países | Códigos_País | Continentes | DNIs_Ponentes | Nombres_Ponentes | Emails_Ponentes | Universidades_Ponentes | Códigos_Postales_Unis | Ciudades_Unis | IDs_Sala | Nombres_Sala | Capacidades_Sala | Edificios_Sala | Plantas_Edificio | Coordinador_Edificio | Duración_Minutos | Categorías_Ponencia |
-| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| PON001 | IA en Medicina | CONF01, CONF02 | TechSummit 2025, MedAI Forum | 2025-09-15, 2025-10-20 | Madrid, Barcelona | España, España | ES, ES | Europa, Europa | 11111111A, 22222222B | Dr. Martínez, Dra. López | martinez@uni.es, lopez@uni.es | Universidad Complutense, Universidad Barcelona | 28040, 08007 | Madrid, Barcelona | S101, S202 | Auditorio A, Sala Magna | 200, 150 | Edificio Norte, Edificio Central | 3, 2 | Coord. García, Coord. Ruiz | 90, 60 | Inteligencia Artificial, Machine Learning |
-| PON002 | Blockchain y Finanzas | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 33333333C | Dr. Fernández | fernandez@uni.es | Universidad Politécnica | 28006 | Madrid | S103 | Sala Innovación | 80 | Edificio Sur | 1 | Coord. Sánchez | 120 | Blockchain, Fintech |
-| PON003 | Robótica Educativa | CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa | 11111111A, 44444444D | Dr. Martínez, Dr. Ramírez | martinez@uni.es, ramirez@uni.es | Universidad Complutense, Universidad Valencia | 28040, 46010 | Madrid, Valencia | S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres | 75 | Robótica, Educación |
+| ID_Envio | Cliente_ID | CP | Ciudad | Provincia |
+| :-- | :-- | :-- | :-- | :-- |
+| E001  | C101  | 28001  | Madrid  | Madrid  |
+| E002  | C102  | 08001  | Barcelona  | Barcelona  |
+| E003  | C101  | 28001  | Madrid  | Madrid  |
 
-**Clave primaria:** ID_Ponencia
+**¿En qué forma normal está la tabla?, razona si existe dependencia parcial o transitiva y qué implicaciones tiene sobre 2FN y 3FN.**
 
-***
+Repuesta: *La tabla está en 2FN pero no en 3FN, porque con clave simple no puede haber dependencias parciales (cumple 2FN), pero hay dependencia transitiva ID_Envio → CP y CP → Ciudad, Provincia que viola 3FN según la definición que prohíbe atributos no clave dependientes transitivamente de la clave.​*
 
-### 📝 Paso 1: Análisis y normalización a Primera Forma Normal (1FN)
-
-**¿Qué incumple la 1FN?**
-
-Múltiples atributos contienen valores multivaluados:
-
-- **IDs_Conferencia**, **Nombres_Conferencia**, **Fechas_Conferencia**, **Ciudades_Conferencia**, **Países**, **Códigos_País**, **Continentes**
-- **DNIs_Ponentes**, **Nombres_Ponentes**, **Emails_Ponentes**, **Universidades_Ponentes**, **Códigos_Postales_Unis**, **Ciudades_Unis**
-- **IDs_Sala**, **Nombres_Sala**, **Capacidades_Sala**, **Edificios_Sala**, **Plantas_Edificio**, **Coordinador_Edificio**, **Duración_Minutos**
-- **Categorías_Ponencia**
-
-**Solución:** Crear combinaciones únicas de ponencia-conferencia-ponente-sala-categoría.
-
-**PONENCIAS_1FN**
-
-
-| ID_Ponencia | Título_Ponencia | ID_Conferencia | Nombre_Conferencia | Fecha_Conferencia | Ciudad_Conferencia | País | Código_País | Continente | DNI_Ponente | Nombre_Ponente | Email_Ponente | Universidad_Ponente | Código_Postal_Uni | Ciudad_Uni | ID_Sala | Nombre_Sala | Capacidad_Sala | Edificio_Sala | Planta_Edificio | Coordinador_Edificio | Duración_Minutos | Categoría_Ponencia |
-| :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| PON001 | IA en Medicina | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S101 | Auditorio A | 200 | Edificio Norte | 3 | Coord. García | 90 | Inteligencia Artificial |
-| PON001 | IA en Medicina | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S101 | Auditorio A | 200 | Edificio Norte | 3 | Coord. García | 90 | Machine Learning |
-| PON001 | IA en Medicina | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona | 08007 | Barcelona | S101 | Auditorio A | 200 | Edificio Norte | 3 | Coord. García | 90 | Inteligencia Artificial |
-| PON001 | IA en Medicina | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona | 08007 | Barcelona | S101 | Auditorio A | 200 | Edificio Norte | 3 | Coord. García | 90 | Machine Learning |
-| PON001 | IA en Medicina | CONF02 | MedAI Forum | 2025-10-20 | Barcelona | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S202 | Sala Magna | 150 | Edificio Central | 2 | Coord. Ruiz | 60 | Inteligencia Artificial |
-| PON001 | IA en Medicina | CONF02 | MedAI Forum | 2025-10-20 | Barcelona | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S202 | Sala Magna | 150 | Edificio Central | 2 | Coord. Ruiz | 60 | Machine Learning |
-| PON001 | IA en Medicina | CONF02 | MedAI Forum | 2025-10-20 | Barcelona | España | ES | Europa | 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona | 08007 | Barcelona | S202 | Sala Magna | 150 | Edificio Central | 2 | Coord. Ruiz | 60 | Inteligencia Artificial |
-| PON001 | IA en Medicina | CONF02 | MedAI Forum | 2025-10-20 | Barcelona | España | ES | Europa | 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona | 08007 | Barcelona | S202 | Sala Magna | 150 | Edificio Central | 2 | Coord. Ruiz | 60 | Machine Learning |
-| PON002 | Blockchain y Finanzas | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 33333333C | Dr. Fernández | fernandez@uni.es | Universidad Politécnica | 28006 | Madrid | S103 | Sala Innovación | 80 | Edificio Sur | 1 | Coord. Sánchez | 120 | Blockchain |
-| PON002 | Blockchain y Finanzas | CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa | 33333333C | Dr. Fernández | fernandez@uni.es | Universidad Politécnica | 28006 | Madrid | S103 | Sala Innovación | 80 | Edificio Sur | 1 | Coord. Sánchez | 120 | Fintech |
-| PON003 | Robótica Educativa | CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres | 75 | Robótica |
-| PON003 | Robótica Educativa | CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa | 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid | S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres | 75 | Educación |
-| PON003 | Robótica Educativa | CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa | 44444444D | Dr. Ramírez | ramirez@uni.es | Universidad Valencia | 46010 | Valencia | S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres | 75 | Robótica |
-| PON003 | Robótica Educativa | CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa | 44444444D | Dr. Ramírez | ramirez@uni.es | Universidad Valencia | 46010 | Valencia | S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres | 75 | Educación |
-
-**Nueva clave primaria:** (ID_Ponencia, ID_Conferencia, DNI_Ponente, ID_Sala, Categoría_Ponencia)
+Justificación breve: *2FN requiere 1FN y ausencia de dependencias parciales respecto a claves compuestas, lo que se cumple con clave simple, mientras que 3FN exige además eliminar dependencias transitivas como CP → Ciudad, Provincia, por lo que la forma normal alcanzada es 2FN.*
 
 ***
 
-### 📝 Paso 2: Análisis y normalización a Segunda Forma Normal (2FN)
+## Ejercicio 8: Sistema de Matrícula Universitaria
 
-**¿Qué incumple la 2FN?**
+### 🎯 Situación inicial
 
-Existen múltiples dependencias funcionales parciales:
+Tabla inicial: la tabla MATRICULA recoge quién cursa qué asignatura y con qué profesor, asumiendo la restricción de dominio “cada profesor imparte exactamente una asignatura” (Profesor → Asignatura).​
 
-- **ID_Ponencia** → Título_Ponencia
-- **ID_Conferencia** → Nombre_Conferencia, Fecha_Conferencia, Ciudad_Conferencia, País, Código_País, Continente
-- **DNI_Ponente** → Nombre_Ponente, Email_Ponente, Universidad_Ponente, Código_Postal_Uni, Ciudad_Uni
-- **ID_Sala** → Nombre_Sala, Capacidad_Sala, Edificio_Sala, Planta_Edificio, Coordinador_Edificio
-- **(ID_Ponencia, ID_Conferencia, ID_Sala)** → Duración_Minutos
-
-**Solución:** Separar en tablas según las dependencias.
-
-**PONENCIAS**
+Clave primaria: (Alumno_ID, Asignatura).
 
 
-| ID_Ponencia | Título_Ponencia |
-| :-- | :-- |
-| PON001 | IA en Medicina |
-| PON002 | Blockchain y Finanzas |
-| PON003 | Robótica Educativa |
+| Alumno_ID | Asignatura | Profesor |
+| :-- | :-- | :-- |
+| A01  | BD1  | Prof. Ruiz  |
+| A02  | BD1  | Prof. Ruiz  |
+| A01  | PRG1  | Prof. Vega  |
 
-**CONFERENCIAS**
+**¿En qué forma normal está la tabla?, analiza si hay dependencias transitivas y si se viola BCNF dadas las dependencias Profesor → Asignatura y la clave (Alumno_ID, Asignatura).**
+
+Dependencias funcionales del dominio:
+
+- (Alumno_ID, Asignatura) → Profesor, porque para cada alumno en una asignatura concreta existe un profesor asignado a ese grupo.
+- Profesor → Asignatura, por la política “cada profesor imparte una única asignatura” definida para este ejemplo didáctico.
+
+Respuesta: *la tabla está en 3FN pero no en BCNF, porque la dependencia Profesor → Asignatura tiene determinante que no es superclave, pero el atributo del lado derecho (Asignatura) es atributo primo al ser parte de la clave, cumpliendo la condición de Zaniolo para 3FN y fallando la exigencia más estricta de BCNF.​*
+
+Justificación breve: *3FN se satisface si para cada X → A, X es superclave o A es atributo primo; aquí A es primo, por lo que 3FN se cumple, mientras que BCNF requeriría que Profesor fuese superclave, lo cual no sucede, luego no es BCNF.*
+
+***
+
+## Ejercicio 9: Detalle de Facturación
+
+### 🎯 Situación inicial
+
+Se registra el detalle de líneas de factura con una clave compuesta y descriptores de producto y cliente incluidos en la misma tabla, típicamente generando dependencias de parte de la clave.
+Clave primaria: (Factura_ID, Producto_ID).
 
 
-| ID_Conferencia | Nombre_Conferencia | Fecha_Conferencia | Ciudad_Conferencia | País | Código_País | Continente |
-| :-- | :-- | :-- | :-- | :-- | :-- | :-- |
-| CONF01 | TechSummit 2025 | 2025-09-15 | Madrid | España | ES | Europa |
-| CONF02 | MedAI Forum | 2025-10-20 | Barcelona | España | ES | Europa |
-| CONF03 | EduTech Congress | 2025-11-10 | Valencia | España | ES | Europa |
-
-**PONENTES**
-
-
-| DNI_Ponente | Nombre_Ponente | Email_Ponente | Universidad_Ponente | Código_Postal_Uni | Ciudad_Uni |
+| Factura_ID | Producto_ID | Cliente_Nombre | Producto_Nombre | Precio_Unitario | Cantidad |
 | :-- | :-- | :-- | :-- | :-- | :-- |
-| 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense | 28040 | Madrid |
-| 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona | 08007 | Barcelona |
-| 33333333C | Dr. Fernández | fernandez@uni.es | Universidad Politécnica | 28006 | Madrid |
-| 44444444D | Dr. Ramírez | ramirez@uni.es | Universidad Valencia | 46010 | Valencia |
+| F001  | P10  | Ana Ruiz  | Teclado  | 25.00  | 2  |
+| F001  | P20  | Ana Ruiz  | Ratón  | 15.00  | 1  |
+| F002  | P10  | Luis Gil  | Teclado  | 25.00  | 1  |
 
-**SALAS**
+**¿En qué forma normal está la tabla?, identifica si hay valores atómicos, dependencias parciales como Producto_ID → Producto_Nombre, Precio_Unitario y Factura_ID → Cliente_Nombre, y razona qué implica sobre 2FN.**
 
-
-| ID_Sala | Nombre_Sala | Capacidad_Sala | Edificio_Sala | Planta_Edificio | Coordinador_Edificio |
-| :-- | :-- | :-- | :-- | :-- | :-- |
-| S101 | Auditorio A | 200 | Edificio Norte | 3 | Coord. García |
-| S103 | Sala Innovación | 80 | Edificio Sur | 1 | Coord. Sánchez |
-| S202 | Sala Magna | 150 | Edificio Central | 2 | Coord. Ruiz |
-| S301 | Sala Polivalente | 100 | Edificio Este | 2 | Coord. Torres |
-
-**PONENCIAS_CONFERENCIAS_SALAS**
-
-
-| ID_Ponencia | ID_Conferencia | ID_Sala | Duración_Minutos |
-| :-- | :-- | :-- | :-- |
-| PON001 | CONF01 | S101 | 90 |
-| PON001 | CONF02 | S202 | 60 |
-| PON002 | CONF01 | S103 | 120 |
-| PON003 | CONF03 | S301 | 75 |
-
-**PONENCIAS_PONENTES**
-
-
-| ID_Ponencia | DNI_Ponente |
-| :-- | :-- |
-| PON001 | 11111111A |
-| PON001 | 22222222B |
-| PON002 | 33333333C |
-| PON003 | 11111111A |
-| PON003 | 44444444D |
-
-**PONENCIAS_CATEGORÍAS**
-
-
-| ID_Ponencia | Categoría |
-| :-- | :-- |
-| PON001 | Inteligencia Artificial |
-| PON001 | Machine Learning |
-| PON002 | Blockchain |
-| PON002 | Fintech |
-| PON003 | Robótica |
-| PON003 | Educación |
-
+Respuesta: *La tabla está en 1FN pero no en 2FN, porque aunque todos los atributos son atómicos y no hay grupos repetidos (cumple 1FN), existen dependencias parciales de atributos no clave respecto a una parte de la clave compuesta, lo que infringe 2FN (p. ej., Producto_ID → Producto_Nombre, Precio_Unitario y Factura_ID → Cliente_Nombre).*
+​
+Justificación breve: *2FN exige que cada atributo no primo dependa de toda la clave y no solo de una parte, requisito que se incumple por las dependencias señaladas, por lo que la forma normal alcanzada es 1FN.*
 
 ***
 
-### 📝 Paso 3: Análisis y normalización a Tercera Forma Normal (3FN)
+## Ejercicio 10: Empleados y Departamentos
 
-**¿Qué incumple la 3FN?**
+### 🎯 Situación inicial
 
-Existen **dependencias transitivas** en varias tablas:
-
-En **CONFERENCIAS**:
-
-- ID_Conferencia → Ciudad_Conferencia → País
-- ID_Conferencia → País → Código_País, Continente
-
-En **PONENTES**:
-
-- DNI_Ponente → Universidad_Ponente → Código_Postal_Uni, Ciudad_Uni
-
-En **SALAS**:
-
-- ID_Sala → Edificio_Sala → Planta_Edificio, Coordinador_Edificio
-
-**Solución:** Eliminar dependencias transitivas creando tablas adicionales.
-
-**CONFERENCIAS (normalizado a 3FN)**
+Se mantiene una tabla de empleados con su departamento y datos derivados del departamento, con clave simple por DNI, lo que evita dependencias parciales pero mantiene una dependencia transitiva vía Departamento_ID.
+Clave primaria: DNI.
 
 
-| ID_Conferencia | Nombre_Conferencia | Fecha_Conferencia | Ciudad_Conferencia |
-| :-- | :-- | :-- | :-- |
-| CONF01 | TechSummit 2025 | 2025-09-15 | Madrid |
-| CONF02 | MedAI Forum | 2025-10-20 | Barcelona |
-| CONF03 | EduTech Congress | 2025-11-10 | Valencia |
+| DNI | Nombre | Departamento_ID | Departamento_Nombre | Jefe_Departamento |
+| :-- | :-- | :-- | :-- | :-- |
+| 11111111A  | María López  | D10  | Ventas  | Sr. Pérez  |
+| 22222222B  | Juan Torres  | D20  | Soporte  | Sra. Vega  |
+| 33333333C  | Ana Ruiz  | D10  | Ventas  | Sr. Pérez  |
 
-**CIUDADES**
+**¿En qué forma normal está la tabla?, analiza si hay dependencias parciales o transitivas con clave simple y valora su impacto en 3FN.**
 
+Solución: *La tabla está en 2FN pero no en 3FN, porque con clave simple no hay dependencias parciales (cumple 2FN), pero existe dependencia transitiva DNI → Departamento_ID y Departamento_ID → Departamento_Nombre, Jefe_Departamento, lo que viola 3FN al no permitir que atributos no clave dependan indirectamente de la clave.​*
 
-| Ciudad | País |
-| :-- | :-- |
-| Madrid | España |
-| Barcelona | España |
-| Valencia | España |
-
-**PAÍSES**
-
-
-| País | Código_País | Continente |
-| :-- | :-- | :-- |
-| España | ES | Europa |
-
-**PONENTES (normalizado a 3FN)**
-
-
-| DNI_Ponente | Nombre_Ponente | Email_Ponente | Universidad_Ponente |
-| :-- | :-- | :-- | :-- |
-| 11111111A | Dr. Martínez | martinez@uni.es | Universidad Complutense |
-| 22222222B | Dra. López | lopez@uni.es | Universidad Barcelona |
-| 33333333C | Dr. Fernández | fernandez@uni.es | Universidad Politécnica |
-| 44444444D | Dr. Ramírez | ramirez@uni.es | Universidad Valencia |
-
-**UNIVERSIDADES**
-
-
-| Universidad | Código_Postal | Ciudad |
-| :-- | :-- | :-- |
-| Universidad Complutense | 28040 | Madrid |
-| Universidad Barcelona | 08007 | Barcelona |
-| Universidad Politécnica | 28006 | Madrid |
-| Universidad Valencia | 46010 | Valencia |
-
-**SALAS (normalizado a 3FN)**
-
-
-| ID_Sala | Nombre_Sala | Capacidad_Sala | Edificio_Sala |
-| :-- | :-- | :-- | :-- |
-| S101 | Auditorio A | 200 | Edificio Norte |
-| S103 | Sala Innovación | 80 | Edificio Sur |
-| S202 | Sala Magna | 150 | Edificio Central |
-| S301 | Sala Polivalente | 100 | Edificio Este |
-
-**EDIFICIOS**
-
-
-| Edificio | Planta | Coordinador |
-| :-- | :-- | :-- |
-| Edificio Norte | 3 | Coord. García |
-| Edificio Sur | 1 | Coord. Sánchez |
-| Edificio Central | 2 | Coord. Ruiz |
-| Edificio Este | 2 | Coord. Torres |
-
-✅ **Todas las tablas están ahora en 3FN.**
-
-**Resultado final:** 11 tablas normalizadas hasta 3FN.
-
-***
+Justificación breve: *3FN requiere estar en 2FN y eliminar dependencias transitivas, de modo que al persistir Departamento_ID → (Departamento_Nombre, Jefe_Departamento) la forma normal alcanzada es exactamente 2FN.​*
