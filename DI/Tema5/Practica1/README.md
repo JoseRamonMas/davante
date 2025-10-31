@@ -208,13 +208,7 @@ Amplía tu aplicación con un nuevo **panel de registro** que muestre un histór
 
 ### FASE FINAL: Documentación del proyecto
 
-Redacta un pequeño informe técnico y reflexivo con los siguientes apartados:
-
-1. **Introducción:** finalidad de la aplicación y resumen de las funciones implementadas.
-2. **Capturas del funcionamiento:** muestra los distintos estados de la interfaz (antes y después de eventos).
-3. **Descripción técnica:** explica la estructura de tus clases y cómo se comunican entre sí.
-4. **Pruebas unitarias:** resumen de los casos probados y resultados.
-5. **Reflexión personal:** qué has aprendido, qué te ha resultado más difícil y qué mejorarías.
+Redacta un informe que incluya los apartados que has ido documentando en cada ejercicio y una breve reflexión final.
 
 ---
 
@@ -249,6 +243,7 @@ Redacta un pequeño informe técnico y reflexivo con los siguientes apartados:
 * Usa nombres de variables descriptivos.
 * Guarda capturas frecuentes durante tu progreso.
 * No copies código sin entenderlo: el objetivo es **demostrar tu autoría**.
+
 
 
 
