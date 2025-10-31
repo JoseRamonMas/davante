@@ -98,7 +98,7 @@ CREATE TABLE Contactos (
 )
 ```
 
-    * Crea una constante `String SQLDROP` para eliminar la tabla:
+* Crea una constante `String SQLDROP` para eliminar la tabla:
 
 ```sql
 DROP TABLE IF EXISTS Contactos
@@ -483,3 +483,4 @@ Crea un informe con los apartados que has ido redactando en cada ejercicio y una
 * Recuerda siempre cerrar la base de datos después de cada operación para liberar recursos.
 * Valida los datos de entrada antes de realizar operaciones en la base de datos.
 * Si la aplicación se cierra inesperadamente, revisa el Logcat de Android Studio para identificar errores.
+
