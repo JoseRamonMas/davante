@@ -25,6 +25,7 @@ formulario-alta-cliente/
 
 <details>
 <summary>Enunciado sin ayuda</summary>
+    
 ### **Campos obligatorios del formulario**
 
 El formulario debe incluir los siguientes campos con sus características específicas:
@@ -1397,6 +1398,7 @@ Añadir una nueva sección al checklist de evaluación cruzada:
 
 
 </details>
+
 ## **Verificación del formulario implementado**
 
 ### **Comprobaciones básicas**
@@ -1670,4 +1672,5 @@ Al finalizar la práctica, cada pareja debe:
 
 - **MDN Web Docs**: https://developer.mozilla.org/es/docs/Learn/Forms
 - **ISO 9241-17**: Resumen de principios para diálogos por cumplimentación de formularios
+
 - **WCAG 2.1**: Pautas de accesibilidad para formularios web
