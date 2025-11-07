@@ -301,18 +301,18 @@ public class AdaptadorContactos extends RecyclerView.Adapter<AdaptadorContactos.
 ```java
 if (v.getId() == R.id.btnConsultar) {
     rvContactos.setHasFixedSize(true);
-    LinearLayoutManager llm = new LinearLayoutManager(this);
+    LinearLayoutManager llm = new LinearLayoutManager(MainActivity.this);
     rvContactos.setLayoutManager(llm);
     
     try {
         ArrayList<Contacto> contactosTotales = bd.obtenerTodosContactos();
-        AdaptadorContactos adaptador = new AdaptadorContactos(this, contactosTotales);
+        AdaptadorContactos adaptador = new AdaptadorContactos(MainActivity.this, contactosTotales);
         rvContactos.setAdapter(adaptador);
         adaptador.refrescar();
-        Toast.makeText(this, "Contactos cargados: " + contactosTotales.size(), 
+        Toast.makeText(MainActivity.this, "Contactos cargados: " + contactosTotales.size(), 
             Toast.LENGTH_SHORT).show();
     } catch (Exception e) {
-        Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
 ```
@@ -483,4 +483,5 @@ Crea un informe con los apartados que has ido redactando en cada ejercicio y una
 * Recuerda siempre cerrar la base de datos después de cada operación para liberar recursos.
 * Valida los datos de entrada antes de realizar operaciones en la base de datos.
 * Si la aplicación se cierra inesperadamente, revisa el Logcat de Android Studio para identificar errores.
+
 
