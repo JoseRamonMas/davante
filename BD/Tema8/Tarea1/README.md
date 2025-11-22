@@ -164,8 +164,9 @@ Antes de guardar tu script, verifica:
 
 ## 🕵️ Solucionario
 
-\<details\>
-\<summary\>\<strong\>⬇️ Haz clic aquí para desplegar la solución completa\</strong\>\</summary\>
+<details>
+  
+<summary><strong>⬇️ Haz clic aquí para desplegar la solución completa</strong></summary>
 
 ```sql
 /* SOLUCIÓN PRÁCTICA TEMA 8 - DDL
@@ -285,4 +286,5 @@ DROP TABLE CATEGORIAS;
 -- DROP TABLE CATEGORIAS CASCADE CONSTRAINTS;
 ```
 
-\</details\>
+
+</details>
