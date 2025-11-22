@@ -33,7 +33,7 @@ En este bloque crearemos las tablas que no dependen de otras. Practicaremos los 
 
 Crea una tabla llamada `CATEGORIAS` para organizar los productos.
 
-  * **ID\_CATEGORIA:** Numérico. Será la Clave Primaria (PK).
+  * **ID_CATEGORIA:** Numérico. Será la Clave Primaria (PK).
   * **NOMBRE:** Texto variable (50 caracteres). Obligatorio (`NOT NULL`) y no puede repetirse (`UNIQUE`).
   * **DESCRIPCION:** Texto variable (200 caracteres). Opcional.
 
@@ -43,7 +43,7 @@ Crea una tabla llamada `ALMACENES` para gestionar el stock físico.
 
   * **CODIGO:** Numérico (3 dígitos). Clave Primaria.
   * **UBICACION:** Texto (100 caracteres). Obligatorio.
-  * **CAPACIDAD\_M2:** Numérico. Debe ser siempre mayor que 0 (Usa `CHECK`).
+  * **CAPACIDAD_M2:** Numérico. Debe ser siempre mayor que 0 (Usa `CHECK`).
 
 ### Ejercicio 1.3: Proveedores (Con valores por defecto)
 
@@ -65,11 +65,11 @@ Ahora crearemos tablas que dependen de las anteriores. Presta atención a la int
 
 Crea la tabla `PRODUCTOS` definiendo las restricciones en la misma línea de la columna (Inline).
 
-  * **ID\_PRODUCTO:** Numérico (5 dígitos). PK.
+  * **ID_PRODUCTO:** Numérico (5 dígitos). PK.
   * **NOMBRE:** Texto (100). Not Null.
   * **PRECIO:** Numérico (con 2 decimales).
-  * **ID\_CATEGORIA:** Numérico. Debe ser Clave Foránea (`FK`) que apunte a `CATEGORIAS`.
-  * **PROVEEDOR\_CIF:** Texto (9). FK que apunte a `PROVEEDORES`.
+  * **ID_CATEGORIA:** Numérico. Debe ser Clave Foránea (`FK`) que apunte a `CATEGORIAS`.
+  * **PROVEEDOR_CIF:** Texto (9). FK que apunte a `PROVEEDORES`.
 
 ### Ejercicio 2.2: Empleados (Constraints "Out-of-line")
 
@@ -79,10 +79,10 @@ Crea la tabla `EMPLEADOS`. Define las restricciones **al final** de la sentencia
   * **NOMBRE:** Texto (50).
   * **APELLIDOS:** Texto (100).
   * **SALARIO:** Numérico.
-  * **COD\_ALMACEN:** Numérico (3). FK hacia `ALMACENES`.
-  * **FECHA\_CONTRATO:** Fecha (`DATE`). Por defecto la fecha actual (`SYSDATE`).
+  * **COD_ALMACEN:** Numérico (3). FK hacia `ALMACENES`.
+  * **FECHA_CONTRATO:** Fecha (`DATE`). Por defecto la fecha actual (`SYSDATE`).
 
-> **Restricción extra:** Añade un `CHECK` llamado `CK_SALARIO_MIN` para asegurar que el salario sea al menos el Salario Mínimo (ej. \> 1000).
+> **Restricción extra:** Añade un `CHECK` llamado `CK_SALARIO_MIN` para asegurar que el salario sea al menos el Salario Mínimo (ej. > 1000).
 
 -----
 
@@ -124,11 +124,11 @@ Vamos a crear la tabla que registra los movimientos. Esta tabla unirá Clientes 
 
 Crea la tabla `VENTAS`.
 
-  * **ID\_VENTA:** Numérico. PK.
-  * **FECHA\_VENTA:** Fecha.
-  * **PRODUCTO\_ID:** Numérico. FK hacia `PRODUCTOS`.
+  * **ID_VENTA:** Numérico. PK.
+  * **FECHA_VENTA:** Fecha.
+  * **PRODUCTO_ID:** Numérico. FK hacia `PRODUCTOS`.
   * **CANTIDAD:** Numérico.
-  * **EMPLEADO\_DNI:** Texto(9). FK hacia `EMPLEADOS`.
+  * **EMPLEADO_DNI:** Texto(9). FK hacia `EMPLEADOS`.
 
 > **Importante:** Configura la FK de `PRODUCTO_ID` para que si se borra un producto del catálogo, **se borren automáticamente** todas sus ventas asociadas (`ON DELETE CASCADE`).
 
