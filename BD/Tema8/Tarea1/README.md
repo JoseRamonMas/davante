@@ -170,7 +170,7 @@ Antes de guardar tu script, verifica:
 
 ```sql
 /* SOLUCIÓN PRÁCTICA TEMA 8 - DDL
-   Autor: Profesor DAM
+   Autor: Jose R.
    Base de Datos: DAVANTE
 */
 
