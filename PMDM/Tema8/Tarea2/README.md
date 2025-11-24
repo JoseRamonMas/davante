@@ -1040,7 +1040,7 @@ Método: GET
 URL: http://localhost/productosapi/precio/50/150
 ```
 
-**Resultado esperado:** JSON con productos entre 50€ y 150€ (debería devolver 6 productos) y código 200.
+**Resultado esperado:** JSON con productos entre 50€ y 150€ (debería devolver 5 productos) y código 200.
 
 ##### Prueba 7: Rango de precio inválido
 
@@ -1147,4 +1147,5 @@ Además de las respuestas a las preguntas de cada ejercicio, tu documento debe i
 Debes entregar **un archivo comprimido (.zip)** que contenga:
 
 1. **Carpeta `productosapi/`** con todo el código PHP de la API.
+
 2. **Documento PDF** con toda la documentación, capturas y respuestas (nombre del archivo: `TuApellido_TuNombre_API_Productos.pdf`).
