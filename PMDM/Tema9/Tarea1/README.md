@@ -26,7 +26,7 @@ Antes de empezar, asegúrate de tener tu entorno preparado:
 
 1.  **Servidor Backend Activo:** Debes tener XAMPP (o tu servidor Apache) funcionando con la API de la **Tarea 2** desplegada.
 2.  **Base de datos:** Asegúrate de que tu tabla de `productos` tiene al menos 5 o 6 registros insertados para poder visualizar la lista correctamente.
-3.  **Prueba de acceso:** Verifica que puedes acceder a tu API desde el navegador de tu PC mediante: `http://localhost/productosapi/productos` (o la ruta que definieras).
+3.  **Prueba de acceso:** Verifica que puedes acceder a tu API desde el navegador de tu PC mediante: `http://localhost/productosapi/` (o la ruta que definieras).
 
 -----
 
@@ -259,8 +259,8 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     // Añade puerto si no estás usando el 80
-    // Asegúrate de que la ruta /productosapi/productos es correcta en tu XAMPP
-    private static final String URL_API = "http://10.0.2.2/productosapi/productos";
+    // Asegúrate de que la ruta /productosapi/ es correcta en tu XAMPP
+    private static final String URL_API = "http://10.0.2.2/productosapi/";
 
     private RecyclerView recyclerView;
     private ProductoAdapter adapter;
@@ -367,4 +367,5 @@ Crea un documento PDF con el siguiente contenido:
 Sube a la plataforma:
 
   * El **PDF** con la documentación.
+
   * El **proyecto Android** comprimido en ZIP (Puedes hacer *Build > Clean Project* antes de comprimir para reducir el peso).
