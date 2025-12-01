@@ -319,7 +319,7 @@ public class MainActivity extends AppCompatActivity {
     private void procesarJson(String jsonString) {
         try {
             // Asumimos que la API devuelve un Array JSON directamente [...]
-            // Si tu API devuelve un objeto { "estado":..., "datos": [...] } ajusta esto.
+            // Si tu API devuelve un objeto { "estado":..., "datos": [...] } ajusta esto. !!! IMPORTANTE !!!
             JSONArray jsonArray = new JSONArray(jsonString);
 
             for (int i = 0; i < jsonArray.length(); i++) {
@@ -369,3 +369,4 @@ Sube a la plataforma:
   * El **PDF** con la documentación.
 
   * El **proyecto Android** comprimido en ZIP (Puedes hacer *Build > Clean Project* antes de comprimir para reducir el peso).
+
