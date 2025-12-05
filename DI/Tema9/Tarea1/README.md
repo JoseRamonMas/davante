@@ -173,6 +173,12 @@ Para que el gráfico muestre los totales finales y no intente dibujarse antes de
 4.  Cámbiala de "Now" a **Report**.
       * *Esto asegura que el gráfico espere a que todas las variables hayan terminado de sumar antes de renderizarse.*
 
+#### PASO 4. IMPORTANTE!
+
+Añade la siguiente configuración del DataSet:
+
+![DATASET](./chart.png)
+
 #### 2.3. Personalización
 
   * Cambia el título del gráfico a "Distribución de préstamos por duración".
