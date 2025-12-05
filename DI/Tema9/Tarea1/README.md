@@ -112,7 +112,7 @@ Queremos ver la proporción de préstamos "Cortos" vs "Largos". Como esto no es 
 
   * **Series (Key):** Define una expresión que agrupe los datos. Por ejemplo:
     ```java
-    $F{dias_prestamo} <= 7 ? "Corto (1 semana)" : "Largo (+1 semana)"
+    $F{dias_prestamo} <= 15 ? "Corto (<2 semanas)" : "Largo (>2 semanas)"
     ```
   * **Value:** Simplemente cuenta los registros. Puedes poner un valor fijo `1`, y el gráfico sumará automáticamente cuántas veces aparece cada clave (Key).
   * **Label:** Puedes usar la misma expresión que en *Key* para que aparezca la etiqueta.
@@ -134,7 +134,7 @@ En lugar de dejar que el gráfico cuente, crearemos dos variables que sumarán `
       * **Calculation:** `Sum`
       * **Expression:**
         ```java
-        $F{dias_prestamo} <= 7 ? 1 : 0
+        $F{dias_prestamo} <= 15 ? 1 : 0
         ```
       * **Initial Value Expression:** `0`
 3.  Crea la variable para préstamos largos:
@@ -143,7 +143,7 @@ En lugar de dejar que el gráfico cuente, crearemos dos variables que sumarán `
       * **Calculation:** `Sum`
       * **Expression:**
         ```java
-        $F{dias_prestamo} > 7 ? 1 : 0
+        $F{dias_prestamo} > 15 ? 1 : 0
         ```
       * **Initial Value Expression:** `0`
 
@@ -155,13 +155,13 @@ Ahora vincularemos estas variables al gráfico circular.
 2.  Haz doble clic para abrir **Chart Data**.
 3.  **Importante:** Borra cualquier serie que aparezca en la lista para empezar de cero.
 4.  Añade la **Primera Serie** (Cortos):
-      * **Series / Key:** `"Corto (1 semana)"`
+      * **Series / Key:** `"Corto <=2 semanas)"`
       * **Value:** `$V{V_CORTOS}`
-      * **Label:** `"Corto (1 semana)"`
+      * **Label:** `"Corto (<=2 semanas)"`
 5.  Añade la **Segunda Serie** (Largos):
-      * **Series / Key:** `"Largo (+1 semana)"`
+      * **Series / Key:** `"Largo (+2 semanas)"`
       * **Value:** `$V{V_LARGOS}`
-      * **Label:** `"Largo (+1 semana)"`
+      * **Label:** `"Largo (+2 semanas)"`
 
 #### PASO 3. Ajustar el Tiempo de Evaluación
 
@@ -283,3 +283,4 @@ Genera un documento PDF único que incluya:
 
 
   * Sube a la plataforma el documento **PDF** con la documentación.
+
