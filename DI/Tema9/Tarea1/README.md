@@ -117,6 +117,62 @@ Queremos ver la proporción de préstamos "Cortos" vs "Largos". Como esto no es 
   * **Value:** Simplemente cuenta los registros. Puedes poner un valor fijo `1`, y el gráfico sumará automáticamente cuántas veces aparece cada clave (Key).
   * **Label:** Puedes usar la misma expresión que en *Key* para que aparezca la etiqueta.
 
+
+
+### Solución Alternativa: Creación del Gráfico mediante Variables de Conteo
+
+Dado que el asistente automático genera errores de claves duplicadas ("Duplicate Key") al intentar agrupar los registros dinámicamente, utilizaremos un método más robusto: crear contadores manuales y pasar los totales finales al gráfico.
+
+#### PASO 1. Crear las Variables de Conteo
+
+En lugar de dejar que el gráfico cuente, crearemos dos variables que sumarán `1` cada vez que se cumpla la condición.
+
+1.  En el panel **Outline**, haz clic derecho sobre **Variables** \> **Create Variable**.
+2.  Crea la variable para préstamos cortos:
+      * **Name:** `V_CORTOS`
+      * **Value Class:** `java.lang.Integer`
+      * **Calculation:** `Sum`
+      * **Expression:**
+        ```java
+        $F{dias_prestamo} <= 7 ? 1 : 0
+        ```
+      * **Initial Value Expression:** `0`
+3.  Crea la variable para préstamos largos:
+      * **Name:** `V_LARGOS`
+      * **Value Class:** `java.lang.Integer`
+      * **Calculation:** `Sum`
+      * **Expression:**
+        ```java
+        $F{dias_prestamo} > 7 ? 1 : 0
+        ```
+      * **Initial Value Expression:** `0`
+
+#### PASO 2. Configurar el Dataset del Gráfico
+
+Ahora vincularemos estas variables al gráfico circular.
+
+1.  Inserta el **Pie Chart** en la banda **Summary**.
+2.  Haz doble clic para abrir **Chart Data**.
+3.  **Importante:** Borra cualquier serie que aparezca en la lista para empezar de cero.
+4.  Añade la **Primera Serie** (Cortos):
+      * **Series / Key:** `"Corto (1 semana)"`
+      * **Value:** `$V{V_CORTOS}`
+      * **Label:** `"Corto (1 semana)"`
+5.  Añade la **Segunda Serie** (Largos):
+      * **Series / Key:** `"Largo (+1 semana)"`
+      * **Value:** `$V{V_LARGOS}`
+      * **Label:** `"Largo (+1 semana)"`
+
+#### PASO 3. Ajustar el Tiempo de Evaluación
+
+Para que el gráfico muestre los totales finales y no intente dibujarse antes de terminar de contar:
+
+1.  Cierra el asistente de datos y selecciona el gráfico en el editor visual.
+2.  Ve al panel de **Properties** (Propiedades).
+3.  Busca la propiedad **Evaluation Time**.
+4.  Cámbiala de "Now" a **Report**.
+      * *Esto asegura que el gráfico espere a que todas las variables hayan terminado de sumar antes de renderizarse.*
+
 #### 2.3. Personalización
 
   * Cambia el título del gráfico a "Distribución de préstamos por duración".
@@ -218,5 +274,6 @@ Genera un documento PDF único que incluya:
       * Compara la dificultad de hacer gráficos en JasperReports vs Excel.
 
 ## 5. Entrega
+
 
   * Sube a la plataforma el documento **PDF** con la documentación.
