@@ -116,7 +116,7 @@ Para garantizar la adquisición de competencias, se aplicarán las siguientes no
 
     * 🟢 **Validación satisfactoria (Semáforo verde):** El alumno demuestra autoría total y comprensión profunda del funcionamiento de subinformes y parámetros. Se corrige la práctica sobre **10 puntos**.
     * 🟡 **Validación con dificultades (Semáforo amarillo):** El alumno necesita ayuda del profesor para ubicar elementos, comete errores conceptuales o muestra dudas sobre su propio código SQL/Java. La nota máxima de la práctica será de **6,0**.
-    * 🔴 **Validación insuficiente (Semáforo rojo):** El alumno ha entregado la práctica pero no es capaz de explicarla, no sabe cómo compilar el informe o no sabe realizar cambios. Se valorará únicamente el cumplimiento administrativo de la entrega, siendo la nota máxima de **4,0**.
+    * 🔴 **Validación insuficiente (Semáforo rojo):** El alumno ha entregado la práctica pero no es capaz de explicarla, no sabe cómo compilar el informe o no sabe realizar cambios. Evidencia de copia o desconocimiento. Se valorará únicamente el cumplimiento administrativo de la entrega, siendo la nota máxima de **4,0**.
 
 ---
 
