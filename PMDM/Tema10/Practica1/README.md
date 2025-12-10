@@ -126,24 +126,36 @@ Imagina que ya lanzaste la versión 1.0. Ahora vas a lanzar la actualización co
 
 ## 5. Documentación a entregar
 
-La evaluación se realizará **exclusivamente a través del documento PDF**. No debes entregar el código fuente. El PDF debe contener las siguientes evidencias claras:
+La evaluación requiere la entrega de un documento PDF. No debes entregar el código fuente completo, pero sí evidencias de su funcionamiento. El PDF debe contener:
 
-1.  **Captura del Diseño XML:** Captura de la vista "Design" o del código XML donde se aprecie cómo has superpuesto los botones al mapa.
-2.  **Capturas de Funcionalidad (Tipos de mapa):**
+1.  **Captura del diseño XML:** Captura de la vista "Design" o del código XML donde se aprecie cómo has superpuesto los botones al mapa (uso de `FrameLayout` o `ConstraintLayout`).
+2.  **Capturas de funcionalidad (Tipos de mapa):**
       * Una captura del emulador mostrando el mapa en modo **Satélite**.
       * Una captura mostrando el mapa en modo **Híbrido**.
-3.  **Captura de Interacción (Marcadores dinámicos):**
+3.  **Captura de interacción (Marcadores dinámicos):**
       * Una captura donde se vea el mapa con varios marcadores añadidos por ti manualmente (haciendo clic en zonas vacías) además de los 3 fijos.
-4.  **Captura del Código Java:** Captura legible de `MainActivity.java`, concretamente de la zona donde gestionas el `setOnMapClickListener`.
-5.  **Evidencia de Versionado:** Captura del fichero `build.gradle` con la versión 1.1 y captura del explorador de archivos mostrando el nuevo `app-release.apk` generado.
+4.  **Captura del código Java:** Captura legible de `MainActivity.java`, concretamente de la zona donde gestionas el `setOnMapClickListener` y la lógica de inserción del marcador.
+5.  **Evidencia de versionado:** Captura del fichero `build.gradle` con la versión 1.1 y captura del explorador de archivos mostrando el nuevo `app-release.apk` generado.
 
------
+## 6. Criterios de calificación y validación
 
-## 6. Criterios de evaluación
+Para la calificación final de esta práctica, se aplicará el siguiente procedimiento de validación de autoría.
 
-La calificación se asignará en base a las evidencias mostradas en el PDF:
+### 6.1. Validación de autoría presencial
 
-  * **Integración de Mapa y UI (30%):** Se muestra el mapa correctamente con los botones flotantes bien posicionados (no tapan el logo de Google ni controles de zoom).
-  * **Lógica de Tipos de Mapa (20%):** Las capturas demuestran que los botones funcionan y cambian la visualización del terreno.
-  * **Interactividad y Eventos (30%):** Se evidencia que el alumno sabe capturar las coordenadas de un clic (`LatLng`) y usarlas para instanciar un nuevo marcador en tiempo real.
-  * **Gestión de Despliegue (20%):** Se ha modificado correctamente el versionado en Gradle y se ha generado el APK firmado.
+La entrega en la plataforma es necesaria pero no suficiente para aprobar. Tras la entrega, se realizará una breve validación en clase. El profesor podrá requerir al alumno que realice una pequeña modificación sobre su código "in situ" o responda preguntas sobre su funcionamiento interno.
+
+La nota final tendrá un **techo máximo** dependiendo del desempeño en esta validación:
+
+  * 🟢 **Validación satisfactoria (Semáforo verde):** El alumno demuestra autoría, solvencia y comprensión profunda del código. Se corrige la práctica sobre **10 puntos**.
+  * 🟡 **Validación con dificultades (Semáforo amarillo):** El alumno necesita ayuda del profesor para encontrar partes de su propio código, muestra dudas conceptuales o comete errores de sintaxis durante la modificación. La nota máxima de la práctica será de **6,0**.
+  * 🔴 **Validación insuficiente (Semáforo rojo):** El alumno ha entregado la práctica pero no es capaz de explicarla, no sabe dónde están las funciones principales o no es capaz de realizar cambios. Evidencia de copia o desconocimiento total. Se valorará únicamente el cumplimiento de la entrega documental, siendo la nota máxima de **4,0**.
+
+### 6.2. Rúbrica de corrección (Sujeta al techo de la validación)
+
+Si la validación es satisfactoria, los puntos se distribuyen así:
+
+  * **Integración de mapa y UI (30%):** Mapa visible, botones flotantes bien posicionados y funcionales.
+  * **Lógica de tipos de mapa (20%):** Cambio correcto entre Normal, Satélite e Híbrido.
+  * **Interactividad y eventos (30%):** Inserción correcta de marcadores al tocar (`LatLng`) y Toast al hacer clic en marcadores existentes.
+  * **Gestión de despliegue (20%):** Versionado correcto en Gradle y generación del APK firmado.
