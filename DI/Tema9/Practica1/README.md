@@ -92,15 +92,31 @@ Para facilitar la lectura rápida de los datos financieros en el subinforme:
 
 ## 5. Criterios de evaluación
 
-La evaluación se basará íntegramente en la **Memoria técnica** entregada. 
+La calificación de la práctica se compondrá de la revisión técnica de la memoria entregada y de una validación presencial obligatoria.
+
+### 5.1. Rúbrica de la memoria técnica
+
+La evaluación del documento PDF entregado en la plataforma se basará en la siguiente distribución:
 
 | Criterio | Peso | Descripción |
 | :--- | :--- | :--- |
-| **Documentación de datos** | 20% | Explicación clara del diseño de la base de datos (tablas y relaciones) y capturas que demuestren que los datos de prueba son coherentes y suficientes para el informe. |
-| **Prueba de parametrización** | 20% | Inclusión de capturas comparativas que demuestren que el informe cambia según los parámetros introducidos (ej. una captura filtrando por "Madrid" y otra por "Barcelona"). |
-| **Estructura y Subinformes** | 30% | El informe final presentado muestra una estructura jerárquica clara (Maestro-Detalle). Se verifica visualmente que los productos listados corresponden inequívocamente al cliente padre. |
-| **Elementos Visuales** | 15% | El gráfico es legible y coherente con los datos. Los estilos condicionales (precios en verde/negrita) se aprecian claramente en las capturas del resultado final. |
-| **Calidad de la redacción**| 15% | La memoria es profesional, ordenada, utiliza terminología técnica correcta y explica el proceso de configuración del Data Adapter y los vínculos del subinforme. |
+| **Documentación de datos** | 20% | Explicación clara del diseño de la base de datos (tablas y relaciones) y capturas que demuestren datos de prueba coherentes. |
+| **Prueba de parametrización** | 20% | Capturas comparativas que demuestren que el informe cambia según los parámetros (ej. filtrado por ciudades distintas). |
+| **Estructura y subinformes** | 30% | El informe muestra una jerarquía correcta. Se verifica que los productos listados corresponden inequívocamente al cliente padre. |
+| **Elementos visuales** | 15% | El gráfico es legible. Los estilos condicionales (precios resaltados) se aprecian claramente en las capturas. |
+| **Calidad de la redacción**| 15% | Memoria profesional, terminología técnica correcta y explicación del Data Adapter y vínculos del subinforme. |
+
+### 5.2. Validación de autoría presencial
+
+Para garantizar la adquisición de competencias, se aplicarán las siguientes normas de calificación:
+
+1.  **La entrega en la plataforma es necesaria pero no suficiente.** Subir la memoria a tiempo habilita el derecho a ser evaluado, pero no garantiza el aprobado.
+2.  **Validación en el aula.** Tras la entrega, el profesor podrá requerir al alumno que realice una pequeña modificación sobre su proyecto en JasperSoft Studio o responda preguntas breves sobre su funcionamiento en tiempo real.
+3.  **Techo de calificación.** La nota final dependerá del desempeño en esta validación según el siguiente semáforo:
+
+    * 🟢 **Validación satisfactoria (Semáforo verde):** El alumno demuestra autoría total y comprensión profunda del funcionamiento de subinformes y parámetros. Se corrige la práctica sobre **10 puntos**.
+    * 🟡 **Validación con dificultades (Semáforo amarillo):** El alumno necesita ayuda del profesor para ubicar elementos, comete errores conceptuales o muestra dudas sobre su propio código SQL/Java. La nota máxima de la práctica será de **6,0**.
+    * 🔴 **Validación insuficiente (Semáforo rojo):** El alumno ha entregado la práctica pero no es capaz de explicarla, no sabe cómo compilar el informe o no sabe realizar cambios. Se valorará únicamente el cumplimiento administrativo de la entrega, siendo la nota máxima de **4,0**.
 
 ---
 
