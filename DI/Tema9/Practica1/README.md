@@ -92,7 +92,7 @@ Para facilitar la lectura rápida de los datos financieros en el subinforme:
 
 ## 5. Criterios de evaluación
 
-La calificación de la práctica se compondrá de la revisión técnica de la memoria entregada y de una validación presencial obligatoria.
+La calificación de la práctica se compondrá de la revisión técnica de la memoria entregada y de una validación presencial.
 
 ### 5.1. Rúbrica de la memoria técnica
 
@@ -135,4 +135,5 @@ Deberás subir a la plataforma un **único documento PDF** titulado `Apellido_No
     * **Prueba 1:** Captura del informe final generado en PDF mostrando el listado de clientes de una ciudad específica.
     * **Prueba 2:** Captura donde se vea claramente el **gráfico estadístico**.
     * **Prueba 3:** Detalle ampliado donde se aprecie el **estilo condicional** funcionando (una venta superior a 500€ resaltada en verde).
+
 5.  **Reflexión Personal:** Breve comentario sobre las principales diferencias que has notado entre diseñar un informe simple (Tema 8) y uno con subinformes (Tema 9).
