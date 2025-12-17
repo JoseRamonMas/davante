@@ -13,9 +13,9 @@ Tendrás que reutilizar código de tus prácticas anteriores, adaptar tu servido
 ## 2. Objetivos de aprendizaje
 
 * **Integración Full Stack:** Conectar un Backend propio (PHP/MySQL) con un Frontend Android complejo.
-* **Manejo de Coordenadas:** Trabajar con datos de geolocalización (`double` latitud/longitud) desde la base de datos hasta el mapa.
-* **Uso de Librerías de Terceros:** Aplicar **Retrofit** o **Volley** (a tu elección) + **GSON** para el parseo automático.
-* **Lógica de Mapas:** Iterar sobre una colección de datos para generar marcadores dinámicos.
+* **Manejo de coordenadas:** Trabajar con datos de geolocalización (`double` latitud/longitud) desde la base de datos hasta el mapa.
+* **Uso de librerías de terceros:** Aplicar **Retrofit** o **Volley** (a tu elección) + **GSON** para el parseo automático.
+* **Lógica de mapas:** Iterar sobre una colección de datos para generar marcadores dinámicos.
 
 ---
 
@@ -137,3 +137,4 @@ Debes generar un documento PDF que demuestre que has conectado todos los puntos.
 > * **Divide y vencerás:** No intentes pintar el mapa si aún no logras ver el JSON en el `Logcat`. Primero asegura los datos, luego la visualización.
 > * **IP del emulador:** Recuerda que para el emulador Android, tu `localhost` es `10.0.2.2`.
 > * **Depuración:** Si el mapa sale en blanco, revisa la API Key. Si no salen marcadores, pon puntos de ruptura (breakpoints) en el bucle `for` para ver si la lista está vacía.
+
