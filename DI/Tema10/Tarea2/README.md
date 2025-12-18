@@ -6,13 +6,13 @@
 
 En las prácticas anteriores has trabajado con **JavaHelp**, el estándar clásico de Java. Sin embargo, el desarrollo de software actual ha migrado hacia soluciones más ágiles, estéticas y basadas en tecnologías web.
 
-Las empresas de software actuales (Google, Microsoft, Netflix) no escriben documentación en Word ni en herramientas propietarias. Utilizan la filosofía **"Docs as Code"** (Documentación como Código). Esto significa:
+Las empresas modernas no escriben documentación en Word ni en herramientas propietarias. Utilizan la filosofía **"Docs as Code"** (Documentación como Código). Esto significa:
 
 1. Se escribe en texto plano (**Markdown**).
 2. Se gestiona con control de versiones.
 3. Se compila y genera una web estática (**Static Site Generator**).
 
-En esta práctica vas a montar todo este ecosistema utilizando **MkDocs** con el tema **Material** (el más usado del mundo) y lo integrarás en una aplicación Java Swing, no solo para abrir la ayuda, sino para hacerlo de forma **contextual** e inteligente.
+En esta práctica vas a montar todo este ecosistema utilizando **MkDocs** con el tema **Material** (el más usado del mundo) y lo integrarás en una aplicación Java Swing para la gestión de una biblioteca (**BiblioTech**), implementando una ayuda **contextual** e inteligente.
 
 ---
 
@@ -68,19 +68,20 @@ pip install mkdocs-material
 
 ## 3. Fase 2: Arquitectura del proyecto de ayuda
 
-Vamos a crear la documentación para una aplicación ficticia llamada "**GymManager Pro**".
+Vamos a crear la documentación para nuestra aplicación ficticia "**BiblioTech v3.0**".
 
 No vamos a mezclar la documentación con el código Java todavía. Primero crearemos el sitio web de ayuda.
 
-1. Crea una carpeta en tu escritorio llamada `Practica_Ayuda_Moderna`.
+1. Crea una carpeta en tu escritorio llamada `Practica_Ayuda_Biblio`.
 2. Abre la terminal dentro de esa carpeta.
 3. Ejecuta el comando de inicialización:
+```bash
+mkdocs new biblio_docs
 
-    ```bash
-    mkdocs new gym_docs
-    ```
+```
 
-4. Entra en el directorio creado: `cd gym_docs`.
+
+4. Entra en el directorio creado: `cd biblio_docs`.
 
 ### Paso 2.1: Configuración avanzada (`mkdocs.yml`)
 
@@ -89,10 +90,10 @@ El archivo `mkdocs.yml` es el cerebro de tu documentación. Vamos a configurarlo
 Abre `mkdocs.yml` con tu editor (VS Code, Notepad++, etc.), **borra todo** y pega esta configuración. **Lee los comentarios** para entender qué hace cada línea:
 
 ```yaml
-site_name: GymManager Pro Docs
+site_name: BiblioTech Docs
 site_url: http://localhost:8000
 site_author: Tu Nombre y Apellido
-copyright: Copyright &copy; 2025 GymManager Systems
+copyright: Copyright &copy; 2025 BiblioTech Systems
 
 # Configuración visual del tema Material
 theme:
@@ -103,15 +104,15 @@ theme:
   palette:
     # Modo Claro (Día)
     - scheme: default
-      primary: indigo
-      accent: cyan
+      primary: teal    # Color verde azulado para biblioteca
+      accent: amber
       toggle:
         icon: material/weather-sunny
         name: Cambiar a modo oscuro
     # Modo Oscuro (Noche)
     - scheme: slate
-      primary: indigo
-      accent: cyan
+      primary: teal
+      accent: amber
       toggle:
         icon: material/weather-night
         name: Cambiar a modo claro
@@ -134,15 +135,15 @@ markdown_extensions:
 # Árbol de navegación (TOC)
 nav:
   - Bienvenida: index.md
-  - Módulo Socios:
-    - Alta de Socio: socios/alta.md
-    - Panel de Listado: socios/listado.md
-  - Módulo Económico:
-    - Tarifas Vigentes: economico/tarifas.md
-    - Facturación: economico/facturacion.md
+  - Gestión Lectores:
+    - Alta de Lector: lectores/alta.md
+    - Carnet Digital: lectores/carnet.md
+  - Préstamos y Catálogo:
+    - Política de Préstamos: prestamos/politica.md
+    - Sanciones por Retraso: prestamos/sanciones.md
   - Guía Técnica:
-    - Diagrama de Datos: tecnico/diagrama.md
-    - Errores Comunes: tecnico/troubleshooting.md
+    - Diagrama de Búsqueda: tecnico/diagrama.md
+    - Errores de Conexión: tecnico/troubleshooting.md
 
 ```
 
@@ -157,8 +158,8 @@ Ahora debes rellenar el contenido. MkDocs busca los archivos `.md` dentro de la 
 Dentro de la carpeta `docs`, crea las subcarpetas necesarias para que coincidan con tu `mkdocs.yml`:
 
 * `docs/assets` (Aquí guardarás las imágenes)
-* `docs/socios`
-* `docs/economico`
+* `docs/lectores`
+* `docs/prestamos`
 * `docs/tecnico`
 
 ### Paso 3.2: Redacción del contenido
@@ -169,90 +170,95 @@ Debes crear los archivos `.md` con contenido real. A continuación, se especific
 Debe contener un saludo y un bloque de "Novedades". Usa el componente **Admonition**:
 
 ```markdown
-# Bienvenido a GymManager Pro
+# Bienvenido a BiblioTech v3.0
 
-Esta es la documentación oficial de la versión 2.0. Utilice el menú superior para navegar por las distintas secciones o utilice la barra de búsqueda (Atajo: Tecla `S`).
+Esta es la documentación oficial del sistema de gestión bibliotecaria. Utilice el menú superior para navegar por las secciones o pulse `S` para buscar.
 
 !!! info "Novedades de la versión"
-    Ahora es posible exportar los listados a PDF directamente desde el menú de socios.
+    Se ha integrado la conexión con la base de datos nacional de ISBN. Ahora las fichas se autocompletan.
 
 ## Requisitos del sistema
 * Java JDK 17 o superior.
-* Conexión a Internet para la sincronización de datos.
+* Lector de códigos de barras USB (opcional).
 
 !!! warning "Importante"
-    Recuerde realizar copias de seguridad semanales desde el módulo de **Administración**.
+    El proceso de inventario anual bloquea los préstamos. Realícelo fuera del horario de apertura.
+
 ```
 
-**B. Archivo `economico/tarifas.md` (Tablas)**
-Debes crear una tabla de precios usando sintaxis Markdown.
+**B. Archivo `prestamos/sanciones.md` (Tablas)**
+Debes crear una tabla de sanciones (multas) usando sintaxis Markdown.
 
-* Requisito: Debe tener al menos 3 columnas (Tarifa, Horario, Precio) y 4 filas de datos.
+* **Requisito:** Debe tener al menos 3 columnas (Tipo de Material, Días de Gracia, Sanción Diaria) y 4 filas de datos (Libros, Revistas, DVDs, E-Readers).
 
 **C. Archivo `tecnico/diagrama.md` (Diagramas como código)**
-Aquí usaremos una característica avanzada: **Mermaid.js**. En lugar de pegar una imagen, "programaremos" el diagrama. Copia este código en tu archivo y observa la magia cuando lo visualices:
+Aquí usaremos **Mermaid.js**. Copia este código para visualizar el flujo de préstamo:
 
 ```markdown
-    # Flujo de Datos
+    # Flujo de Préstamo de Material
 
-    Este es el proceso interno cuando se registra un usuario:
+    Este es el proceso lógico cuando un usuario solicita llevarse un libro:
 
     ```mermaid
     graph TD
-        A[Inicio: Usuario rellena formulario] --> B{¿Datos válidos?}
-        B -- No --> C[Mostrar Error en Swing]
-        B -- Sí --> D[Guardar en Base de Datos]
-        D --> E[Enviar Email de Bienvenida]
-        E --> F[Fin]
+        A[Inicio: Escanear Carnet] --> B{¿Usuario Sancionado?}
+        B -- Sí --> C[BLOQUEAR: Mostrar Alerta Roja]
+        B -- No --> D[Escanear Código Libro]
+        D --> E{¿Stock > 0?}
+        E -- No --> F[Sugerir Reserva]
+        E -- Sí --> G[Registrar Salida en BD]
+        G --> H[Imprimir Ticket]
     ```
+
 ```
 
-**D. Archivo `socios/alta.md` (Imágenes)**
+**D. Archivo `lectores/alta.md` (Imágenes)**
 
-* Abre Paint o cualquier herramienta para dibujar. Crea una imagen pequeña y guárdala como `logo.png` en la carpeta `docs/assets`.
-* En este archivo markdown, inserta la imagen como se muestra a continuación:
+* Abre Paint o cualquier herramienta. Crea una imagen pequeña (un icono de un libro o usuario) y guárdala como `logo.png` en `docs/assets`.
+* En este archivo markdown, inserta la imagen:
 
 ```markdown
-# Alta de nuevo socio
+# Alta de nuevo Lector
 
-![Logotipo corporativo](../assets/logo.png) Para registrar un cliente, rellene el formulario principal.
+![Icono Sistema](../assets/logo.png) Para dar de alta un nuevo usuario en la biblioteca, acceda al formulario principal.
 
 !!! tip "Consejo Pro"
-    Puede usar la tecla `Enter` para saltar entre campos rápidamente.
+    Si el usuario es estudiante universitario, marque la casilla "Bonificación" para extender sus préstamos automáticamente.
 
 ## Campos obligatorios
 
-| Campo | Descripción | Restricciones |
+| Campo | Descripción | Formato |
 | :--- | :--- | :--- |
-| **Nombre** | Nombre completo | Mínimo 2 caracteres |
-| **DNI** | Documento de identidad | Formato 12345678X |
-| **Tarifa** | Plan de precios | Elegir del desplegable |
+| **Nombre** | Nombre completo | Texto |
+| **DNI/NIE** | Documento oficial | 12345678X |
+| **Categoría** | Tipo de lector | Desplegable (Infantil/Adulto/Investigador) |
 
 ## Validación de errores
-Si el sistema detecta un DNI duplicado, verá el siguiente error:
-    ERROR: El socio con ID [X] ya existe en la base de datos
+Si el DNI ya tiene un carnet asociado:
+    ERROR: El usuario con ID [X] ya está registrado en la sucursal Norte.
+
 ```
 
-**E. Archivo `socios/reservas.md`**
+**E. Archivo `lectores/carnet.md**`
 
-En base a lo visto anteriormente, ahora crea este fichero explicando brevemente como reservar plaza. Puedes usar imagenes, tablas, admonitions...
+En base a lo visto anteriormente, crea este fichero explicando brevemente cómo generar o renovar el carnet digital. Puedes usar imágenes, tablas, o admonitions a tu gusto.
 
 ### Paso 3.3: Visualización en tiempo real
 
 Es hora de ver el resultado.
 
-1. En la terminal, ejecuta: `mkdocs serve` (asegúrate de estar en la carpeta donde está `mkdocs.yml`)
+1. En la terminal: `mkdocs serve` (desde la carpeta donde está `mkdocs.yml`).
 2. Abre tu navegador en `http://127.0.0.1:8000`.
-3. Navega por tu documentación. Prueba el botón de modo oscuro (arriba a la derecha) y verifica que el diagrama se ha dibujado correctamente.
-4. **Mantén la terminal abierta.** Si la cierras, la web dejará de funcionar.
+3. Navega por tu documentación. Comprueba que el color principal es "Teal" (verde azulado) y que el diagrama Mermaid se dibuja bien.
+4. **Mantén la terminal abierta.**
 
 ---
 
 ## 5. Fase 4: Desarrollo de la interfaz Swing (GUI)
 
-Ahora vamos a Eclipse. Crea un nuevo proyecto Java llamado `GymHelpSystem`.
+Ahora vamos a Eclipse. Crea un nuevo proyecto Java llamado `BiblioHelpSystem`.
 
-Vamos a simular una aplicación real. Copia el siguiente código para crear la ventana principal. Fíjate que hemos añadido nombres internos (`setName`) a los componentes para identificarlos si fuera necesario.
+Copia el siguiente código para crear la ventana principal.
 
 **Clase `MainWindow.java**`:
 
@@ -267,7 +273,7 @@ public class MainWindow extends JFrame {
 
     public MainWindow() {
         // Configuración básica de la ventana
-        setTitle("GymManager v2.0 - Sistema de Gestión");
+        setTitle("BiblioTech v3.0 - Gestión Bibliotecaria");
         setSize(800, 500);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -276,45 +282,45 @@ public class MainWindow extends JFrame {
         // 1. Barra de Herramientas Superior
         JToolBar toolbar = new JToolBar();
         btnAyudaGeneral = new JButton("Ayuda (?)");
-        // Truco: Ponemos un borde llamativo al botón de ayuda
-        btnAyudaGeneral.setBackground(new Color(255, 255, 200));
-        toolbar.add(Box.createHorizontalGlue()); // Empujar a la derecha
+        btnAyudaGeneral.setBackground(new Color(200, 255, 200)); // Un verde suave
+        toolbar.add(Box.createHorizontalGlue()); 
         toolbar.add(btnAyudaGeneral);
         add(toolbar, BorderLayout.NORTH);
 
         // 2. Panel de Pestañas (El núcleo de la navegación)
         tabbedPane = new JTabbedPane();
 
-        // Pestaña 1: SOCIOS
-        JPanel pnlSocios = new JPanel(new FlowLayout());
-        pnlSocios.add(new JLabel("Nombre del Socio: "));
-        pnlSocios.add(new JTextField(20));
-        pnlSocios.add(new JButton("Registrar"));
-        tabbedPane.addTab("Gestión de Socios", pnlSocios);
+        // Pestaña 1: LECTORES
+        JPanel pnlLectores = new JPanel(new FlowLayout());
+        pnlLectores.add(new JLabel("DNI del Lector: "));
+        pnlLectores.add(new JTextField(15));
+        pnlLectores.add(new JButton("Buscar Ficha"));
+        tabbedPane.addTab("Gestión de Lectores", pnlLectores);
 
-        // Pestaña 2: RESERVAS
-        JPanel pnlReservas = new JPanel(new FlowLayout());
-        pnlReservas.add(new JLabel("Seleccione fecha: "));
-        pnlReservas.add(new JTextField(20));
-        pnlReservas.add(new JButton("Reservar"));
-        tabbedPane.addTab("Gestión de Reservas", pnlReservas);
+        // Pestaña 2: CARNET DIGITAL (Simulado)
+        JPanel pnlCarnet = new JPanel(new FlowLayout());
+        pnlCarnet.add(new JLabel("Escanear QR Carnet: "));
+        pnlCarnet.add(new JTextField(20));
+        pnlCarnet.add(new JButton("Validar Acceso"));
+        tabbedPane.addTab("Carnet Digital", pnlCarnet);
 
-        // Pestaña 3: ECONÓMICO
-        JPanel pnlEco = new JPanel(new FlowLayout());
-        pnlEco.add(new JLabel("Seleccione Tarifa: "));
-        String[] tarifas = {"Mañana", "Tarde", "Completa"};
-        pnlEco.add(new JComboBox<>(tarifas));
-        tabbedPane.addTab("Facturación y Tarifas", pnlEco);
+        // Pestaña 3: PRÉSTAMOS Y SANCIONES
+        JPanel pnlPrestamos = new JPanel(new FlowLayout());
+        pnlPrestamos.add(new JLabel("ISBN Libro: "));
+        pnlPrestamos.add(new JTextField(15));
+        String[] acciones = {"Prestar", "Devolver", "Sancionar"};
+        pnlPrestamos.add(new JComboBox<>(acciones));
+        tabbedPane.addTab("Préstamos y Sanciones", pnlPrestamos);
 
         // Pestaña 4: TÉCNICO
         JPanel pnlTec = new JPanel(new FlowLayout());
-        pnlTec.add(new JLabel("Estado del servidor: OK"));
-        pnlTec.add(new JButton("Ver Logs"));
+        pnlTec.add(new JLabel("Conexión al servidor ISBN: ESTABLE"));
+        pnlTec.add(new JButton("Reiniciar Conexión"));
         tabbedPane.addTab("Soporte Técnico", pnlTec);
 
         add(tabbedPane, BorderLayout.CENTER);
         
-        // Inicializamos la lógica de ayuda (Implementaremos esto en el siguiente paso)
+        // Inicializamos la lógica de ayuda
         initHelpSystem();
     }
 
@@ -323,7 +329,6 @@ public class MainWindow extends JFrame {
     }
 
     public static void main(String[] args) {
-        // Ejecutar en el hilo de despacho de eventos
         SwingUtilities.invokeLater(() -> new MainWindow().setVisible(true));
     }
 }
@@ -334,11 +339,11 @@ public class MainWindow extends JFrame {
 
 ## 6. Fase 5: Lógica de integración
 
-A diferencia de JavaHelp, aquí no mostramos la ayuda dentro de Swing, sino que ordenamos al sistema operativo que abra el navegador predeterminado del usuario.
+Aquí ordenamos al sistema operativo que abra el navegador con la página correcta.
 
 ### Paso 5.1: Clase `HelpManager`
 
-Crea una nueva clase `HelpManager.java`. Esta clase encapsulará la complejidad de llamar al sistema operativo.
+Crea una nueva clase `HelpManager.java`.
 
 ```java
 import java.awt.Desktop;
@@ -349,21 +354,18 @@ import java.net.URISyntaxException;
 public class HelpManager {
     
     // URL donde MkDocs está sirviendo la ayuda.
-    // NOTA: En una app real, esto podría ser una URL pública en internet.
     private static final String BASE_URL = "http://127.0.0.1:8000/";
 
     /**
      * Abre el navegador por defecto en una página específica
-     * @param section La subruta del archivo markdown (ej: "socios/alta/")
+     * @param section La subruta del archivo markdown (ej: "lectores/alta/")
      */
     public static void showHelp(String section) {
-        // Aseguramos que la sección no sea null
         if (section == null) section = "";
         
         String fullPath = BASE_URL + section;
         
         try {
-            // Verificamos si el sistema soporta la clase Desktop
             if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
                 Desktop.getDesktop().browse(new URI(fullPath));
                 System.out.println("Navegador abierto en: " + fullPath);
@@ -384,41 +386,36 @@ public class HelpManager {
 
 ### Paso 5.2: Detectar el contexto (F1)
 
-Ahora viene la parte más importante: la **Ayuda Sensible al Contexto**. Queremos que al pulsar F1, el programa sepa qué pestaña está mirando el usuario.
-
-Vuelve a `MainWindow.java` y sustituye el método `initHelpSystem` por este código completo:
+Implementamos la **Ayuda Sensible al Contexto** en `MainWindow.java`. Sustituye el método `initHelpSystem`:
 
 ```java
 private void initHelpSystem() {
     
     // 1. Ayuda Global (Clic en botón)
-    // Al hacer clic en el botón de la barra, vamos al índice general
     btnAyudaGeneral.addActionListener(e -> HelpManager.showHelp(""));
 
     // 2. Ayuda Contextual (Tecla F1)
-    // Usamos KeyboardFocusManager para interceptar F1 en CUALQUIER lugar de la ventana
     KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
         
-        // Verificamos si la tecla es F1 y si es el evento de "pulsar" (para no disparar dos veces)
         if (e.getID() == java.awt.event.KeyEvent.KEY_PRESSED && e.getKeyCode() == java.awt.event.KeyEvent.VK_F1) {
             
-            // Lógica de decisión: ¿Qué pestaña está seleccionada?
+            // ¿Qué pestaña está seleccionada?
             int selectedTab = tabbedPane.getSelectedIndex();
             
             switch (selectedTab) {
-                case 0: // Pestaña Socios
-                    // Apuntamos a la carpeta 'socios/alta/' definida en MkDocs
-                    HelpManager.showHelp("socios/alta/");
+                case 0: // Pestaña Lectores
+                    // Apuntamos a la documentación de Alta de Lector
+                    HelpManager.showHelp("lectores/alta/");
                     break;
 
-                case 1: // Pestaña Reservas
-                    // Apuntamos a la carpeta 'socios/reservas/' definida en MkDocs
-                    HelpManager.showHelp("socios/reservas/");
+                case 1: // Pestaña Carnet Digital
+                    // Apuntamos a la documentación del Carnet
+                    HelpManager.showHelp("lectores/carnet/");
                     break;
                     
-                case 2: // Pestaña Económico
-                    // Apuntamos a la carpeta 'economico/tarifas/'
-                    HelpManager.showHelp("economico/tarifas/");
+                case 2: // Pestaña Préstamos y Sanciones
+                    // Apuntamos a la tabla de sanciones
+                    HelpManager.showHelp("prestamos/sanciones/");
                     break;
                     
                 case 3: // Pestaña Técnico
@@ -427,11 +424,11 @@ private void initHelpSystem() {
                     break;
                     
                 default:
-                    HelpManager.showHelp(""); // Fallback al inicio
+                    HelpManager.showHelp(""); 
             }
-            return true; // Consumimos el evento (para que no se propague más)
+            return true; // Consumimos el evento
         }
-        return false; // Dejamos pasar otras teclas
+        return false; 
     });
 }
 
@@ -443,36 +440,40 @@ private void initHelpSystem() {
 
 ### Paso 6.1: Test de Integración
 
-1. Asegúrate de que la terminal con `mkdocs serve` sigue abierta y sin errores.
-2. Ejecuta tu aplicación Java.
-3. Selecciona la pestaña **"Facturación y Tarifas"**. Pulsa **F1**.
-    * *Resultado esperado:* Se abre el navegador automáticamente y muestra tu tabla de tarifas.
+1. Asegúrate de que la terminal con `mkdocs serve` sigue abierta.
+2. Ejecuta tu aplicación Java (`BiblioHelpSystem`).
+3. Selecciona la pestaña **"Préstamos y Sanciones"**. Pulsa **F1**.
+* *Resultado esperado:* Se abre el navegador en la página que contiene la Tabla de Sanciones.
+
+
 4. Selecciona la pestaña **"Soporte Técnico"**. Pulsa **F1**.
-    * *Resultado esperado:* Se abre el navegador mostrando el Diagrama de Flujo que programaste con Mermaid.
+* *Resultado esperado:* Se abre el navegador mostrando el Diagrama de Flujo del préstamo (Mermaid).
 
-### Paso 6.2: El concepto de "Build" (Construcción)
 
-El comando `serve` es solo para desarrollo. Si quisieras entregar esta ayuda a un cliente para que la aloje en su servidor, debes "compilarla".
+
+### Paso 6.2: Build (Construcción)
+
+Para entregar la documentación final al cliente:
 
 1. Cierra el servidor (Ctrl+C en la terminal).
-2. Ejecuta el comando:
+2. Ejecuta:
+```bash
+mkdocs build
 
-    ```bash
-    mkdocs build
-    ```
+```
 
-3. Observa tu carpeta de proyecto. Ha aparecido una carpeta nueva llamada **`site`**.
-    * Esta carpeta `site` contiene solo HTML, CSS y JS puro. **Esto es lo que se subiría a internet**. Ya no necesita Python para funcionar, solo un servidor web.
+
+3. Verifica que se ha creado la carpeta **`site`**.
 
 ---
 
 ## 8. Entregables
 
-Para superar esta tarea, debes generar un PDF titulado `Apellido_Nombre_Tarea2_MkDocs.pdf` que contenga las siguientes **5 evidencias**:
+Para superar esta tarea, genera un PDF titulado `Apellido_Nombre_Tarea2_MkDocs.pdf` con estas **5 evidencias**:
 
-1. **Captura de instalación:** Una captura de pantalla de tu terminal ejecutando `pip freeze` donde se vea instalado `mkdocs-material`.
-2. **Captura de mermaid:** Una captura de tu navegador mostrando el **Diagrama de Flujo** visualizado correctamente dentro de la web de ayuda.
-3. **Captura de código java:** Captura del método `initHelpSystem` en tu IDE donde se vea el `switch` que gestiona las pestañas.
-4. **Prueba de contexto:** Una captura de pantalla completa de tu escritorio donde se vea, a la izquierda, la aplicación Java en la pestaña "Socios", y a la derecha el navegador abierto automáticamente en la página "Alta de Socios".
+1. **Captura de instalación:** Terminal ejecutando `pip freeze` donde se vea `mkdocs-material`.
+2. **Captura de mermaid:** Captura de tu navegador mostrando el **Diagrama de Flujo de Préstamo** visualizado correctamente.
+3. **Captura de código java:** Captura del método `initHelpSystem` en tu IDE mostrando el `switch` para las pestañas de la biblioteca.
+4. **Prueba de contexto:** Captura de pantalla completa del escritorio: a la izquierda la aplicación Java en la pestaña "**Gestión de Lectores**", y a la derecha el navegador abierto automáticamente en la página "**Alta de Lector**".
 5. **Pregunta Teórica:**
-    * Abre la carpeta `site` generada en la Fase 6. Haz doble clic en `index.html`. ¿Se ve bien la web o falla algo? Investiga y explica brevemente por qué los navegadores modernos bloquean ciertas funcionalidades (como la búsqueda) cuando abres un archivo HTML local (`file://`) en lugar de usar un servidor (`http://`)
+* Abre la carpeta `site` generada en la Fase 6. Haz doble clic en `index.html`. ¿Se ve bien la web o falla algo? Investiga y explica brevemente por qué los navegadores bloquean funcionalidades como la búsqueda ("Search") cuando abres un archivo HTML local (`file://`) en lugar de usar un servidor (`http://`).
