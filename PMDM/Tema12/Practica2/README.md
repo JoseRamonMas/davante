@@ -95,22 +95,55 @@ Vamos a hacer que el juego suene. Usaremos `SoundPool`, que está diseñado para
 
 ---
 
-## 5. Documentación a entregar
+## 5. Entrega y validación de la práctica
 
-Genera un documento PDF con las siguientes evidencias:
+Para completar esta unidad, el proceso de evaluación consta de dos partes: la entrega de la memoria técnica en la plataforma y la defensa del código en el aula.
 
-1. **Fuentes de Audio:** Indica el nombre de los archivos de sonido que has usado y la URL de donde los descargaste (para verificar licencias).
-2. **Código de Colisiones:** Copia el fragmento del método `actualizar` donde gestionas la intersección y la eliminación de tesoros.
-3. **Captura "Jugando":** Pantalla con personaje, enemigos, tesoros y la **puntuación** dibujada en una esquina.
-4. **Captura "Game Over":** Haz que tu personaje choque a propósito y captura el momento en que sale el texto de Fin de Juego.
-5. **Reflexión técnica:** Al eliminar un tesoro de la lista, ¿por qué da error si usamos un bucle normal `for (Tesoro t : lista)` y hacemos `lista.remove(t)` dentro? Explica brevemente qué solución has usado tú.
+### 5.1. Documentación a entregar (Fase digital)
+
+Genera un único documento PDF que incluya las siguientes evidencias:
+
+1. **Fuentes de audio:** Tabla o lista indicando el nombre de los archivos de sonido utilizados y la URL exacta de origen (para verificar que son libres de derechos/Creative Commons).
+2. **Código de colisiones:** Copia el fragmento del método `actualizar` donde gestionas la intersección de rectángulos y la eliminación de los tesoros de la lista.
+3. **Captura "Jugando":** Una captura de pantalla con el juego en marcha donde se vean simultáneamente: el personaje, al menos un enemigo, un tesoro y la **puntuación actual** dibujada en pantalla.
+4. **Captura "Game Over":** Fuerza un choque con el enemigo y captura el momento en que aparece el texto de "GAME OVER" (o "FIN") en pantalla.
+5. **Reflexión técnica:** Responde razonadamente a la siguiente cuestión:
+* *Al eliminar un tesoro de la lista, ¿por qué se produce un error en Java si usamos un bucle `for-each` convencional (`for (Tesoro t : lista)`) y ejecutamos `lista.remove(t)` en su interior? Explica brevemente qué solución técnica (iterador, bucle inverso, etc.) has implementado para evitarlo.*
+
+
+
+### 5.2. Validación de autoría presencial (Fase obligatoria)
+
+**Atención:** La entrega en la plataforma es **necesaria pero no suficiente** para aprobar.
+
+Tras la fecha de entrega, se realizará una validación individual en clase. El profesor podrá pedirte que realices cambios en el código (ej: *"Cambia el sonido de colisión por otro"*, *"Haz que el tesoro reste puntos en vez de sumar"* o *"Modifica el área de colisión (hitbox)"*) o que expliques el funcionamiento de `SoundPool` y `Rect`.
+
+La nota final tendrá un **techo máximo** basado en esta validación:
+
+* 🟢 **Validación satisfactoria (Semáforo verde):**
+El alumno demuestra total dominio del código entregado, explica el uso de las listas y los sonidos con claridad.
+* **Consecuencia:** Se corrige la práctica sobre **10 puntos**, aplicando los criterios técnicos del apartado 6.
+
+
+* 🟡 **Validación con dificultades (Semáforo amarillo):**
+El alumno requiere asistencia del profesor para explicar su lógica, tiene dudas sobre cómo funciona el bucle de colisiones o le cuesta realizar modificaciones sencillas.
+* **Consecuencia:** La nota máxima de la práctica será de **6,0**.
+
+
+* 🔴 **Validación insuficiente (Semáforo rojo):**
+El alumno no es capaz de explicar el código entregado o no sabe realizar cambios básicos. Evidencia de copia o desconocimiento de los conceptos clave (Colisiones/Sonido).
+* **Consecuencia:** Se valorará únicamente el cumplimiento de la entrega documental (PDF). La nota máxima será de **4,0** (suspenso).
+
+
 
 ---
 
-## 6. Criterios de evaluación
+## 6. Criterios de evaluación técnica
 
-* **Recursos Sonoros (10%):** Los archivos de audio están correctamente integrados en `res/raw` y son formatos válidos.
-* **Detección de Colisiones (30%):** El código detecta correctamente el contacto entre sprites usando la clase `Rect`.
-* **Lógica de Estado (20%):** El juego se detiene correctamente al chocar y muestra el mensaje de fin de partida.
-* **Mecánica de Puntuación (20%):** Los tesoros desaparecen al ser tocados (gestión correcta de la lista) y el contador sube.
-* **Implementación de Sonido (20%):** El `SoundPool` está bien configurado y los efectos suenan en el momento exacto del evento.
+Si la validación de autoría es satisfactoria, la nota se calculará según los siguientes porcentajes:
+
+* **Detección de colisiones (30%):** Se utiliza correctamente la clase `Rect` y el método `intersect()` para detectar el contacto entre sprites. Las "cajas" (bounding boxes) se ajustan bien al gráfico.
+* **Lógica de estado y puntuación (20%):** El juego transiciona correctamente a "Game Over" al chocar. Los tesoros desaparecen de la lista limpiamente al ser recolectados y el marcador suma puntos.
+* **Implementación de sonido (20%):** El `SoundPool` está bien configurado. Los efectos suenan con baja latencia y en el momento exacto del evento (no en bucle ni con retraso).
+* **Recursos sonoros (10%):** Los archivos de audio están integrados en la carpeta `res/raw`, tienen formatos válidos y son adecuados al contexto del juego.
+* **Calidad del código y limpieza (20%):** El código es legible, la gestión de listas es eficiente y la estructura del proyecto es ordenada.
