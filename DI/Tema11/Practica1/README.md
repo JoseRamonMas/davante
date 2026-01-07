@@ -139,46 +139,79 @@ Debes crear un único instalador llamado `Instalador_AdminPack_v1.exe`. Este es 
 
 ---
 
-## 4. Criterios de evaluación
+## 4. Sistema de evaluación y validación
 
-La práctica se evaluará sobre **10 puntos**. Se prestará especial atención a que todos los elementos de la suite funcionen de forma integrada.
+La calificación de la práctica se compone de dos fases secuenciales: la **validación de autoría** y la **evaluación técnica**.
+
+### 4.1. Validación de autoría presencial
+
+La entrega del trabajo en la plataforma es una condición **necesaria pero no suficiente** para aprobar. Para garantizar la adquisición real de las competencias, tras la entrega se realizará una validación presencial en el aula.
+
+El profesor podrá requerir al alumno que explique el funcionamiento de su suite, responda preguntas sobre la configuración o realice una **pequeña modificación sobre su código/configuración en tiempo real**.
+
+La nota final de la práctica estará condicionada por un **techo máximo de calificación** dependiente de esta defensa:
+
+* 🟢 **Validación satisfactoria (Semáforo verde):**
+* *Desempeño:* El alumno demuestra autoría, comprende la arquitectura de su solución y realiza las modificaciones o explicaciones con solvencia.
+* *Calificación:* Se corrige la práctica aplicando el baremo técnico **sobre 10 puntos**.
+
+
+* 🟡 **Validación con dificultades (Semáforo amarillo):**
+* *Desempeño:* El alumno necesita ayuda del profesor para orientarse en su propio proyecto, titubea en las explicaciones o muestra dudas conceptuales graves, aunque finalmente logra resolverlo con asistencia.
+* *Calificación:* Se aplicará el baremo técnico, pero la **nota máxima final será de 6,0 puntos**.
+
+
+* 🔴 **Validación insuficiente (Semáforo rojo):**
+* *Desempeño:* El alumno ha entregado la práctica pero no es capaz de explicarla, no sabe dónde están los archivos fuente o no puede realizar cambios básicos. Existe evidencia de copia o desconocimiento total.
+* *Calificación:* Se considerará la práctica como **no superada**. Se valorará únicamente el cumplimiento administrativo de la entrega documental, siendo la **nota máxima de 4,0 puntos** (Suspenso).
+
+
+
+### 4.2. Baremo técnico (Criterios de evaluación)
+
+Una vez superada la validación de autoría (Semáforo verde o amarillo), se asignarán los puntos según el cumplimiento de los siguientes objetivos:
 
 | Criterio | Puntos | Descripción |
 | --- | --- | --- |
-| **Generación de ejecutables** | 2 ptos | Se han creado correctamente los dos `.exe` independientes y ambos funcionan. |
-| **Identidad visual (Splash/Iconos)** | 2 ptos | Ambas apps tienen iconos distintos y muestran sus respectivas pantallas de carga (splash screen) al iniciarse. Los metadatos de versión son visibles en Windows. |
-| **Configuración del instalador** | 3 ptos | El instalador coloca los archivos en la estructura de carpetas solicitada (incluyendo la subcarpeta `docs`), muestra la licencia `eula.txt` y tiene la imagen lateral personalizada. |
-| **Accesos directos y acciones** | 1.5 ptos | Se crean correctamente los accesos en el Menú Inicio para ambas apps y el manual. La acción final de "Abrir manual" funciona. |
-| **Firma digital** | 1.5 ptos | Se demuestra la firma correcta de los componentes Java mediante verificación en consola. |
+| **Generación de ejecutables** | **2,0** | Se han creado correctamente los dos `.exe` (o `.app`) independientes y ambos funcionan. |
+| **Identidad visual** | **2,0** | Ambas apps tienen iconos distintos y muestran sus respectivas pantallas de carga (*splash screen*). Los metadatos de versión son visibles en el S.O. |
+| **Configuración del instalador** | **3,0** | El instalador coloca los archivos en la estructura solicitada (incluyendo subcarpeta `docs`), fuerza la aceptación de la licencia `eula.txt` y muestra la imagen lateral personalizada. |
+| **Accesos y Experiencia de Usuario** | **1,5** | Se crean correctamente los accesos en el Menú Inicio/Aplicaciones y escritorio. La acción final de "Abrir manual" tras instalar funciona correctamente. |
+| **Firma digital** | **1,5** | Se demuestra la firma correcta de los componentes Java mediante verificación positiva en consola. |
 
 ---
 
 ## 5. Documentación a entregar
 
-Genera un documento PDF titulado `Apellido_Nombre_Practica1_Tema11.pdf` que contenga las siguientes evidencias. **Organiza el documento claramente por apartados**:
+Genera un único documento PDF titulado `Apellido_Nombre_Practica1_Tema11.pdf`. Este documento es la evidencia fundamental para la corrección. **Organiza el contenido en los siguientes apartados**:
 
 1. **Evidencia de recursos:** Captura del explorador de archivos mostrando todos los iconos, imágenes y ejecutables generados antes de crear el instalador.
-2. **Evidencia de Launch4j:**
-* Captura de la configuración de "Version Info" de una de las apps.
-* Captura de las "Propiedades > Detalles" del `.exe` generado en Windows mostrando tu nombre en el Copyright.
-* Captura del funcionamiento del *splash screen* (foto de pantalla o captura rápida).
+2. **Evidencia de Empaquetado (Launch4j / jpackage):**
+* Captura de la configuración de versión o metadatos.
+* Captura de las "Propiedades > Detalles" del ejecutable final mostrando tu nombre en el *Copyright*.
+* Captura o foto del *splash screen* en funcionamiento.
 
 
-3. **Evidencia de firma:** Captura de consola con el comando de verificación de firma sobre ambos JARs.
-4. **Evidencia del instalador (Inno Setup):**
-* Captura del asistente de instalación mostrando la **imagen lateral personalizada** y el texto de licencia.
-* Captura de la pantalla final con la opción "Abrir manual de usuario".
+3. **Evidencia de firma:** Captura de consola con el comando de verificación de firma (`jarsigner -verify`) sobre ambos JARs.
+4. **Evidencia del Instalador:**
+* Captura del asistente de instalación (o DMG montado) mostrando la **imagen personalizada** y la licencia.
+* Captura de la opción final "Abrir manual de usuario" (o estructura final del DMG).
 
 
-5. **Resultado final:**
-* Captura de la carpeta "Archivos de Programa/AdminPack" mostrando la estructura creada (incluida la carpeta `docs`).
-* Captura del Menú Inicio desplegado mostrando el grupo "AdminPack" con los tres accesos directos.
+5. **Resultado final (Despliegue):**
+* Captura de la carpeta de destino en el sistema ("Archivos de Programa" o "Aplicaciones") con la estructura correcta creada.
+* Captura de los accesos directos creados en el Menú Inicio o Launchpad.
 
 
 
-## 6. Entrega
+---
 
-Sube a la plataforma únicamente el **archivo PDF**. Conserva todos los archivos generados en tu equipo hasta recibir la calificación.
+## 6. Instrucciones de Entrega
+
+1. Sube a la plataforma únicamente el **archivo PDF** generado.
+2. **IMPORTANTE:** Debes conservar el proyecto completo (código fuente de Eclipse, archivos de Inno Setup, recursos e instaladores generados) en tu equipo o memoria USB.
+3. Sin el proyecto disponible en el momento de la **Validación Presencial**, no se podrá realizar la defensa y se aplicará automáticamente el criterio de **Semáforo Rojo**.
+
 
 ## ANEXO I: Alumnos con MacOS
 
