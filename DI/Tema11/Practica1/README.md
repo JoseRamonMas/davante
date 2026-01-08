@@ -213,11 +213,6 @@ Genera un único documento PDF titulado `Apellido_Nombre_Practica1_Tema11.pdf`. 
 3. Sin el proyecto disponible en el momento de la **Validación Presencial**, no se podrá realizar la defensa y se aplicará automáticamente el criterio de **Semáforo Rojo**.
 
 
-## ANEXO I: Alumnos con MacOS
-
-Aquí tienes el texto redactado como un anexo listo para copiar y pegar al final de tu documento de práctica. He mantenido el tono académico y las instrucciones precisas.
-
----
 
 # ANEXO I: Guía de adaptación para macOS
 
@@ -310,5 +305,6 @@ Para los alumnos de macOS, las evidencias del PDF se sustituyen de la siguiente 
 
 5. **Resultado final:**
 * Captura del **Launchpad** o de la carpeta **Aplicaciones** de tu Mac mostrando que las apps se han copiado y están listas para usarse.
+
 
 </details>
