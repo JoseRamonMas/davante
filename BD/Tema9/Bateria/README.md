@@ -194,7 +194,7 @@ WHERE ID_DEP = 30;
 </details>
 
 **7. Update masivo con cálculo**
-Debido a la inflación, sube el salario de **todos** los empleados un 5% (multiplica salario por 1.05).
+Debido a la inflación, sube el salario de **todos** los empleados un 5%.
 
 <details>
 <summary>Ver solución</summary>
@@ -544,7 +544,7 @@ WHERE FECHA_FIN IS NULL; -- FECHA_FIN = NULL -> INCORRECTO
 
 </details>
 
-**12. Group By (count)**
+**12. Group By**
 Muestra cuántos empleados hay en cada departamento.
 
 <details>
@@ -559,7 +559,7 @@ GROUP BY ID_DEP;
 
 </details>
 
-**13. Group By (avg)**
+**13. Group By**
 Calcula el salario medio por cada oficio.
 
 <details>
@@ -649,7 +649,7 @@ WHERE APELLIDO LIKE '%A%'
 
 </details>
 
-**18. Count Distinct (La pregunta trampa)**
+**18. Conteo (La pregunta trampa)**
 El director pregunta: "¿Cuántos oficios distintos tenemos cubiertos en el departamento 10?". No quiere saber cuántos empleados hay, sino cuántos tipos de trabajo diferentes (roles) existen allí.
 
 <details>
@@ -689,7 +689,7 @@ FROM SOFT_EMPLEADOS;
 </details>
 
 **2. Aritmética básica**
-Calcula el salario anual de cada empleado (Salario * 12).
+Calcula el salario anual de cada empleado (salario multiplicado por doce).
 
 <details>
 <summary>Ver solución</summary>
@@ -702,7 +702,7 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**3. Funciones de caracteres (UPPER)**
+**3. Funciones de caracteres**
 Muestra el nombre de todos los proyectos en MAYÚSCULAS.
 
 <details>
@@ -716,7 +716,7 @@ FROM SOFT_PROYECTOS;
 
 </details>
 
-**4. Funciones de caracteres (SUBSTR)**
+**4. Funciones de caracteres**
 Muestra las 3 primeras letras del nombre de cada empleado.
 
 <details>
@@ -730,7 +730,7 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**5. Funciones de caracteres (LENGTH)**
+**5. Funciones de caracteres**
 Lista los empleados cuyo apellido tenga más de 5 letras.
 
 <details>
@@ -745,7 +745,7 @@ WHERE LENGTH(APELLIDO) > 5;
 
 </details>
 
-**6. Funciones numéricas (ROUND)**
+**6. Funciones numéricas**
 Supón que el salario diario es el mensual dividido entre 30. Muestra el salario diario redondeado a 2 decimales.
 
 <details>
@@ -759,21 +759,35 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**7. Funciones numéricas (MOD)**
+**7. Funciones numéricas**
 Muestra el resto de dividir el ID del empleado entre 2 (para saber si es par o impar).
 
 <details>
 <summary>Ver solución</summary>
 
 ```sql
-SELECT NOMBRE, ID_EMP, MOD(ID_EMP, 2)
+SELECT 
+    NOMBRE, 
+    ID_EMP, 
+    MOD(ID_EMP, 2)
 FROM SOFT_EMPLEADOS;
+
+-- Alternativa: para sacar "PAR" o "IMPAR"
+
+SELECT 
+    NOMBRE, 
+    ID_EMP, 
+    DECODE(MOD(ID_EMP, 2), 
+           0, 'PAR', 
+           1, 'IMPAR') AS "PAR/IMPAR"
+FROM SOFT_EMPLEADOS;
+
 
 ```
 
 </details>
 
-**8. Funciones de fecha (SYSDATE)**
+**8. Funciones de fecha**
 Muestra el nombre del empleado y la fecha de hoy.
 
 <details>
@@ -787,22 +801,22 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**9. Funciones de fecha (MONTHS_BETWEEN)**
-Calcula cuántos meses de antigüedad tiene cada empleado (diferencia entre hoy y `FECHA_ALTA`).
+**9. Funciones de fecha**
+Calcula cuántos meses de antigüedad tiene cada empleado (diferencia de meses entre hoy y `FECHA_ALTA`). Muestra el nombre del empleado y sus meses de antigüedad.
 
 <details>
 <summary>Ver solución</summary>
 
 ```sql
-SELECT NOMBRE, MONTHS_BETWEEN(SYSDATE, FECHA_ALTA)
+SELECT NOMBRE, MONTHS_BETWEEN(SYSDATE, FECHA_ALTA) AS "MESES_ANTIG"
 FROM SOFT_EMPLEADOS;
 
 ```
 
 </details>
 
-**10. Funciones de fecha (ADD_MONTHS)**
-Calcula la fecha de revisión salarial, que será 6 meses después de la `FECHA_ALTA`.
+**10. Funciones de fecha**
+Calcula la fecha de revisión salarial, que será 6 meses después de la `FECHA_ALTA`. Muestra para cada empleado su nombre y su fecha de revisión salarial.
 
 <details>
 <summary>Ver solución</summary>
@@ -815,35 +829,50 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**11. Funciones de conversión (TO_CHAR fecha)**
-Muestra la fecha de inicio de los proyectos con el formato "Día/Mes/Año" (ej: '01/Enero/2023').
+**11. Funciones de conversión**
+Muestra la fecha de inicio de los proyectos con el formato "Día/Mes/AñoCompleto"
 
 <details>
 <summary>Ver solución</summary>
 
 ```sql
+-- Para que lo saque en formato de mes numérico:
 SELECT TO_CHAR(FECHA_INICIO, 'DD/MM/YYYY')
 FROM SOFT_PROYECTOS;
+
+-- Para que lo saque en forma de mes textual abreviado:
+SELECT TO_CHAR(FECHA_INICIO, 'DD/MON/YYYY')
+FROM SOFT_PROYECTOS;
+
+-- Para que lo saque en forma de mes textual completo:
+SELECT TO_CHAR(FECHA_INICIO, 'DD/MONTH/YYYY')
+FROM SOFT_PROYECTOS;
+
 
 ```
 
 </details>
 
 **12. Funciones de conversión (TO_CHAR moneda)**
-Muestra el salario de los empleados con el símbolo de euro y separadores de miles (ej: '2.200 €').
+Muestra el salario de los empleados con el símbolo de euro y separadores de miles (ej: '2.200€').
 
 <details>
 <summary>Ver solución</summary>
 
 ```sql
-SELECT NOMBRE, TO_CHAR(SALARIO, '999G999D99') || ' €'
+SELECT NOMBRE, TO_CHAR(SALARIO, '999G999D99') || '€'
+FROM SOFT_EMPLEADOS;
+
+-- O bien
+
+SELECT NOMBRE, TO_CHAR(SALARIO, '999G999D99L')
 FROM SOFT_EMPLEADOS;
 
 ```
 
 </details>
 
-**13. Funciones de nulos (NVL)**
+**13. Funciones de nulos**
 Muestra el nombre y los ingresos totales (Salario + Comisión). *Nota: Si la comisión es NULL, debe sumar 0, no devolver NULL.*
 
 <details>
@@ -863,7 +892,7 @@ FROM SOFT_EMPLEADOS;
 
 </details>
 
-**14. Expresión CASE (simple)**
+**14. Expresión CASE**
 Muestra el nombre del proyecto y una columna "Tamaño": si el presupuesto es > 40000 es 'GRANDE', si no, 'NORMAL'.
 
 <details>
