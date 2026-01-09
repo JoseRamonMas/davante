@@ -217,7 +217,7 @@ Por último, debemos decirle a Android que use nuestra `PantallaVideojuego` en l
     android:layout_height="match_parent">
 
     <com.ejemplo.motorjuego2d.clases.PantallaVideojuego
-        android:id="@+id/pantallaJuego"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -278,4 +278,5 @@ Genera un documento PDF con las evidencias de tu trabajo:
 * **Arquitectura de clases (40%):** Se han implementado correctamente las clases `Motor` y `PantallaVideojuego` siguiendo la herencia adecuada (`Thread` y `SurfaceView`).
 * **Gestión del hilo (30%):** El bucle `run()` está correctamente implementado con control de la variable `running` y gestión de excepciones.
 * **Integración UI (15%):** La vista personalizada se carga correctamente desde el XML principal.
+
 * **Funcionalidad (15%):** La aplicación compila, no se cierra inesperadamente y muestra elementos gráficos animados.
