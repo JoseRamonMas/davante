@@ -8,7 +8,8 @@ Para realizar estos ejercicios, trabajaremos sobre un supuesto real: una empresa
 
 Antes de comenzar, debéis ejecutar el siguiente script en vuestra base de datos Oracle. Este script crea las tablas necesarias (`SOFT_DEPARTAMENTOS`, `SOFT_EMPLEADOS`, `SOFT_PROYECTOS`, `SOFT_CLIENTES`) y carga los datos de prueba.
 
-> **Importante:** Si queréis reiniciar los datos para volver al estado original (por ejemplo, al cambiar de tema), volved a ejecutar este script completo.
+> [!IMPORTANT]
+> Si queréis reiniciar los datos para volver al estado original (por ejemplo, al cambiar de tema), volved a ejecutar este script completo.
 
 ```sql
 -- BORRADO DE TABLAS PREVIAS (Si existen)
