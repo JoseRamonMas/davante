@@ -1,4 +1,4 @@
-# Unidad 9/10: Práctica 1
+# Unidad 9/10/12: Práctica 1
 
 ## 1. Script de inicialización
 
@@ -142,3 +142,4 @@ COMMIT;
 2. Añade un comentario (`--`) al principio del fichero que contenga tu nombre (autor).
 3. Añade comentarios (`--`) antes de cada ejercicio para numerarlos (`-- Ejercicio 1.1`)
 4. Asegúrate de entregar el fichero sin errores de sintaxis.
+
