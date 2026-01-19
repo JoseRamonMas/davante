@@ -194,7 +194,7 @@ Crea un paquete `com.finanzas.tests`. Debes implementar una clase de test para c
 El método `generarToken()` de la clase `ValidadorSeguridad` se sospecha que es lento.
 
 1. Crea una clase `TestRendimiento.java` (con `main` o JUnit).
-2. Ejecuta el método `generarToken()` **50.000 veces** dentro de un bucle.
+2. Ejecuta el método `generarToken()` **5.000 veces** dentro de un bucle.
 3. Mide el tiempo con `System.currentTimeMillis()`.
 4. Si tarda más de 2 segundos, se considera un fallo de rendimiento. Documenta el resultado.
 
@@ -247,3 +247,4 @@ Sube a la plataforma:
 
 1. El archivo **PDF** con el Plan de Pruebas y el Informe de Auditoría.
 2. Un archivo **ZIP** con la carpeta `src` de tu proyecto Eclipse (conteniendo tanto el paquete `core` corregido como el paquete `tests`).
+
