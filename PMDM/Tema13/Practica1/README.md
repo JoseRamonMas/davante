@@ -75,7 +75,9 @@ Crea un array mutable de Strings con 5 nombres de ciudades. Realiza las siguient
  Crea un diccionario donde la clave sea el nombre de un alumno y el valor su nota. Incluye al menos 4 alumnos. Posteriormente, modifica la nota del segundo alumno. Usa un bucle `for-in` para recorrer el diccionario e imprimir: *"El alumno [Nombre] tiene un [Nota]"*.
 
 **Ejercicio 10. Operaciones de conjuntos**
+
 Crea un array con elementos repetidos: `"Java", "Swift", "Kotlin", "Java", "Swift"`. Crea un `Set` a partir de ese array para eliminar los duplicados automáticamente. Imprime el conjunto creado anteriormente. Finalmente comprueba si el set contiene "Python" (imprime true/false).
+
 ---
 
 ### BLOQUE 4. Control de flujo
@@ -189,3 +191,4 @@ Independientemente de la puntuación anterior, la práctica se calificará autom
 Sube a la plataforma únicamente el siguiente archivo:
 
 * **Archivo `.swift**` (ej: `Practica1.swift`) que contenga el código fuente de los 20 ejercicios, debidamente comentados y separados.
+
