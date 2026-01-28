@@ -50,7 +50,7 @@
 
 Hasta ahora habéis programado principalmente de forma **imperativa** en Java: le decís al ordenador **cómo** hacer las cosas paso a paso (crea una variable, abre un bucle, incrementa el contador, comprueba condiciones, guarda el valor).
 
-Swift y Kotlin brillan en la **programación declarativa y funcional**: le decimos al ordenador **qué** queremos conseguir, y delegamos el **cómo** a las funciones del lenguaje.[^1][^2][^3]
+Swift y Kotlin brillan en la **programación declarativa y funcional**: le decimos al ordenador **qué** queremos conseguir, y delegamos el **cómo** a las funciones del lenguaje.
 
 **Ejemplo comparativo:**
 
@@ -1932,5 +1932,6 @@ listOf(1, 2, 3).map { it * 2 }.filter { it > 3 }.sum()
 - d) 
 
 **Respuestas correctas:** 1-b, 2-b, 3-b, 4-c, 5-b, 6-b, 7-c, 8-b, 9-b, 10-b
+
 
 ***
