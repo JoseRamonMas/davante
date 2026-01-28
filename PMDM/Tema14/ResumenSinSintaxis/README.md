@@ -3,32 +3,27 @@
 ## Índice
 
 1. [Introducción: ¿Por qué estamos aquí?](https://www.google.com/search?q=%231-introducci%C3%B3n-por-qu%C3%A9-estamos-aqu%C3%AD)
-1. [El problema de Java](https://www.google.com/search?q=%2311-el-problema-de-java)
-2. [La solución: Kotlin](https://www.google.com/search?q=%2312-la-soluci%C3%B3n-kotlin)
-3. [Interoperabilidad total](https://www.google.com/search?q=%2313-interoperabilidad-total)
-
+    1. [El problema de Java](https://www.google.com/search?q=%2311-el-problema-de-java)
+    2. [La solución: Kotlin](https://www.google.com/search?q=%2312-la-soluci%C3%B3n-kotlin)
+    3. [Interoperabilidad total](https://www.google.com/search?q=%2313-interoperabilidad-total)
 
 2. [El fin del "Error del Billón de Dólares": Null Safety](https://www.google.com/search?q=%232-el-fin-del-error-del-bill%C3%B3n-de-d%C3%B3lares-null-safety)
-1. [El peligro de la referencia nula](https://www.google.com/search?q=%2321-el-peligro-de-la-referencia-nula)
-2. [Sistema de tipos seguro](https://www.google.com/search?q=%2322-sistema-de-tipos-seguro)
-3. [Comparativa visual: Java vs Kotlin](https://www.google.com/search?q=%2323-comparativa-visual-java-vs-kotlin)
-
+    1. [El peligro de la referencia nula](https://www.google.com/search?q=%2321-el-peligro-de-la-referencia-nula)
+    2. [Sistema de tipos seguro](https://www.google.com/search?q=%2322-sistema-de-tipos-seguro)
+    3. [Comparativa visual: Java vs Kotlin](https://www.google.com/search?q=%2323-comparativa-visual-java-vs-kotlin)
 
 3. [Muerte al código "Boilerplate"](https://www.google.com/search?q=%233-muerte-al-c%C3%B3digo-boilerplate)
-1. [El peso de las clases de datos en Java](https://www.google.com/search?q=%2331-el-peso-de-las-clases-de-datos-en-java)
-2. [La elegancia de las Data Classes](https://www.google.com/search?q=%2332-la-elegancia-de-las-data-classes)
-
+    1. [El peso de las clases de datos en Java](https://www.google.com/search?q=%2331-el-peso-de-las-clases-de-datos-en-java)
+    2. [La elegancia de las Data Classes](https://www.google.com/search?q=%2332-la-elegancia-de-las-data-classes)
 
 4. [Superpoderes modernos](https://www.google.com/search?q=%234-superpoderes-modernos)
-1. [Inmutabilidad por defecto (`val` vs `var`)](https://www.google.com/search?q=%2341-inmutabilidad-por-defecto-val-vs-var)
-2. [Extensions: Mejorando lo ajeno](https://www.google.com/search?q=%2342-extensions-mejorando-lo-ajeno)
-3. [Expresividad: String Templates](https://www.google.com/search?q=%2343-expresividad-string-templates)
-
+    1. [Inmutabilidad por defecto (`val` vs `var`)](https://www.google.com/search?q=%2341-inmutabilidad-por-defecto-val-vs-var)
+    2. [Extensions: Mejorando lo ajeno](https://www.google.com/search?q=%2342-extensions-mejorando-lo-ajeno)
+    3. [Expresividad: String Templates](https://www.google.com/search?q=%2343-expresividad-string-templates)
 
 5. [Introducción al pensamiento funcional](https://www.google.com/search?q=%235-introducci%C3%B3n-al-pensamiento-funcional)
-1. [Imperativo vs Declarativo](https://www.google.com/search?q=%2351-imperativo-vs-declarativo)
-2. [Tuberías de datos](https://www.google.com/search?q=%2352-tuber%C3%ADas-de-datos)
-
+    1. [Imperativo vs Declarativo](https://www.google.com/search?q=%2351-imperativo-vs-declarativo)
+    2. [Tuberías de datos](https://www.google.com/search?q=%2352-tuber%C3%ADas-de-datos)
 
 6. [Conclusión: Tu futuro con Kotlin](https://www.google.com/search?q=%236-conclusi%C3%B3n-tu-futuro-con-kotlin)
 7. [Actividades de análisis](https://www.google.com/search?q=%237-actividades-de-an%C3%A1lisis)
