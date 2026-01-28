@@ -17,7 +17,7 @@ Esta práctica consta de **30 ejercicios** que van desde la sintaxis básica de 
 * Entender la **Evaluación perezosa (Lazy)**.
 * **Refactorizar** código imperativo a declarativo.
 
-## 3. Instrucciones de Entrega
+## 3. Instrucciones de entrega
 
 1. Crea un archivo `.swift` único.
 2. Separa cada ejercicio con `// MARK: - EJERCICIO X`.
@@ -218,12 +218,13 @@ Intenta hacerlo usando `reduce` (iniciando el acumulador como un diccionario vac
 
 ---
 
-## 4. Criterios de Calificación
+## 4. Criterios de calificación
 
 La práctica se calificará basándose en :
 
 * **Correctitud:** Todos los ejercicios funcionan y arrojan el resultado esperado.
-* **Estilo Funcional:** Se penalizará el uso de bucles `for` o `while` en ejercicios que piden explícitamente soluciones funcionales. Se valora el uso de sintaxis abreviada (`$0`).
-* **Comentarios y Claridad:** Código bien identado y comentarios explicativos en los ejercicios 25 a 30, demostrando que se entiende la lógica del pipeline.
+* **Estilo funcional:** Se penalizará el uso de bucles `for` o `while` en ejercicios que piden explícitamente soluciones funcionales. Se valora el uso de sintaxis abreviada (`$0`).
+* **Comentarios y claridad:** Código bien identado y comentarios explicativos en los ejercicios 25 a 30, demostrando que se entiende la lógica del pipeline.
 
 ---
+
