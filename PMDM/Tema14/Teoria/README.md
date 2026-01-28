@@ -563,7 +563,7 @@ val frutas: List<String> = listOf("Manzana", "Pera", "Naranja")
 val numeros = listOf(1, 2, 3, 4, 5)  // Inferencia de tipo List<Int>
 
 // Acceso por índice
-println(frutas[^0])        // "Manzana"
+println(frutas[0])        // "Manzana"
 println(frutas.get(1))    // "Pera"
 
 // Propiedades
@@ -589,7 +589,7 @@ colores += "Blanco"      // Operador += equivale a add
 println(colores)  // [Rojo, Negro, Verde, Azul, Amarillo, Blanco]
 
 // Modificar elementos
-colores[^0] = "Rojo oscuro"
+colores[0] = "Rojo oscuro"
 
 // Eliminar elementos
 colores.remove("Negro")        // Elimina por valor
