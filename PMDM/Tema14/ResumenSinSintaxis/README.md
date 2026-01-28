@@ -20,6 +20,7 @@
     1. [Inmutabilidad por defecto (`val` vs `var`)](#41-inmutabilidad-por-defecto-val-vs-var)
     2. [Extensions: Mejorando lo ajeno](#42-extensions-mejorando-lo-ajeno)
     3. [Expresividad: String Templates](#43-expresividad-string-templates)
+    4. [Scope Functions: Contexto y limpieza](#44-scope-functions-contexto-y-limpieza)
 
 5. [Introducción al pensamiento funcional](#5-introducci%C3%B3n-al-pensamiento-funcional)
     1. [Imperativo vs Declarativo](#51-imperativo-vs-declarativo)
@@ -194,6 +195,70 @@ val nombre = "Ana"
 val edad = 25
 // Kotlin
 println("Hola, me llamo $nombre y el año que viene tendré ${edad + 1}")
+
+```
+
+### 4.4. Scope Functions: Contexto y limpieza
+
+Kotlin introduce un concepto muy potente llamado **Scope Functions** (funciones de alcance). Son funciones especiales (`apply`, `let`, `run`, `with`, `also`) que nos permiten ejecutar un bloque de código dentro del contexto de un objeto.
+
+Pensad en ellas como una forma de decir: *"Con este objeto, haz todo esto..."* o *"Si este objeto existe, ejecuta esto..."*.
+
+Por ejemplo, `apply` se usa principalmente para inicializar o configurar un objeto. Abrimos un bloque donde podemos acceder a las propiedades del objeto directamente, sin repetir su nombre.
+
+**El problema en Java (Repetición):**
+Para configurar un objeto, tenemos que repetir el nombre de la variable una y otra vez.
+
+```java
+// Java
+TextView etiqueta = new TextView(contexto);
+etiqueta.setText("Hola Mundo");
+etiqueta.setTextSize(20);
+etiqueta.setTextColor(Color.RED);
+etiqueta.setVisible(true);
+
+```
+
+**La solución en Kotlin (Función `apply`):**
+Agrupamos la configuración. Se lee como "Crea una etiqueta y **aplíca**le estos cambios".
+
+```kotlin
+// Kotlin
+val etiqueta = TextView(contexto).apply {
+    text = "Hola Mundo"
+    textSize = 20f
+    textColor = Color.RED
+    isVisible = true
+}
+
+```
+
+Otro ejemplo puede ser la función `let`, que se usa muchísimo junto con el operador `?` (Safe Call) para ejecutar código **solo si el objeto no es nulo**. Es la alternativa funcional al `if (x != null)` de Java o al `if let` de Swift.
+
+**El problema en Java (Anidación):**
+
+```java
+// Java
+String mensaje = obtenerMensaje(); // Puede ser null
+if (mensaje != null) {
+    System.out.println("El mensaje tiene " + mensaje.length() + " letras");
+    enviarLog(mensaje);
+}
+
+```
+
+**La solución en Kotlin (Función `let`):**
+Dentro del bloque `let`, el objeto se llama automáticamente `it` (aunque puedes cambiarle el nombre).
+
+```kotlin
+// Kotlin
+val mensaje = obtenerMensaje()
+
+mensaje?.let {
+    // Solo entramos aquí si mensaje NO es null
+    println("El mensaje tiene ${it.length} letras")
+    enviarLog(it)
+}
 
 ```
 
