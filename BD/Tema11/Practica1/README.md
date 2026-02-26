@@ -335,6 +335,7 @@ sobre `V_PEDIDOS_ACTIVOS` al usuario `CONSULTOR_VENTAS`.
 
 ---
 
+<details><summary>El bloque VI no hay que hacerlo</summary>
 ## 8. Bloque VI — Transacciones (Tema 14)
 
 > ⚠️ **Importante — Desactiva el AUTOCOMMIT antes de empezar este bloque.**
@@ -441,6 +442,7 @@ ejecutando `ROLLBACK TO SP_LINEA1;`
 > - **SQL\*Plus / SQLcl:** ejecuta `SET AUTOCOMMIT ON;`
 
 ---
+</details>
 
 ### Criterios de Entrega
 
