@@ -200,9 +200,9 @@ realizó. *Observa qué columna comparten ambas tablas y cómo la usa
 4. Muestra el `id_pedido`, el nombre del componente y la cantidad pedida de
 cada línea de pedido. Relaciona `U11_LINEAS_PEDIDO` y `U11_COMPONENTES`
 con `INNER JOIN`.
-5. (**JOIN de 4 tablas**) Lista el nombre del cliente, el nombre y apellido del
+5. (**JOIN de 5 tablas**) Lista el nombre del cliente, el nombre y apellido del
 empleado que gestionó el pedido, y el nombre de cada componente incluido en
-él. Relaciona `U11_CLIENTES`, `U11_PEDIDOS`, `U11_LINEAS_PEDIDO` y
+él. Relaciona `U11_CLIENTES`, `U11_PEDIDOS`, `U11_LINEAS_PEDIDO`, 'U11_EMPLEADOS' y
 `U11_COMPONENTES`.
 
 ### Composiciones externas
