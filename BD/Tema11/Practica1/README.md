@@ -202,7 +202,7 @@ cada línea de pedido. Relaciona `U11_LINEAS_PEDIDO` y `U11_COMPONENTES`
 con `INNER JOIN`.
 5. (**JOIN de 5 tablas**) Lista el nombre del cliente, el nombre y apellido del
 empleado que gestionó el pedido, y el nombre de cada componente incluido en
-él. Relaciona `U11_CLIENTES`, `U11_PEDIDOS`, `U11_LINEAS_PEDIDO`, 'U11_EMPLEADOS' y
+él. Relaciona `U11_CLIENTES`, `U11_PEDIDOS`, `U11_LINEAS_PEDIDO`, `U11_EMPLEADOS` y
 `U11_COMPONENTES`.
 
 ### Composiciones externas
