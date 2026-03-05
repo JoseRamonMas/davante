@@ -282,7 +282,7 @@ DECLARE
     v_ciudad        VARCHAR2(30) := 'Sevilla';
 
     -- Literal de cadena con apóstrofe (se escapa duplicando la comilla simple)
-    v_mensaje       VARCHAR2(50) := 'El paciente no ha venido';
+    v_mensaje       VARCHAR2(50) := 'El paciente ''Juan'' no ha venido';
 
     -- Literal booleano (solo existe en PL/SQL, no en SQL)
     v_urgente       BOOLEAN := TRUE;
@@ -2459,3 +2459,4 @@ LIMIT 20;  -- ORA-00933: SQL command not properly ended
 ---
 
 *Material elaborado para el módulo de Bases de Datos del CFGS DAM — Oracle 21c*
+
