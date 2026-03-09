@@ -1,11 +1,5 @@
 # Unidad 15: El Lenguaje PL/SQL
 
-> **Módulo:** Bases de Datos · CFGS Desarrollo de Aplicaciones Multiplataforma  
-> **Sistema gestor:** Oracle Database 21c  
-> **Nivel:** Ciclo Formativo de Grado Superior
-
----
-
 ## Índice
 
 1. [Introducción y contextualización práctica](#1-introducción-y-contextualización-práctica)
@@ -19,6 +13,7 @@
 5. [Variables, constantes y operadores](#5-variables-constantes-y-operadores)
    - 5.1 [Variables y constantes](#51-variables-y-constantes)
    - 5.2 [Operadores](#52-operadores)
+   - 5.3 [Sentencias DML y RETURNING](#53-sentencias-dml-y-returning)
 6. [Estructuras de control de flujo: Condicionales](#6-estructuras-de-control-de-flujo-condicionales)
    - 6.1 [Sentencia IF](#61-sentencia-if)
    - 6.2 [Sentencia CASE](#62-sentencia-case)
@@ -142,7 +137,7 @@ PL/SQL se ejecuta **dentro del motor de Oracle**, lo que significa que no hay la
 
 Todo código PL/SQL se organiza en **bloques**. Un bloque tiene tres secciones, de las cuales solo `BEGIN...END` es obligatoria:
 
-```
+```text
 [DECLARE]
     -- Sección de declaración (opcional)
     -- Aquí se declaran variables, constantes, cursores y excepciones
@@ -324,6 +319,33 @@ END;
 ```
 
 > 💡 **Buena práctica:** Comenta el *propósito* del código, no lo que es obvio. `-- Suma 1 a x` encima de `x := x + 1` no aporta nada; `-- Incrementa el contador de reintentos` sí lo hace.
+
+### Nota: Variables de sustitución (`&` y `&&`) en entornos interactivos
+
+Aunque no forman parte estricta del motor PL/SQL, cuando ejecutamos scripts en herramientas cliente como **SQL Developer**, **SQL*Plus** o **SQLcl**, podemos interactuar con el usuario pidiendo que introduzca valores por teclado justo antes de que el código se envíe a la base de datos. Para ello se utilizan las **variables de sustitución**:
+
+- **`&variable`**: Solicita al usuario un valor cada vez que aparece en el script.
+- **`&&variable`**: Solicita el valor la primera vez, lo memoriza para el resto de la sesión y no lo vuelve a pedir aunque aparezca más veces en el script.
+
+**Ejemplo de uso:**
+
+```sql
+DECLARE
+    -- La herramienta mostrará un cuadro de diálogo pidiendo el valor
+    v_id_departamento NUMBER := &Introduce_ID_Departamento; 
+    v_nombre_dept     VARCHAR2(50);
+BEGIN
+    SELECT nombre_departamento INTO v_nombre_dept
+    FROM departamentos
+    WHERE id_departamento = v_id_departamento;
+
+    DBMS_OUTPUT.PUT_LINE('El departamento seleccionado es: ' || v_nombre_dept);
+END;
+/
+
+```
+
+> 💡 **Atención:** Si el valor que el usuario va a introducir es una cadena de texto (`VARCHAR2`) o una fecha, debes envolver la variable de sustitución entre comillas simples en el código para que la sintaxis generada sea válida: `v_nombre := '&Introduce_Nombre';`.
 
 ---
 
@@ -657,6 +679,41 @@ END;
 ```
 
 > 💡 **Consejo:** Cuando tengas dudas sobre el orden de evaluación, usa paréntesis. `(v_a + v_b) * v_c` es siempre más claro que `v_a + v_b * v_c`, aunque el resultado sea diferente.
+
+### 5.3 Sentencias DML y RETURNING
+
+En PL/SQL puedes ejecutar sentencias DML (Data Manipulation Language) como `INSERT`, `UPDATE` y `DELETE` directamente dentro de un bloque. El uso de variables PL/SQL en estas sentencias hace que el código sea muy dinámico y seguro.
+
+Una funcionalidad muy potente exclusiva de Oracle al usar DML dentro de PL/SQL es la cláusula **`RETURNING INTO`**. Esta cláusula permite capturar los valores de las columnas afectadas por la sentencia DML y guardarlos directamente en variables, evitando tener que realizar una consulta `SELECT` adicional para comprobar el resultado de la operación.
+
+**Sintaxis básica:**
+
+```sql
+UPDATE tabla
+SET columna = nuevo_valor
+WHERE condicion
+RETURNING columna_afectada INTO variable;
+```
+
+**Ejemplo práctico:**
+
+```sql
+DECLARE
+    v_salario_nuevo NUMBER;
+    v_id_empleado   NUMBER := 105;
+BEGIN
+    -- Actualizamos el salario y recuperamos el nuevo valor en la misma operación
+    UPDATE empleados
+    SET salario = salario * 1.10
+    WHERE id_empleado = v_id_empleado
+    RETURNING salario INTO v_salario_nuevo;
+
+    DBMS_OUTPUT.PUT_LINE('El nuevo salario del empleado ' || v_id_empleado || ' es: ' || v_salario_nuevo);
+END;
+/
+```
+
+> 📌 **Nota:** `RETURNING INTO` también se puede usar con `INSERT` (muy útil para recuperar IDs generados por secuencias o columnas *Identity*) y con `DELETE` (para guardar datos de la fila eliminada antes de que desaparezca). Si la sentencia afecta a múltiples filas, se debe usar `RETURNING BULK COLLECT INTO` junto con colecciones (arrays).
 
 ---
 
