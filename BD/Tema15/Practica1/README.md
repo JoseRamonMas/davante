@@ -232,45 +232,6 @@ COMMIT;
 
 ---
 
-## 7. Bloque V — Integración
-
-*Recuerda ejecutar el script de inicialización antes de comenzar este bloque.*
-
-> Estos ejercicios combinan todos los elementos del tema. Se valora especialmente que el código esté bien estructurado, comentado y sea robusto ante errores.
-
-1. **Ficha completa de componente.** Escribe un script que, dado el código `'CPU-INT-09'`, genere la siguiente ficha impresa por `DBMS_OUTPUT`. Todos los valores deben obtenerse de la base de datos (no hardcodeados), excepto la constante de IVA (21%):
-   ```
-   ╔══════════════════════════════════════╗
-   ║  FICHA DE COMPONENTE                 ║
-   ╠══════════════════════════════════════╣
-   ║  Código    : CPU-INT-09              ║
-   ║  Nombre    : Intel Core i9 12900K    ║
-   ║  Categoría : Procesador              ║  ← descripción, no código
-   ║  Precio    : 650,50 €                ║
-   ║  IVA (21%) : 136,61 €               ║
-   ║  Total     : 787,11 €               ║
-   ║  Stock     : 10 uds — Nivel: NORMAL  ║  ← CRITICO<5 / BAJO 5-15 / NORMAL>15
-   ╚══════════════════════════════════════╝
-   ```
-   Usa una **constante** para el IVA, `CASE` para la descripción de categoría y el nivel de stock, e `IF` para imprimir el símbolo de alerta si el nivel es `'CRITICO'`. Gestiona el caso `NO_DATA_FOUND` si el código no existe.
-
-2. **Informe de nómina.** Escribe un script que recorra **todos los empleados** de `U15_EMPLEADOS` usando un bucle `FOR` con cursor implícito y calcule para cada uno:
-   - Sus ingresos totales: salario + comisión (con `NVL`).
-   - Su tramo salarial: `'BÁSICO'` / `'ESTÁNDAR'` / `'SENIOR'` / `'DIRECTIVO'` (mismos rangos del Bloque II, ejercicio 3).
-   - Su bonificación de fin de año (mismas reglas del Bloque II, ejercicio 7).
-   
-   Imprime una línea por empleado con todos estos datos. Al terminar el bucle, imprime una línea de totales con: número de empleados procesados, suma total de ingresos y suma total de bonificaciones. Usa variables acumuladoras (`PLS_INTEGER` para contadores, `NUMBER` para sumas).
-
-3. **Simulación de venta con log de auditoría.** Escribe un script que simule el proceso de venta de **2 unidades** del componente `'RAM-COR-16'` gestionado por el empleado `id_emp = 103`. El script debe:
-   - Verificar que el empleado existe (excepción `NO_DATA_FOUND` si no).
-   - Verificar que el componente existe y tiene suficiente stock (excepción de usuario `e_stock_insuficiente` si no).
-   - Si todo es correcto: decrementar el stock en 2 unidades (`UPDATE`) e insertar un nuevo pedido en `U15_PEDIDOS` (usa `NVL(MAX(id_pedido),2000)+1` para generar el ID) con estado `'PENDIENTE'`.
-   - En cualquier caso (éxito o error), insertar una fila en `U15_LOG_ACTIVIDAD` con el resultado de la operación (mensaje de éxito o descripción del error).
-   - Si la operación fue exitosa: `COMMIT`. Si hubo error: `ROLLBACK` (pero el log debe confirmarse con `COMMIT` igualmente).
-   - Imprime al final si la operación fue exitosa o falló, y el ID del nuevo pedido generado (en caso de éxito).
-
----
-
 ## Criterios de entrega
 
 1. Entrega un único fichero `.sql`.
