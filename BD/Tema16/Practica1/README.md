@@ -255,56 +255,6 @@ COMMIT;
 
 ---
 
-## 8. Bloque VI — Integración
-
-*Recuerda ejecutar el script de inicialización antes de comenzar este bloque.*
-
-> Estos ejercicios combinan todos los elementos del tema. Se valora especialmente que el código esté bien estructurado, comentado y sea robusto ante errores.
-
-1. **Informe de técnicos.** Escribe un script que genere por `DBMS_OUTPUT` el siguiente informe de actividad de los técnicos, obteniendo todos los datos de la base de datos:
-
-   ```
-   ══════════════════════════════════════════════════════
-    INFORME DE ACTIVIDAD — TÉCNICOS TECHFIX
-   ══════════════════════════════════════════════════════
-    Técnico: Elena Vázquez (ID: 102)
-      · Reparaciones asignadas : 3
-      · En curso (PENDIENTE/EN_PROCESO): 1
-      · Terminadas (TERMINADO/ENTREGADO): 2
-      · Coste total gestionado : 205 €
-      · Puntuación media       : 5,00
-   ──────────────────────────────────────────────────────
-    Técnico: David Sanz (ID: 105)
-      ...
-   ══════════════════════════════════════════════════════
-   ```
-
-   Usa un **cursor explícito externo** para iterar sobre los técnicos y, dentro de cada iteración, un **array asociativo** para acumular los datos calculados (conteos, suma de costes). La puntuación media se calcula con una subconsulta o un cursor interno. Si un técnico no tiene ninguna valoración, imprime `'Sin valoraciones'`.
-
-2. **Catálogo de componentes con etiqueta de categoría.** Declara un array asociativo `t_nombre_cat IS TABLE OF VARCHAR2(30) INDEX BY VARCHAR2(20)` y cárgalo con los pares `categoria → etiqueta_legible` directamente en el código (sin consultar ninguna tabla):
-   - `'GPU'` → `'Tarjeta Gráfica'`
-   - `'CPU'` → `'Procesador'`
-   - `'RAM'` → `'Memoria RAM'`
-   - `'ALMACENAMIENTO'` → `'Disco / SSD'`
-   - `'PERIFERICO'` → `'Periférico'`
-
-   A continuación, usa un cursor `FOR` loop para recorrer todos los componentes de `U16_COMPONENTES` ordenados por categoría y precio. Para cada componente, obtén su etiqueta legible del array asociativo con `t_nombre_cat(rec.categoria)` y genera una línea de catálogo del tipo:
-   ```
-   [Disco / SSD]  Samsung 980 Pro 1TB       120,00 €   Stock: 25
-   ```
-   Usa `RPAD` y `LPAD` para alinear las columnas. Al final imprime el número total de referencias del catálogo.
-
-3. **Simulación de asignación de reparación con log.** Escribe un script que simule la asignación de una nueva reparación al técnico con **menor número de reparaciones activas** (`'PENDIENTE'` o `'EN_PROCESO'`). El script debe:
-   - Usar un array asociativo `t_carga IS TABLE OF NUMBER INDEX BY PLS_INTEGER` para contar cuántas reparaciones activas tiene cada técnico (clave = `id_emp`).
-   - Determinar, recorriendo el array con `FIRST`/`NEXT`, el `id_emp` del técnico con menor carga.
-   - Insertar en `U16_REPARACIONES` una nueva reparación asignada a ese técnico: `id_rep = 5099`, `cliente = 'Empresa ABC'`, `dispositivo = 'NAS Synology'`, `estado = 'PENDIENTE'`, `coste = 120.00`, `fecha_entrada = SYSDATE`.
-   - Insertar una fila en `U16_LOG_OPERACIONES` con `U16_SEQ_LOG.NEXTVAL`, bloque `'VI.3'` y el mensaje `'Nueva reparación 5099 asignada al técnico [nombre] (ID: [id]). Carga previa: [N] reparaciones activas.'`.
-   - Si dos técnicos tienen la misma carga mínima, asignar al de menor `id_emp`.
-   - Manejar con `EXCEPTION WHEN OTHERS` cualquier error inesperado: hacer `ROLLBACK`, escribir igualmente en el log el error (`SQLERRM`) y relanzar la excepción con `RAISE`.
-   - Confirmar todo con `COMMIT` solo si no hubo error.
-   - Imprimir al final el nombre del técnico seleccionado y su carga anterior.
-
----
 
 ## Criterios de entrega
 
