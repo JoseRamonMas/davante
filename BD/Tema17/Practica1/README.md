@@ -130,42 +130,16 @@ COMMIT;
 
 > En todos los bloques de este tema, activa `SET SERVEROUTPUT ON` al inicio de tu fichero para poder ver la salida de `DBMS_OUTPUT`.
 
-1. Crea un procedimiento `prc_ficha_reparacion(p_id_rep IN NUMBER)` que obtenga con `SELECT INTO` los campos `cliente`, `dispositivo`, `estado`, `coste` y `fecha_entrada` de la reparación, así como el nombre y apellido del técnico asignado mediante `JOIN`. Imprime una ficha por `DBMS_OUTPUT` similar a esta:
-   ```
-   === Reparación #5002 ===
-   Cliente     : Luis Gil
-   Dispositivo : Torre Custom
-   Estado      : EN_PROCESO
-   Coste       : 45,5 €
-   Entrada     : 15/03/2024
-   Técnico     : David Sanz
-   ```
-   Captura `NO_DATA_FOUND` e imprime un mensaje de error si la reparación no existe. Invoca el procedimiento para las reparaciones 5001, 5004 y 9999 (esta última debe mostrar el mensaje de error).
+1. Crea un procedimiento `prc_info_reparacion(p_id_rep IN NUMBER, p_coste_actual OUT NUMBER)` que obtenga con `SELECT INTO` los campos `cliente`, `dispositivo` y `coste` de la reparación indicada en el parámetro de entrada. 
+   - Imprime por pantalla una línea exacta a esta: `Reparación de [dispositivo] para el cliente [cliente].`
+   - Asigna el coste obtenido al parámetro de salida `p_coste_actual`.
+   - Captura la excepción `NO_DATA_FOUND` e imprime un mensaje indicando: `Error: La reparación no existe.`
+   - Escribe un bloque anónimo que llame al procedimiento para la reparación 5002 (imprimiendo luego en el bloque el coste devuelto) y para la reparación 9999 (debe mostrar el mensaje de error).
 
-2. Crea un procedimiento `prc_resumen_tecnico` con los siguientes parámetros:
-   - `p_id_emp IN NUMBER`
-   - `p_num_reps OUT NUMBER` — número total de reparaciones asignadas
-   - `p_coste_total OUT NUMBER` — suma de costes (con `NVL` para costes nulos)
-   
-   El procedimiento obtiene los datos con `SELECT ... INTO` usando funciones de agregación. Escribe un bloque anónimo que llame al procedimiento para cada uno de los tres técnicos (IDs 102, 105, 107) e imprima una línea por técnico con su nombre (cárgalo con otro `SELECT INTO`) y los valores devueltos.
-
-3. Crea un procedimiento `prc_actualizar_coste(p_id_rep IN NUMBER, p_porcentaje IN NUMBER, p_coste_final IN OUT NUMBER)` que:
-   - Lea el coste actual de la reparación con `SELECT INTO`.
-   - Calcule el nuevo coste aplicando el porcentaje sobre el valor actual: `nuevo = actual * (1 + porcentaje/100)` y lo redondee a 2 decimales.
-   - Actualice la tabla con el nuevo valor.
-   - Asigne ese valor al parámetro `IN OUT` para devolverlo al llamador.
-   - Haga `COMMIT` al terminar.
-   
-   Invócalo para la reparación 5005 con un incremento del 10%. Imprime el coste final recibido por el bloque llamador.
-
-4. Crea un procedimiento `prc_nuevo_presupuesto(p_id_rep IN NUMBER, p_descripcion IN VARCHAR2, p_importe IN NUMBER)` que valide las siguientes condiciones **antes** de insertar en `U17_PRESUPUESTOS`:
-   - Si `p_importe <= 0`: lanza `RAISE_APPLICATION_ERROR(-20101, 'El importe del presupuesto debe ser positivo.')`.
-   - Si la reparación `p_id_rep` no existe: lanza `RAISE_APPLICATION_ERROR(-20102, 'La reparación indicada no existe.')`.
-   - Si ya hay un presupuesto en estado `'PENDIENTE'` para esa reparación: lanza `RAISE_APPLICATION_ERROR(-20103, 'Ya existe un presupuesto pendiente para esta reparación.')`.
-   
-   Si pasa todas las validaciones, inserta el presupuesto con `estado = 'PENDIENTE'` y el `id_presupuesto` calculado como `(SELECT NVL(MAX(id_presupuesto),9000)+1 FROM U17_PRESUPUESTOS)`. Haz `COMMIT`. Prueba el procedimiento con tres llamadas: una que provoque el error -20101, otra que provoque el -20102 y una última válida (usa la reparación 5003, que no tiene presupuesto pendiente).
-
-5. *(Solo escritura — no es necesario ejecutar este ejercicio.)* Escribe la sentencia SQL que consulta `USER_SOURCE` para mostrar las líneas de código del procedimiento `PRC_FICHA_REPARACION` ordenadas por número de línea. A continuación escribe la sentencia `DROP` para eliminarlo. Explica en un comentario qué ocurriría si otro procedimiento o paquete llamase a `prc_ficha_reparacion` después de haberlo eliminado.
+2. Crea un procedimiento `prc_aplicar_descuento(p_id_rep IN NUMBER, p_descuento IN NUMBER)` que actualice el coste de una reparación restándole el descuento indicado en el parámetro.
+   - **Antes** de ejecutar la actualización, evalúa el parámetro de descuento. Si `p_descuento < 0`, lanza una excepción usando `RAISE_APPLICATION_ERROR(-20101, 'El descuento no puede ser negativo.')`.
+   - Si la validación es correcta, actualiza la tabla restando el descuento al coste actual y haz `COMMIT` al terminar.
+   - Invoca el procedimiento en dos bloques anónimos distintos: el primero intentará aplicar un descuento de `-10` a la reparación 5001 (provocando la parada de ejecución por el error); el segundo aplicará un descuento de `15` a la reparación 5005 (operación válida).
 
 ---
 
@@ -173,42 +147,30 @@ COMMIT;
 
 *Recuerda ejecutar el script de inicialización antes de comenzar este bloque.*
 
-1. Crea una función `fnc_dias_en_taller(p_id_rep IN NUMBER) RETURN NUMBER` que devuelva el número de días completos transcurridos desde `fecha_entrada` hasta hoy (`TRUNC(SYSDATE - fecha_entrada)`). Si la reparación no existe, devuelve `NULL` (captura `NO_DATA_FOUND`). Pruébala en un bloque anónimo para las reparaciones 5001, 5004 y 9999.
-
-2. Crea una función `fnc_nombre_tecnico(p_id_emp IN NUMBER) RETURN VARCHAR2` que devuelva el nombre completo del empleado (`nombre || ' ' || apellido`) en formato `INITCAP`. Si no existe, devuelve `'Técnico desconocido'`. Pruébala para los IDs 105 y 999.
-
-3. Crea una función `fnc_clasificar_reparacion(p_coste IN NUMBER) RETURN VARCHAR2` que devuelva:
-   - `'BÁSICA'` si el coste es ≤ 50 €
-   - `'ESTÁNDAR'` si está entre 51 € y 150 €
-   - `'COMPLEJA'` si supera los 150 €
-   - `'SIN COSTE'` si `p_coste IS NULL`
+1. Crea una función `fnc_nivel_reparacion(p_coste IN NUMBER) RETURN VARCHAR2` que evalúe el coste recibido por parámetro y devuelva una cadena de texto según las siguientes reglas:
+   - `'BÁSICA'` si el coste es menor o igual a 50 €.
+   - `'ESTÁNDAR'` si está estrictamente entre 51 € y 100 €.
+   - `'COMPLEJA'` si supera los 100 €.
+   - `'SIN COSTE'` si `p_coste IS NULL`.
    
-   No necesita acceder a ninguna tabla. Pruébala para los valores 30, 95, 200 y `NULL`.
+   Esta función no necesita acceder a ninguna tabla, únicamente evalúa la variable de entrada.
 
-4. Escribe una consulta `SELECT` sobre `U17_REPARACIONES` que, para cada reparación cuyo estado **no sea** `'ENTREGADO'`, muestre: `id_rep`, `cliente`, el nombre completo del técnico (usando `fnc_nombre_tecnico`), los días en taller (usando `fnc_dias_en_taller`) y la clasificación del coste (usando `fnc_clasificar_reparacion`). Ordena por días en taller de mayor a menor. *Observa que las tres funciones se invocan directamente en el `SELECT`, como si fueran funciones SQL nativas.*
-
-5. Crea una función `fnc_esta_disponible(p_id_emp IN NUMBER) RETURN BOOLEAN` que devuelva `TRUE` si el técnico tiene menos de 2 reparaciones con estado `'PENDIENTE'` o `'EN_PROCESO'`, y `FALSE` en caso contrario. Escribe un bloque anónimo que la use para imprimir `'DISPONIBLE'` u `'OCUPADO'` para cada uno de los tres técnicos (102, 105, 107). A continuación, añade como comentario la respuesta a estas dos preguntas: ¿qué error devuelve Oracle si intentas usar `fnc_esta_disponible(102)` directamente dentro de un `SELECT … FROM DUAL`? ¿Qué tipo de retorno usarías para hacer la función compatible con SQL?
+2. Escribe una consulta `SELECT` sobre `U17_REPARACIONES` que muestre las columnas `id_rep`, `cliente`, `coste` y una cuarta columna calculada denominada `NIVEL_REPARACION`. El valor de esta última columna se obtendrá invocando directamente a tu función `fnc_nivel_reparacion` y pasándole la columna `coste`. Filtra la consulta mediante la cláusula `WHERE` para que solo aparezcan las reparaciones cuyo estado sea `'PENDIENTE'`.
 
 ---
 
 ## 5. Bloque III — Paquetes
 
-*Recuerda ejecutar el script de inicialización antes de comenzar este bloque. Crea también las funciones `fnc_dias_en_taller` y `fnc_nombre_tecnico` del Bloque II si aún no las tienes en tu sesión, ya que el cuerpo del paquete las referenciará.*
+*Recuerda ejecutar el script de inicialización antes de comenzar este bloque.*
 
-1. Crea la **especificación** del paquete `pkg_taller` con los siguientes elementos públicos:
-   - Constante `C_REPS_MAX CONSTANT PLS_INTEGER := 3` (número máximo de reparaciones activas por técnico).
-   - Tipo registro `t_resumen_rep` con los campos: `id_rep NUMBER`, `cliente VARCHAR2(50)`, `estado VARCHAR2(15)`, `coste NUMBER`, `dias NUMBER`.
-   - Cabecera del procedimiento `prc_listado_activas` (sin parámetros).
-   - Cabecera de la función `fnc_carga_tecnico(p_id_emp NUMBER) RETURN NUMBER`.
-
-2. Crea el **cuerpo** del paquete `pkg_taller` con:
-   - Un procedimiento **privado** `prc_log(p_subprog VARCHAR2, p_msg VARCHAR2)` que inserte una fila en `U17_LOG_SUBPROGRAMAS` usando `U17_SEQ_LOG.NEXTVAL`. *Al ser privado, no aparece en la especificación.*
-   - La implementación de `prc_listado_activas`: recorre las reparaciones con estado `'PENDIENTE'` o `'EN_PROCESO'` usando un cursor `FOR` loop, imprime una línea por reparación con `id_rep`, cliente, estado, coste y días en taller (llamando a `fnc_dias_en_taller`), y al finalizar llama a `prc_log` para registrar la ejecución.
-   - La implementación de `fnc_carga_tecnico`: devuelve el número de reparaciones activas (`'PENDIENTE'` o `'EN_PROCESO'`) del empleado indicado.
-
-3. Escribe un bloque anónimo que invoque `pkg_taller.prc_listado_activas`. A continuación, escribe una consulta `SELECT` que muestre el `id_emp`, nombre completo (con `fnc_nombre_tecnico`) y carga actual (`pkg_taller.fnc_carga_tecnico`) de todos los empleados con `puesto = 'TECNICO'`. Añade una columna calculada `ALERTA` que valga `'⚠ SATURADO'` si la carga supera `pkg_taller.C_REPS_MAX` y `'OK'` en caso contrario. Verifica también que el log se ha rellenado con un `SELECT * FROM U17_LOG_SUBPROGRAMAS`.
-
-4. *(Solo escritura — no es necesario ejecutar.)* Escribe en un comentario qué error lanzaría Oracle al ejecutar `BEGIN pkg_taller.prc_log('test','test'); END;` desde fuera del paquete, e indica en qué cláusula de la sintaxis del paquete reside la causa. A continuación escribe la consulta sobre `USER_SOURCE` que muestra el código completo del cuerpo del paquete `PKG_TALLER`.
+1. Crea la **especificación** y el **cuerpo** del paquete `pkg_taller` con los siguientes elementos:
+   - **Especificación:**
+     - Una constante `C_ESTADO_FILTRO CONSTANT VARCHAR2(15) := 'EN_PROCESO'`.
+     - La cabecera del procedimiento público `prc_reparaciones_tecnico(p_id_emp NUMBER)`.
+   - **Cuerpo:**
+     - La implementación de `prc_reparaciones_tecnico`. Este procedimiento debe utilizar un cursor `FOR` loop explícito o implícito para recorrer todas las reparaciones asignadas al empleado recibido por parámetro (`p_id_emp`) cuyo estado coincida exactamente con la constante `C_ESTADO_FILTRO`.
+     - Dentro del bucle, imprime mediante `DBMS_OUTPUT` el ID de la reparación y el dispositivo en el formato: `[ID] - Dispositivo`.
+   - **Prueba:** Escribe un bloque anónimo que invoque la ejecución de `pkg_taller.prc_reparaciones_tecnico(102);`.
 
 ---
 
@@ -216,31 +178,25 @@ COMMIT;
 
 *Recuerda ejecutar el script de inicialización antes de comenzar este bloque.*
 
-> Crea siempre los disparadores con `CREATE OR REPLACE TRIGGER`. Tras cada ejercicio, verifica el resultado con las sentencias `SELECT` indicadas o con una consulta sobre la tabla afectada.
+> Crea siempre los disparadores con `CREATE OR REPLACE TRIGGER`. Tras cada ejercicio, verifica el resultado con las sentencias de DML indicadas.
 
-1. Crea un disparador de **instrucción** `trg_log_insert_rep` que se active `AFTER INSERT` sobre `U17_REPARACIONES`. Cada vez que se ejecute una sentencia `INSERT` (independientemente de cuántas filas inserte), debe insertar **una sola fila** en `U17_LOG_SUBPROGRAMAS` con `subprograma = 'TRIGGER'` y el mensaje `'INSERT en REPARACIONES por: ' || USER`. Pruébalo insertando la reparación `(5099, 102, 'Cliente Test', 'Dispositivo Test', 'PENDIENTE', 50.00, SYSDATE, NULL)` y verifica que aparece una fila en el log. Haz `ROLLBACK` para no alterar los datos.
+1. Crea un disparador de **fila** `trg_auditar_estado` que se active `AFTER UPDATE OF estado` sobre la tabla `U17_REPARACIONES` `FOR EACH ROW`. 
+   - Por cada fila modificada, debe insertar un nuevo registro en `U17_AUDITORIA` con los siguientes valores: el ID de auditoría con `U17_SEQ_AUDIT.NEXTVAL`, `tabla_afectada = 'U17_REPARACIONES'`, `accion = 'UPDATE'`, `id_registro` con el valor de la reparación afectada, `campo = 'ESTADO'`, `valor_anterior` con el valor de `:OLD.estado` y `valor_nuevo` con el valor de `:NEW.estado`.
+   - Pruébalo ejecutando: `UPDATE U17_REPARACIONES SET estado = 'TERMINADO' WHERE id_rep = 5006;` y comprueba mediante una consulta `SELECT` que la tabla de auditoría ha registrado correctamente el cambio.
 
-2. Crea un disparador de **fila** `trg_audit_coste` que se active `AFTER UPDATE OF coste` sobre `U17_REPARACIONES` `FOR EACH ROW`. Para cada fila modificada, debe insertar en `U17_AUDITORIA` los valores: `U17_SEQ_AUDIT.NEXTVAL`, `'U17_REPARACIONES'`, `'UPDATE'`, `:OLD.id_rep`, `'COSTE'`, `TO_CHAR(:OLD.coste)`, `TO_CHAR(:NEW.coste)`. Pruébalo ejecutando `UPDATE U17_REPARACIONES SET coste = coste * 1.05 WHERE estado IN ('PENDIENTE','EN_PROCESO')` y comprueba que la tabla `U17_AUDITORIA` contiene exactamente una fila por cada reparación actualizada. Haz `ROLLBACK`.
-
-3. Crea un disparador de fila `trg_valida_importe` que se active `BEFORE INSERT` sobre `U17_PRESUPUESTOS` `FOR EACH ROW`. Si `:NEW.importe <= 0`, lanza `RAISE_APPLICATION_ERROR(-20101, 'El importe del presupuesto debe ser un valor positivo.')`. Prueba dos casos: un `INSERT` con importe `-50` (debe fallar con el error personalizado) y un `INSERT` válido con importe `60.00` para la reparación 5007 (debe funcionar). Haz `ROLLBACK` tras la prueba.
-
-4. Crea un disparador de fila `trg_proteger_rep` que se active `BEFORE DELETE` sobre `U17_REPARACIONES` `FOR EACH ROW`. Si `:OLD.estado != 'ENTREGADO'`, lanza `RAISE_APPLICATION_ERROR(-20110, 'Solo se pueden eliminar reparaciones entregadas. Estado actual: ' || :OLD.estado || '.')`. Prueba: (a) intenta borrar la reparación 5001 (estado `'PENDIENTE'`) — debe fallar; (b) borra la reparación 5004 (estado `'ENTREGADO'`) — debe funcionar. Haz `ROLLBACK` tras la segunda prueba para conservar los datos.
-
-5. Crea dos disparadores sobre `U17_REPARACIONES`:
-   - `trg_orden_instruccion`: `AFTER UPDATE`, **disparador de instrucción** (sin `FOR EACH ROW`), que imprime `'[A] INSTRUCCIÓN — trigger de instrucción ejecutado.'`.
-   - `trg_orden_fila`: `AFTER UPDATE FOR EACH ROW`, que imprime `'[B] FILA — fila procesada: ' || :OLD.id_rep`.
-   
-   Ejecuta `UPDATE U17_REPARACIONES SET coste = coste WHERE estado = 'PENDIENTE'` (afecta a las reparaciones 5001 y 5005). Observa en la salida de `DBMS_OUTPUT` cuántas veces aparece el mensaje `[A]` y cuántas el mensaje `[B]` y en qué orden. Explica el resultado en un comentario. A continuación, consulta `USER_TRIGGERS` filtrando por `table_name = 'U17_REPARACIONES'` para ver el estado de todos los disparadores creados hasta ahora.
-
+2. Crea un disparador de fila `trg_proteger_borrado` que se active `BEFORE DELETE` sobre la tabla `U17_PRESUPUESTOS` `FOR EACH ROW`. 
+   - Si el estado del presupuesto que se intenta eliminar (usando el pseudo-registro `:OLD`) es `'ACEPTADO'`, impide el borrado lanzando la excepción: `RAISE_APPLICATION_ERROR(-20200, 'No se puede borrar un presupuesto ya aceptado.')`.
+   - Prueba el disparador en dos escenarios: (a) intenta ejecutar `DELETE FROM U17_PRESUPUESTOS WHERE id_presupuesto = 9001` (estado `'ACEPTADO'`, debe fallar); (b) ejecuta `DELETE FROM U17_PRESUPUESTOS WHERE id_presupuesto = 9006` (estado `'RECHAZADO'`, el borrado debe tener éxito). 
+   - Haz `ROLLBACK` al terminar las pruebas para restaurar los datos.
 
 ---
-
 
 ## Criterios de entrega
 
 1. Entrega un único fichero `.sql`.
 2. Añade al principio del fichero: `-- Autor: Nombre Apellido`.
-3. Numera cada ejercicio con un comentario antes de cada sentencia o bloque: `-- Ejercicio I.1`, `-- Ejercicio IV.3`, etc.
+3. Numera cada ejercicio con un comentario antes de cada sentencia o bloque: `-- Ejercicio I.1`, `-- Ejercicio IV.2`, etc.
 4. El fichero debe poder ejecutarse en Oracle 21c **sin errores de compilación**. Los errores de ejecución controlados (excepciones capturadas o `RAISE_APPLICATION_ERROR` esperados) son correctos y forman parte del enunciado.
-5. Los ejercicios marcados como *«Solo escritura»* deben incluirse en el fichero como comentarios de bloque `/* ... */` precedidos de su etiqueta.
+5. Los ejercicios marcados como *«Solo escritura»* deben incluirse en el fichero como comentarios de bloque `/* ... */` precedidos de su etiqueta (en esta versión simplificada no hay, pero mantén el formato para futuros).
 6. Añade una línea en blanco entre ejercicios consecutivos y usa comentarios para separar visualmente las secciones lógicas dentro de cada bloque PL/SQL.
+
