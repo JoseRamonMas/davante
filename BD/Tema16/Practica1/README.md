@@ -196,7 +196,7 @@ COMMIT;
 
 1. Escribe un bloque que actualice el estado de la reparación `id_rep = 5001` de `'PENDIENTE'` a `'EN_PROCESO'`. Tras el `UPDATE`, usa `SQL%FOUND` para imprimir `'Reparación actualizada correctamente'` o `'No se encontró la reparación'` según corresponda. Haz `COMMIT`.
 
-2. Escribe un bloque que borre de `U16_REPARACIONES` todas las reparaciones con estado `'ENTREGADO'`. Después del `DELETE`, usa `SQL%ROWCOUNT` para imprimir cuántas filas se eliminaron con el mensaje: `'Reparaciones archivadas: N'`. Haz `ROLLBACK` al final para no alterar el estado del esquema para los bloques siguientes.
+2. Escribe un bloque que borre de `U16_REPARACIONES` todas las reparaciones con estado `'EN PROCESO'`. Después del `DELETE`, usa `SQL%ROWCOUNT` para imprimir cuántas filas se eliminaron con el mensaje: `'Reparaciones archivadas: N'`. Haz `ROLLBACK` al final para no alterar el estado del esquema para los bloques siguientes.
 
 3. Escribe un bloque que intente cargar con `SELECT INTO` el `coste` de la reparación `id_rep = 9999` (inexistente). Maneja la excepción `NO_DATA_FOUND` e imprime un mensaje de error. Si la reparación sí existiera, ¿cuál sería el valor de `SQL%FOUND` justo después del `SELECT INTO`? Responde mediante un comentario en el código.
 
