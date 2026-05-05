@@ -266,6 +266,12 @@ Modifica (reescribe) la especificación y el cuerpo de `tipo_seguro` para inclui
 **a)** En un comentario, explica qué error de lógica ocurriría si en un método declaras un parámetro llamado exactamente igual que un atributo (por ejemplo `precio_diario`) y haces `precio_diario := precio_diario;` sin usar la palabra clave `SELF`.
 **b) ⚠️ Solo escritura:** Escribe la sentencia `ALTER TYPE` que añadiría el atributo `condiciones VARCHAR2(200)` a `tipo_seguro`.
 
+**Ejercicio 1.6 — Sobrecarga de métodos**
+Modifica (reescribe) la especificación y el cuerpo de `tipo_seguro` para añadir una versión sobrecargada del método `aplicar_descuento`. 
+* La versión que ya tienes recibe un porcentaje (`p_pct NUMBER`).
+* Crea una **nueva versión** que se llame exactamente igual, pero que reciba una cantidad fija a descontar (`p_cantidad_fija NUMBER(5,2)`) y la reste directamente del `precio_diario`.
+* Responde en un comentario: ¿Por qué Oracle permite que existan dos métodos con el mismo nombre dentro del mismo tipo objeto sin dar error de compilación?
+
 ---
 
 ## 4. Bloque II — Tema 19: Utilización, Herencia y Polimorfismo
@@ -291,6 +297,11 @@ Analiza el método `MAP MEMBER FUNCTION criterio_orden` del script inicial, situ
 ### Ejercicio 2.5 — Método ORDER
 Reescribe (con un `CREATE OR REPLACE TYPE`) la especificación y el cuerpo de `tipo_seguro` para añadirle el método `ORDER MEMBER FUNCTION comparar(otro tipo_seguro) RETURN INTEGER`. Debe devolver 1 si el precio diario del seguro actual es mayor que el del otro, -1 si es menor, y 0 si son iguales.
 Crea un pequeño bloque PL/SQL que instancie dos seguros distintos y use el método `comparar` para imprimir cuál es más caro.
+
+**Ejercicio 2.6 — Restricción de polimorfismo (`FINAL`)**
+Imagina que por reglas de negocio de RentaCar Levante, la fórmula base para calcular el precio de un vehículo genérico por días **nunca** debe ser modificada por los subtipos.
+* Escribe (en comentario, como **⚠️ solo escritura**) cómo quedaría la línea de la especificación de `tipo_vehiculo` para el método `calcular_precio(p_dias NUMBER)` si le añadimos la palabra reservada `FINAL`.
+* Responde en el mismo comentario: ¿Qué ocurriría a nivel de base de datos si, tras poner ese `FINAL` en el supertipo, intentáramos escribir un `OVERRIDING MEMBER FUNCTION calcular_precio...` dentro de `tipo_turismo` o `tipo_furgoneta`?
 
 ---
 
@@ -320,6 +331,12 @@ Escribe un bloque PL/SQL que recupere el objeto completo del turismo con matríc
 En la tabla `delegaciones`, la columna `vehiculo_estrella` es un puntero (`REF`).
 **a)** Escribe un `INSERT` en delegaciones usando `REF(t)` apuntando a un vehículo existente en la tabla `turismos`.
 **b)** Escribe un `SELECT` que muestre el nombre de la delegación y la marca del vehículo estrella usando la función `DEREF()`.
+
+**Ejercicio 3.8 — Eliminación de objetos (DELETE)**
+Escribe las siguientes sentencias de borrado y confírmalas con un `SELECT` (o haz un `ROLLBACK` al terminar si quieres mantener los datos):
+**a)** Elimina de la tabla de objetos `turismos` aquel vehículo cuya matrícula sea `'1234 ABC'`.
+**b)** Elimina de la tabla mixta `alquileres` aquellos registros donde el vehículo asignado (que es un objeto embebido) tenga un precio por día superior a 50€. (Pista: tendrás que usar el alias de la tabla para acceder a `alias.vehiculo.precio_dia` en la cláusula `WHERE`).
+* Responde en un comentario: Al hacer un `DELETE` sobre la tabla `turismos`, ¿se elimina también la definición del objeto `tipo_turismo` del sistema? ¿Por qué?
 
 ---
 
