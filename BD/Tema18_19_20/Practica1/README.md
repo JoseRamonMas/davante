@@ -16,19 +16,18 @@ Para esta práctica trabajamos con el sistema de gestión de **RentaCar Levante*
 | `alquileres`             | Tabla mixta con columnas simples y objetos embebidos (Tema 20)     |
 | `delegaciones`           | Tabla mixta con columna `REF` (Tema 20)                            |
 
-> **Nota:** Ejecuta el script de inicialización antes de comenzar. Este script prepara la base de datos con todos los elementos de los tres temas para que funcione correctamente, aunque en los ejercicios se te pedirá reescribir y analizar partes concretas de este código.
+> **Nota importante:** Para que el aprendizaje sea progresivo, irás construyendo la base de datos a lo largo de los ejercicios. Ejecuta el siguiente script antes de empezar para asegurar que partes de un entorno limpio y para cargar la jerarquía de vehículos que usarás en el Bloque II.
 
 ---
 
-## 2. Script de inicialización
+## 2. Script de Inicialización y Limpieza
 
 ```sql
 /* =============================================================
-   ESQUEMA: RENTACAR LEVANTE — Unidades 18/19/20
-   Script corregido y validado para Oracle 21c
+   ESQUEMA: RENTACAR LEVANTE — Script de Limpieza y Preparación
    ============================================================= */
 
--- ── 0. Limpieza (tablas primero, luego tipos en orden inverso) ──
+-- ── 1. Limpieza total (ignora los errores si es la primera vez que lo ejecutas) ──
 BEGIN EXECUTE IMMEDIATE 'DROP TABLE delegaciones CASCADE CONSTRAINTS'; EXCEPTION WHEN OTHERS THEN NULL; END;
 /
 BEGIN EXECUTE IMMEDIATE 'DROP TABLE alquileres CASCADE CONSTRAINTS'; EXCEPTION WHEN OTHERS THEN NULL; END;
@@ -50,78 +49,7 @@ BEGIN EXECUTE IMMEDIATE 'DROP TYPE tipo_lista_extras FORCE'; EXCEPTION WHEN OTHE
 BEGIN EXECUTE IMMEDIATE 'DROP TYPE tipo_ubicacion FORCE'; EXCEPTION WHEN OTHERS THEN NULL; END;
 /
 
--- ── 1. Tipos Base (Tema 18) ──────────────────────────────────────────────────
-
-CREATE OR REPLACE TYPE tipo_ubicacion AS OBJECT (
-    calle    VARCHAR2(100),
-    ciudad   VARCHAR2(50),
-    telefono VARCHAR2(15)
-);
-/
-
-CREATE OR REPLACE TYPE tipo_seguro AS OBJECT (
-    codigo         VARCHAR2(10),
-    aseguradora    VARCHAR2(50),
-    cobertura      VARCHAR2(20),
-    precio_diario  NUMBER(5,2),
-
-    MEMBER FUNCTION calcular_coste(p_dias NUMBER) RETURN NUMBER,
-    MEMBER PROCEDURE aplicar_descuento(p_pct NUMBER),
-    STATIC FUNCTION validar_cobertura(p_cob VARCHAR2) RETURN BOOLEAN,
-    
-    -- Constructor personalizado
-    CONSTRUCTOR FUNCTION tipo_seguro(
-        p_cod VARCHAR2, p_aseg VARCHAR2, p_cob VARCHAR2
-    ) RETURN SELF AS RESULT,
-    
-    -- Método ORDER (Tema 19)
-    ORDER MEMBER FUNCTION comparar(otro tipo_seguro) RETURN INTEGER
-);
-/
-
-CREATE OR REPLACE TYPE BODY tipo_seguro AS
-    MEMBER FUNCTION calcular_coste(p_dias NUMBER) RETURN NUMBER IS
-    BEGIN 
-        RETURN SELF.precio_diario * p_dias; 
-    END calcular_coste;
-
-    MEMBER PROCEDURE aplicar_descuento(p_pct NUMBER) IS
-    BEGIN 
-        SELF.precio_diario := SELF.precio_diario * (1 - p_pct/100); 
-    END aplicar_descuento;
-
-    STATIC FUNCTION validar_cobertura(p_cob VARCHAR2) RETURN BOOLEAN IS
-    BEGIN 
-        RETURN UPPER(p_cob) IN ('BASICA', 'FRANQUICIA', 'TODO RIESGO'); 
-    END validar_cobertura;
-
-    CONSTRUCTOR FUNCTION tipo_seguro(
-        p_cod VARCHAR2, p_aseg VARCHAR2, p_cob VARCHAR2
-    ) RETURN SELF AS RESULT IS
-    BEGIN
-        SELF.codigo := p_cod;
-        SELF.aseguradora := p_aseg;
-        SELF.cobertura := UPPER(p_cob);
-        IF SELF.cobertura = 'TODO RIESGO' THEN SELF.precio_diario := 20.00;
-        ELSE SELF.precio_diario := 10.00; END IF;
-        RETURN;
-    END;
-
-    ORDER MEMBER FUNCTION comparar(otro tipo_seguro) RETURN INTEGER IS
-    BEGIN
-        IF SELF.precio_diario > otro.precio_diario THEN RETURN 1;
-        ELSIF SELF.precio_diario < otro.precio_diario THEN RETURN -1;
-        ELSE RETURN 0; END IF;
-    END comparar;
-END;
-/
-
--- ── 2. Colecciones (Tema 20) ─────────────────────────────────────────────────
-
-CREATE OR REPLACE TYPE tipo_lista_extras AS VARRAY(8) OF VARCHAR2(30);
-/
-
--- ── 3. Herencia y Tipos Abstractos (Tema 19) ─────────────────────────────────
+-- ── 2. Creación de la Jerarquía de Vehículos (Para analizar en el Bloque II) ──
 
 CREATE OR REPLACE TYPE tipo_vehiculo AS OBJECT (
     matricula  VARCHAR2(8),
@@ -132,8 +60,6 @@ CREATE OR REPLACE TYPE tipo_vehiculo AS OBJECT (
 
     NOT INSTANTIABLE MEMBER FUNCTION descripcion RETURN VARCHAR2,
     MEMBER FUNCTION calcular_precio (p_dias NUMBER) RETURN NUMBER,
-    
-    -- El método MAP debe ir en la raíz de la jerarquía en Oracle
     MAP MEMBER FUNCTION criterio_orden RETURN VARCHAR2
 ) NOT INSTANTIABLE NOT FINAL;
 /
@@ -194,10 +120,91 @@ CREATE OR REPLACE TYPE BODY tipo_furgoneta AS
     END descripcion;
 END;
 /
+```
 
--- ── 4. Tablas (Tema 20) ──────────────────────────────────────────────────────
+---
 
-CREATE TABLE turismos OF tipo_turismo (matricula PRIMARY KEY);
+## 3. Bloque I — Tema 18: Definición de tipos objeto
+
+*En este bloque practicaremos la creación de tipos base construyendo nuestro esquema. No usaremos colecciones (VARRAY) ni herencia (UNDER).*
+
+### Ejercicio 1.1 — Tipo sin métodos (`tipo_ubicacion`)
+Escribe y ejecuta la sentencia `CREATE OR REPLACE TYPE` para `tipo_ubicacion` con los atributos `calle` (VARCHAR2(100)), `ciudad` (VARCHAR2(50)) y `telefono` (VARCHAR2(15)). 
+* Responde en un comentario: ¿Por qué no es necesario crear un `CREATE TYPE BODY` para este tipo?
+
+### Ejercicio 1.2 — Especificación de tipo con métodos (`tipo_seguro`)
+Escribe y ejecuta la **especificación** de `tipo_seguro` incluyendo:
+- Atributos: `codigo` (VARCHAR2(10)), `aseguradora` (VARCHAR2(50)), `cobertura` (VARCHAR2(20)) y `precio_diario` (NUMBER(5,2)).
+- Métodos: la función `calcular_coste(p_dias NUMBER)` que devuelva NUMBER, y el procedimiento `aplicar_descuento(p_pct NUMBER)`.
+- Un método **estático** llamado `validar_cobertura(p_cob VARCHAR2)` que devuelva un `BOOLEAN`.
+
+### Ejercicio 1.3 — Cuerpo del tipo (`tipo_seguro`)
+Escribe y ejecuta el `CREATE OR REPLACE TYPE BODY` para `tipo_seguro` implementando los métodos de la especificación:
+- `calcular_coste`: devuelve el `precio_diario` multiplicado por los días.
+- `aplicar_descuento`: reduce el `precio_diario` en el porcentaje indicado (`p_pct`).
+- `validar_cobertura`: devuelve `TRUE` si la cobertura recibida es 'BASICA', 'FRANQUICIA' o 'TODO RIESGO'.
+
+### Ejercicio 1.4 — Constructor personalizado
+Modifica (reescribe y vuelve a ejecutar) la especificación y el cuerpo de `tipo_seguro` para incluir un **constructor personalizado** que reciba solo tres parámetros: `p_cod`, `p_aseg` y `p_cob`. El constructor debe asignar automáticamente un `precio_diario` de 20.00 si la cobertura es 'TODO RIESGO' (usa la función UPPER para asegurarte), y 10.00 en cualquier otro caso. 
+* Responde en un comentario: ¿Por qué el constructor debe declarar obligatoriamente `RETURN SELF AS RESULT` en lugar de devolver el tipo directamente?
+
+### Ejercicio 1.5 — Parámetro SELF y ALTER TYPE
+**a)** En un comentario, explica qué error de lógica ocurriría si en un método declaras un parámetro llamado exactamente igual que un atributo (por ejemplo `precio_diario NUMBER`) y en el cuerpo haces `precio_diario := precio_diario;` sin usar la palabra clave `SELF`.
+**b) ⚠️ Solo escritura:** Escribe (pero comenta para no ejecutarla) la sentencia `ALTER TYPE` que añadiría el atributo `condiciones VARCHAR2(200)` a `tipo_seguro`.
+
+**Ejercicio 1.6 — Sobrecarga de métodos**
+Modifica una vez más la especificación y el cuerpo de `tipo_seguro` para añadir una versión **sobrecargada** del método `aplicar_descuento`. 
+* La versión que ya tienes recibe un porcentaje (`p_pct NUMBER`).
+* Crea una **nueva versión** que se llame exactamente igual, pero que reciba una cantidad fija a descontar (`p_cantidad_fija NUMBER(5,2)`) y la reste directamente del `precio_diario`.
+* Responde en un comentario: ¿Por qué Oracle permite que existan dos métodos con el mismo nombre dentro del mismo tipo objeto sin dar error de compilación?
+
+---
+
+## 4. Bloque II — Tema 19: Utilización, Herencia y Polimorfismo
+
+### Ejercicio 2.1 — Instanciación y variables
+Escribe un bloque PL/SQL anónimo que:
+1. Declare una variable `v_seguro` de tipo `tipo_seguro`.
+2. La instancie usando el constructor personalizado que creaste en el Ejercicio 1.4 (ej: código 'S1', aseguradora 'Mapfre', cobertura 'TODO RIESGO').
+3. Llame al método `aplicar_descuento(10)` (versión porcentaje) y muestre por pantalla el nuevo precio diario.
+
+### Ejercicio 2.2 — Herencia y Tipos Abstractos (`NOT INSTANTIABLE`)
+Analiza cómo está creado `tipo_vehiculo` en el script inicial (apartado 2 del documento).
+* Responde en un comentario: ¿Qué significan las cláusulas `NOT INSTANTIABLE` y `NOT FINAL`? ¿Qué error daría si en PL/SQL intentamos hacer `v_veh := NEW tipo_vehiculo(...)`?
+
+### Ejercicio 2.3 — Polimorfismo (`OVERRIDING`)
+Escribe un bloque PL/SQL que instancie un `tipo_turismo` y un `tipo_furgoneta` (inventa los datos usando el constructor por defecto). Llama al método `.descripcion()` de ambos e imprímelos por pantalla con `DBMS_OUTPUT`. 
+* Responde en un comentario: ¿Por qué Oracle es capaz de devolver textos distintos si el método invocado se llama exactamente igual en ambos objetos?
+
+### Ejercicio 2.4 — Método MAP
+Analiza el método `MAP MEMBER FUNCTION criterio_orden` del script inicial, situado en `tipo_vehiculo`. 
+* Escribe en un comentario por qué, según las normas de Oracle, este método debe situarse obligatoriamente en el supertipo (la raíz de la jerarquía) y no en el subtipo `tipo_turismo`.
+
+### Ejercicio 2.5 — Método ORDER
+Reescribe (con un `CREATE OR REPLACE TYPE` y su respectivo `BODY`) el `tipo_seguro` para añadirle el método `ORDER MEMBER FUNCTION comparar(otro tipo_seguro) RETURN INTEGER`. Debe devolver 1 si el `precio_diario` de `SELF` es mayor que el del `otro`, -1 si es menor, y 0 si son iguales.
+* Crea un pequeño bloque PL/SQL que instancie dos seguros distintos y use el método `comparar` para imprimir cuál es más caro.
+
+**Ejercicio 2.6 — Restricción de polimorfismo (`FINAL`)**
+Imagina que por reglas de negocio, la fórmula base para calcular el precio de un vehículo genérico por días **nunca** debe ser modificada por los subtipos.
+* Escribe (en comentario, como **⚠️ solo escritura**) cómo quedaría la línea de la especificación de `tipo_vehiculo` para el método `calcular_precio(p_dias NUMBER)` si le añadimos la palabra reservada `FINAL`.
+* Responde en el mismo comentario: ¿Qué ocurriría a nivel de base de datos si, tras poner ese `FINAL` en el supertipo, intentáramos escribir un `OVERRIDING MEMBER FUNCTION calcular_precio...` dentro de `tipo_turismo` o `tipo_furgoneta`?
+
+---
+
+## 5. Bloque III — Tema 20: Organización y Acceso (DML)
+
+### Ejercicio 3.1 — Colecciones (VARRAY)
+Escribe y ejecuta la sentencia de creación para `tipo_lista_extras` como un VARRAY de un máximo de 8 elementos de tipo VARCHAR2(30). 
+* Escribe en un comentario en qué se diferencia un VARRAY de una Nested Table.
+
+### Ejercicio 3.2 — Tablas de Objetos
+Escribe y ejecuta la sentencia `CREATE TABLE` para crear la tabla de objetos `turismos` basada en `tipo_turismo`, asignando la `matricula` como clave primaria.
+
+---
+> **¡Pausa para cargar datos!**
+> Ahora que has creado con éxito los tipos y la primera tabla, ejecuta el siguiente script para crear el resto de tablas de RentaCar e introducir datos de prueba. *(Nota: Si el script te da error al crear `alquileres`, significa que tus tipos `tipo_seguro` o `tipo_lista_extras` no tienen exactamente la estructura solicitada en los ejercicios anteriores. Revísalos).*
+
+```sql
 CREATE TABLE furgonetas OF tipo_furgoneta (matricula PRIMARY KEY);
 
 CREATE TABLE alquileres (
@@ -217,8 +224,6 @@ CREATE TABLE delegaciones (
     vehiculo_estrella REF tipo_turismo   
 );
 
--- ── 5. Datos de ejemplo ──────────────────────────────────────────────────────
-
 INSERT INTO turismos VALUES (tipo_turismo('1234 ABC', 'Seat', 'Ibiza', 2019, 39.90, 5, 'MANUAL'));
 INSERT INTO turismos VALUES (tipo_turismo('5678 DEF', 'Volkswagen', 'Golf', 2021, 55.00, 5, 'AUTOMATICO'));
 INSERT INTO furgonetas VALUES (tipo_furgoneta('1111 VAN', 'Ford', 'Transit', 2020, 75.00, 1200, 6.5));
@@ -234,87 +239,10 @@ INSERT INTO delegaciones SELECT 1, 'Delegación Central', tipo_ubicacion('Plaza 
 
 COMMIT;
 ```
-
 ---
-
-## 3. Bloque I — Tema 18: Definición de tipos objeto
-
-*En este bloque practicaremos la creación de tipos base. No usaremos colecciones (VARRAY) ni herencia (UNDER).*
-
-### Ejercicio 1.1 — Tipo sin métodos (`tipo_ubicacion`)
-Escribe la sentencia `CREATE OR REPLACE TYPE` para `tipo_ubicacion` con los atributos `calle` (VARCHAR2(100)), `ciudad` (VARCHAR2(50)) y `telefono` (VARCHAR2(15)). 
-* Responde en un comentario: ¿Por qué no es necesario crear un `CREATE TYPE BODY` para este tipo?
-
-### Ejercicio 1.2 — Especificación de tipo con métodos (`tipo_seguro`)
-Escribe la **especificación** de `tipo_seguro` incluyendo:
-- Atributos: `codigo`, `aseguradora`, `cobertura` y `precio_diario`.
-- Métodos: la función `calcular_coste(p_dias NUMBER)` y el procedimiento `aplicar_descuento(p_pct NUMBER)`.
-- Un método **estático** llamado `validar_cobertura(p_cob VARCHAR2)` que devuelva un `BOOLEAN`.
-*(Nota: omite el método ORDER por ahora, lo añadiremos en el bloque II).*
-
-### Ejercicio 1.3 — Cuerpo del tipo (`tipo_seguro`)
-Escribe el `CREATE OR REPLACE TYPE BODY` para `tipo_seguro` implementando los métodos de la especificación:
-- `calcular_coste`: devuelve el `precio_diario` multiplicado por los días.
-- `aplicar_descuento`: reduce el `precio_diario` en el porcentaje indicado.
-- `validar_cobertura`: devuelve `TRUE` si la cobertura es 'BASICA', 'FRANQUICIA' o 'TODO RIESGO'.
-
-### Ejercicio 1.4 — Constructor personalizado
-Modifica (reescribe) la especificación y el cuerpo de `tipo_seguro` para incluir un **constructor personalizado** que reciba solo el código, la aseguradora y la cobertura. El constructor debe asignar automáticamente un `precio_diario` de 20 si la cobertura es 'TODO RIESGO', y 10 en cualquier otro caso. 
-* Responde en un comentario: ¿Por qué el constructor debe declarar obligatoriamente `RETURN SELF AS RESULT`?
-
-### Ejercicio 1.5 — Parámetro SELF y ALTER TYPE
-**a)** En un comentario, explica qué error de lógica ocurriría si en un método declaras un parámetro llamado exactamente igual que un atributo (por ejemplo `precio_diario`) y haces `precio_diario := precio_diario;` sin usar la palabra clave `SELF`.
-**b) ⚠️ Solo escritura:** Escribe la sentencia `ALTER TYPE` que añadiría el atributo `condiciones VARCHAR2(200)` a `tipo_seguro`.
-
-**Ejercicio 1.6 — Sobrecarga de métodos**
-Modifica (reescribe) la especificación y el cuerpo de `tipo_seguro` para añadir una versión sobrecargada del método `aplicar_descuento`. 
-* La versión que ya tienes recibe un porcentaje (`p_pct NUMBER`).
-* Crea una **nueva versión** que se llame exactamente igual, pero que reciba una cantidad fija a descontar (`p_cantidad_fija NUMBER(5,2)`) y la reste directamente del `precio_diario`.
-* Responde en un comentario: ¿Por qué Oracle permite que existan dos métodos con el mismo nombre dentro del mismo tipo objeto sin dar error de compilación?
-
----
-
-## 4. Bloque II — Tema 19: Utilización, Herencia y Polimorfismo
-
-### Ejercicio 2.1 — Instanciación y variables
-Escribe un bloque PL/SQL anónimo que:
-1. Declare una variable `v_seguro` de tipo `tipo_seguro`.
-2. La instancie usando el constructor personalizado (ej: código 'S1', aseguradora 'Allianz', cobertura 'TODO RIESGO').
-3. Llame al método `aplicar_descuento(10)` y muestre por pantalla el nuevo precio diario.
-
-### Ejercicio 2.2 — Herencia y Tipos Abstractos (`NOT INSTANTIABLE`)
-Analiza cómo está creado `tipo_vehiculo` en el script inicial.
-* Responde en un comentario: ¿Qué significan las cláusulas `NOT INSTANTIABLE` y `NOT FINAL`? ¿Qué error daría si en PL/SQL intentamos hacer `v_veh := NEW tipo_vehiculo(...)`?
-
-### Ejercicio 2.3 — Polimorfismo (`OVERRIDING`)
-Escribe un bloque PL/SQL que instancie un `tipo_turismo` y un `tipo_furgoneta`. Llama al método `.descripcion()` de ambos e imprímelos por pantalla con `DBMS_OUTPUT`. 
-* Responde en un comentario: ¿Por qué Oracle es capaz de devolver textos distintos si el método se llama exactamente igual en ambos objetos?
-
-### Ejercicio 2.4 — Método MAP
-Analiza el método `MAP MEMBER FUNCTION criterio_orden` del script inicial, situado en `tipo_vehiculo`. 
-* Escribe en un comentario por qué, según las normas de Oracle, este método debe situarse obligatoriamente en el supertipo (la raíz de la jerarquía) y no en el subtipo `tipo_turismo`.
-
-### Ejercicio 2.5 — Método ORDER
-Reescribe (con un `CREATE OR REPLACE TYPE`) la especificación y el cuerpo de `tipo_seguro` para añadirle el método `ORDER MEMBER FUNCTION comparar(otro tipo_seguro) RETURN INTEGER`. Debe devolver 1 si el precio diario del seguro actual es mayor que el del otro, -1 si es menor, y 0 si son iguales.
-Crea un pequeño bloque PL/SQL que instancie dos seguros distintos y use el método `comparar` para imprimir cuál es más caro.
-
-**Ejercicio 2.6 — Restricción de polimorfismo (`FINAL`)**
-Imagina que por reglas de negocio de RentaCar Levante, la fórmula base para calcular el precio de un vehículo genérico por días **nunca** debe ser modificada por los subtipos.
-* Escribe (en comentario, como **⚠️ solo escritura**) cómo quedaría la línea de la especificación de `tipo_vehiculo` para el método `calcular_precio(p_dias NUMBER)` si le añadimos la palabra reservada `FINAL`.
-* Responde en el mismo comentario: ¿Qué ocurriría a nivel de base de datos si, tras poner ese `FINAL` en el supertipo, intentáramos escribir un `OVERRIDING MEMBER FUNCTION calcular_precio...` dentro de `tipo_turismo` o `tipo_furgoneta`?
-
----
-
-## 5. Bloque III — Tema 20: Organización y Acceso (DML)
-
-### Ejercicio 3.1 — Colecciones (VARRAY)
-Escribe la sentencia de creación para `tipo_lista_extras` como un VARRAY de un máximo de 8 elementos de tipo VARCHAR2(30). Escribe en un comentario en qué se diferencia un VARRAY de una Nested Table.
-
-### Ejercicio 3.2 — Tablas de Objetos
-Escribe la sentencia `CREATE TABLE` para crear la tabla de objetos `turismos` basada en `tipo_turismo`, asignando la matrícula como clave primaria.
 
 ### Ejercicio 3.3 — Inserción con objetos embebidos
-La tabla `alquileres` tiene columnas simples y objetos completos embebidos. Realiza un `INSERT` en esta tabla inventando los datos, pero instanciando los objetos `tipo_turismo`, `tipo_seguro` y `tipo_lista_extras` directamente en la cláusula `VALUES` (constructor *inline*).
+La tabla `alquileres` tiene columnas simples y objetos completos embebidos. Realiza un `INSERT` en esta tabla inventando los datos para el alquiler 1002, instanciando los objetos `tipo_turismo`, `tipo_seguro` y `tipo_lista_extras` directamente en la cláusula `VALUES` (constructor *inline*).
 
 ### Ejercicio 3.4 — Consultas SELECT (DML)
 Escribe consultas SQL para:
@@ -329,14 +257,14 @@ Escribe un bloque PL/SQL que recupere el objeto completo del turismo con matríc
 
 ### Ejercicio 3.7 — Cláusula REF y DEREF
 En la tabla `delegaciones`, la columna `vehiculo_estrella` es un puntero (`REF`).
-**a)** Escribe un `INSERT` en delegaciones usando `REF(t)` apuntando a un vehículo existente en la tabla `turismos`.
+**a)** Escribe un `INSERT` en delegaciones usando `REF(t)` apuntando al vehículo '5678 DEF' existente en la tabla `turismos`.
 **b)** Escribe un `SELECT` que muestre el nombre de la delegación y la marca del vehículo estrella usando la función `DEREF()`.
 
 **Ejercicio 3.8 — Eliminación de objetos (DELETE)**
 Escribe las siguientes sentencias de borrado y confírmalas con un `SELECT` (o haz un `ROLLBACK` al terminar si quieres mantener los datos):
 **a)** Elimina de la tabla de objetos `turismos` aquel vehículo cuya matrícula sea `'1234 ABC'`.
 **b)** Elimina de la tabla mixta `alquileres` aquellos registros donde el vehículo asignado (que es un objeto embebido) tenga un precio por día superior a 50€. (Pista: tendrás que usar el alias de la tabla para acceder a `alias.vehiculo.precio_dia` en la cláusula `WHERE`).
-* Responde en un comentario: Al hacer un `DELETE` sobre la tabla `turismos`, ¿se elimina también la definición del objeto `tipo_turismo` del sistema? ¿Por qué?
+* Responde en un comentario: Al hacer un `DELETE` sobre la tabla `turismos`, ¿se elimina también la definición del objeto `tipo_turismo` de la base de datos? ¿Por qué?
 
 ---
 
@@ -345,5 +273,5 @@ Escribe las siguientes sentencias de borrado y confírmalas con un `SELECT` (o h
 2. Añade al principio del fichero: `-- Autor: Nombre Apellido`.
 3. Numera cada ejercicio con un comentario: `-- Ejercicio 1.1`, `-- Ejercicio 2.4`, etc.
 4. Los ejercicios marcados como **⚠️ solo escritura** o que piden analizar código deben entregarse **comentados**.
-5. El fichero debe ejecutarse de forma secuencial en Oracle 21c sin errores de compilación.
+5. El fichero debe ejecutarse de forma secuencial en Oracle 21c sin errores de compilación (salvo en los errores forzados o controlados de teoría).
 6. Activa **DBMS Output** en SQL Developer antes de ejecutar los bloques PL/SQL.
