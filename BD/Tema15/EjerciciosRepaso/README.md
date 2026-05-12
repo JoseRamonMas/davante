@@ -14,7 +14,7 @@ Escribe un bloque PL/SQL anónimo que recupere la información completa del medi
 El bloque debe calcular el precio final del medicamento sumando el IVA al precio base y redondear el resultado a 2 decimales. Muestra por pantalla el nombre del medicamento, su precio base y su precio final con IVA.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
@@ -61,7 +61,7 @@ Utiliza una estructura `CASE` (como sentencia o como expresión) para evaluar su
 Imprime por pantalla el nombre completo del médico y la prioridad de guardia asignada.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
@@ -107,7 +107,7 @@ Un paciente necesita recibir dosis de un medicamento cada 8 horas. Crea un bloqu
 El bucle debe detenerse cuando quede menos cantidad que la dosis necesaria (< 15 ml). En cada iteración imprime el número de dosis administrada y el líquido restante. Al salir, muestra el sobrante final del frasco.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
@@ -153,7 +153,7 @@ Dentro del bucle, utiliza un `SELECT INTO` para obtener el `nombre`, `apellidos`
 *Nota importante:* Es posible que en esa secuencia numérica algún ID haya sido borrado y no exista. Envuelve tu `SELECT INTO` en un sub-bloque `BEGIN ... EXCEPTION ... END;` dentro del bucle para capturar el error `NO_DATA_FOUND` e imprimir un mensaje indicando que ese ID no existe, permitiendo que el bucle continúe con el siguiente número.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
@@ -208,7 +208,7 @@ Escribe un bloque PL/SQL que intente recuperar el `estado` de la cita cuyo `id_c
 Añade un bloque de excepciones que capture específicamente el error que ocurre cuando una instrucción `SELECT INTO` no devuelve resultados e imprime el mensaje: `⚠️ ALERTA: La cita solicitada no consta en nuestros registros.`. Añade también una captura general (`WHEN OTHERS`) para cubrir errores imprevistos.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
@@ -252,7 +252,7 @@ Vamos a simular la dispensación de **3 unidades** del medicamento con `id_medic
 5. En la sección principal de `EXCEPTION`, captura tu `e_stock_insuficiente` informando del problema (Ej: *Stock insuficiente para dispensar*). Captura también `NO_DATA_FOUND` por si el medicamento 5 no existiera en la base de datos. Haz un `ROLLBACK` en caso de error y un `COMMIT` en caso de éxito.
 
 <details>
-</summary>Ver solución</summary>
+<summary>Ver solución</summary>
 
 ```sql
 DECLARE
