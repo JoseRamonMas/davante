@@ -155,7 +155,7 @@ Modifica (reescribe y vuelve a ejecutar) la especificación y el cuerpo de `tipo
 **Ejercicio 1.6 — Sobrecarga de métodos**
 Modifica una vez más la especificación y el cuerpo de `tipo_seguro` para añadir una versión **sobrecargada** del método `aplicar_descuento`. 
 * La versión que ya tienes recibe un porcentaje (`p_pct NUMBER`).
-* Crea una **nueva versión** que se llame exactamente igual, pero que reciba una cantidad fija a descontar (`p_cantidad_fija NUMBER(5,2)`) y la reste directamente del `precio_diario`.
+* Crea una **nueva versión** que se llame exactamente igual, pero que reciba tanto el porcentaje como un máximo a descontar (`p_pct NUMBER, p_max NUMBER).
 * Responde en un comentario: ¿Por qué Oracle permite que existan dos métodos con el mismo nombre dentro del mismo tipo objeto sin dar error de compilación?
 
 ---
