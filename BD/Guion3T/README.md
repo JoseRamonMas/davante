@@ -1,4 +1,4 @@
-# Guion de Estudio: Examen de Bases de Datos (3ª Evaluación)
+# Guión de estudio: Examen de Bases de Datos (3ª Evaluación)
 
 ## 1. PREGUNTAS TIPO TEST
 
